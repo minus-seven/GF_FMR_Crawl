@@ -1,0 +1,45 @@
+{
+  "schema_version": "knowledge-index-report-v1",
+  "project_root": "${FACTSHEET_PROJECT_ROOT}",
+  "scope": "current",
+  "embedding_model": null,
+  "embedding_version": "v1",
+  "manifest_count": 834,
+  "current": {
+    "snapshot_id": "9d679bd7-9c2a-43b6-9f4f-aeb1d2514950",
+    "documents_seen": 65,
+    "documents_indexed": 61,
+    "documents_skipped": 4,
+    "pages_written": 0,
+    "chunks_written": 0,
+    "chunks_deleted": 0,
+    "embeddings_written": 0,
+    "structured_jsons_seen": 0,
+    "structured_jsons_indexed": 0,
+    "structured_jsons_skipped": 0,
+    "skipped": [
+      {
+        "document_version_id": "ddad0243-edb3-56ae-a0a5-b58b5c6fde8c",
+        "fund_code": "BJK348",
+        "reason": "non_pdf_artifact:bloomberg_historical_market_data"
+      },
+      {
+        "document_version_id": "e6c71486-479f-5be8-abbd-4dec27172918",
+        "fund_code": "BSV019",
+        "reason": "report_period_conflict:2026-08!=2025-12"
+      },
+      {
+        "document_version_id": "8f12648f-72be-53d1-95a6-3bcdf00d4ba1",
+        "fund_code": "BTM337",
+        "reason": "report_period_conflict:2026-08!=2025-12"
+      },
+      {
+        "document_version_id": "637f37f6-ceaa-5e9e-9df5-d33b8623fe47",
+        "fund_code": "BUK159",
+        "reason": "report_period_conflict:2024-03!=2025-12"
+      }
+    ],
+    "errors": []
+  },
+  "historical": null
+}
