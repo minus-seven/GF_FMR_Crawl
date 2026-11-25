@@ -1,0 +1,17 @@
+# Generated for the root scripts. Platform API pins live in
+# platform/requirements.lock.txt. Rebuild this file when the runtime image is
+# upgraded; install it into FACTSHEET_VENV_ROOT, never into the Git worktree.
+certifi==2026.7.22
+charset-normalizer==3.5.1
+et_xmlfile==2.0.0
+greenlet==3.5.5
+idna==3.19
+opencc-python-reimplemented==0.1.7
+openpyxl==3.1.5
+playwright==1.62.0
+pyee==13.0.1
+pymupdf==1.28.2
+pypdf==6.16.2
+requests==2.34.2
+typing_extensions==4.16.0
+urllib3==2.7.0

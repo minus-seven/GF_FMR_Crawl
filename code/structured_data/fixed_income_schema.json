@@ -1,0 +1,156 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fund_name",
+    "report_date",
+    "fund_size_hkd_100m",
+    "portfolio_duration_years",
+    "portfolio_ytm_percent",
+    "credit_rating",
+    "top_holdings",
+    "top_holdings_total_percent",
+    "duration_distribution",
+    "geographic_allocation",
+    "dividend",
+    "field_evidence"
+  ],
+  "properties": {
+    "fund_name": {
+      "type": "string",
+      "description": "使用 PDF 文件名，去掉 .pdf 后缀，统一为简体中文"
+    },
+    "report_date": {
+      "type": ["string", "null"],
+      "description": "PDF 原文数据截至日期，例如 2026-09-30；原文没有日时使用 YYYY-MM"
+    },
+    "fund_size_hkd_100m": {
+      "type": ["number", "null"],
+      "description": "基金规模，单位：亿港币。只输出换算后的数字"
+    },
+    "portfolio_duration_years": {
+      "type": ["number", "null"],
+      "description": "组合久期，单位：年"
+    },
+    "portfolio_ytm_percent": {
+      "type": ["number", "null"],
+      "description": "组合到期收益率，单位：%，只输出数字，不带百分号"
+    },
+    "credit_rating": {
+      "type": ["string", "null"],
+      "description": "平均信用评级，例如 AAA、AA、A、BBB、BB、B；没有披露则为 null"
+    },
+    "top_holdings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "weight_percent"],
+        "properties": {
+          "name": {"type": ["string", "null"], "description": "完整保留报告原文债券名称，不翻译、不缩写，不删除票息、到期日、币种、债券层级或ISIN"},
+          "weight_percent": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "top_holdings_total_percent": {
+      "type": ["number", "null"]
+    },
+    "duration_distribution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["bucket", "weight_percent"],
+        "properties": {
+          "bucket": {"type": ["string", "null"]},
+          "weight_percent": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "geographic_allocation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["region", "weight_percent"],
+        "properties": {
+          "region": {"type": ["string", "null"]},
+          "weight_percent": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "dividend": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "share_class",
+        "currency",
+        "frequency",
+        "dividend_per_unit",
+        "annualized_dividend_yield_percent",
+        "note"
+      ],
+      "properties": {
+        "share_class": {
+          "type": ["string", "null"],
+          "description": "派息份额名称，优先美元每月派息份额"
+        },
+        "currency": {
+          "type": ["string", "null"],
+          "description": "派息币种，例如 USD、HKD、RMB、AUD"
+        },
+        "frequency": {
+          "type": ["string", "null"],
+          "enum": ["monthly", "quarterly", "semiannual", "annual", "unknown", null],
+          "description": "派息频率"
+        },
+        "dividend_per_unit": {
+          "type": ["number", "null"],
+          "description": "每单位派息金额，只输出数字"
+        },
+        "annualized_dividend_yield_percent": {
+          "type": ["number", "null"],
+          "description": "年度化派息率，单位：%，只输出数字"
+        },
+        "note": {
+          "type": ["string", "null"],
+          "description": "若未取美元每月派息份额，说明实际取用的币种或频率；否则为 null"
+        }
+      }
+    },
+    "field_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fund_size_original": {"$ref": "#/$defs/evidence_list"},
+        "report_date": {"$ref": "#/$defs/evidence_list"},
+        "portfolio_duration_years": {"$ref": "#/$defs/evidence_list"},
+        "portfolio_ytm_percent": {"$ref": "#/$defs/evidence_list"},
+        "credit_rating": {"$ref": "#/$defs/evidence_list"},
+        "credit_rating_distribution": {"$ref": "#/$defs/evidence_list"},
+        "top_holdings": {"$ref": "#/$defs/evidence_list"},
+        "duration_distribution": {"$ref": "#/$defs/evidence_list"},
+        "geographic_allocation": {"$ref": "#/$defs/evidence_list"},
+        "dividend": {"$ref": "#/$defs/evidence_list"}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_list": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["page_idx", "block_index", "source", "kind", "quote"],
+        "properties": {
+          "page_idx": {"type": "integer", "minimum": 0},
+          "block_index": {"type": "integer", "minimum": 0},
+          "source": {"type": "string"},
+          "kind": {"type": "string"},
+          "quote": {"type": "string", "maxLength": 240}
+        }
+      }
+    }
+  }
+}

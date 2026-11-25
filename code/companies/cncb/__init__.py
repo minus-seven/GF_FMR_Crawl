@@ -1,0 +1,1 @@
+"""CNCB Capital adapter package."""

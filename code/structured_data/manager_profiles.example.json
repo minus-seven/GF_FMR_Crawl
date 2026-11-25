@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "profiles": {
+    "摩根基金": {
+      "aliases": {
+        "portfolio_duration_years": ["組合久期", "存續期", "Average duration"],
+        "portfolio_ytm_percent": ["到期收益率", "YTM"]
+      },
+      "absent_fields": ["duration_distribution"],
+      "skip_refinements": ["matrix_flash"],
+      "vision_review": false,
+      "layout_id": "jpm-hk-factsheet-2026",
+      "field_pipelines": "pipelines/jpm-hk-factsheet-2026.json",
+      "drift_threshold": 0.8
+    }
+  }
+}
