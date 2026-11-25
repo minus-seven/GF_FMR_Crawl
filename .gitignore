@@ -53,3 +53,6 @@ case/*.xlsx
 case/*.png
 case/*inspect.ndjson
 case/node_modules/
+# Approved repository input workbooks
+!inputs/
+!inputs/*.xlsx
