@@ -1,0 +1,25 @@
+{
+  "schema_version": "intent-eval-v1",
+  "count": 150,
+  "intent_accuracy": 1.0,
+  "slot_accuracy": 1.0,
+  "clarification_accuracy": 1.0,
+  "route_safety_accuracy": 1.0,
+  "intent_pass": 150,
+  "route_pass": 150,
+  "failed_cases": [],
+  "category_counts": {
+    "compare_funds": 20,
+    "explain_report": 20,
+    "find_missing_data": 10,
+    "locate_source": 10,
+    "plan_monthly_job": 10,
+    "plan_semiannual_job": 10,
+    "plan_supplement_source": 10,
+    "query_holdings": 15,
+    "query_metric": 25,
+    "trace_quality_issue": 15,
+    "unknown": 5
+  },
+  "dataset": "${FACTSHEET_PROJECT_ROOT}/docs/development/artifacts/20261109-week/intent-golden-v1.jsonl"
+}

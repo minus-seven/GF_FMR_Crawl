@@ -1,0 +1,1307 @@
+{
+  "schema_version": "monthly-coverage-baseline-v1",
+  "generated_at": "2026-11-25T13:58:09.269789+00:00",
+  "inputs": {
+    "master_workbook": "${FACTSHEET_PROJECT_ROOT}/HKEX基金综合资料库_完整_20261008.xlsx",
+    "crawler_workbook": "${FACTSHEET_PROJECT_ROOT}/爬虫list.xlsx"
+  },
+  "master": {
+    "fund_count": 2479,
+    "manager_entity_count": 187,
+    "manager_short_count": 146,
+    "category_counts": {
+      "固收": 669,
+      "权益": 1333,
+      "货币": 126,
+      "混合": 309,
+      "商品": 42
+    }
+  },
+  "crawler": {
+    "row_count": 4045,
+    "unique_fund_name_count": 2086,
+    "manager_count": 133,
+    "monthly_url_count": 2040,
+    "run_command_count": 2040,
+    "sheet_count": 67,
+    "manager_counts": {
+      "富达": 276,
+      "贝莱德": 203,
+      "摩根大通": 200,
+      "汇丰": 190,
+      "安联环球": 176,
+      "富兰克林邓普顿": 168,
+      "施罗德": 162,
+      "景顺": 142,
+      "联博资产": 108,
+      "中银保诚": 106,
+      "东方汇理": 90,
+      "法巴": 78,
+      "宏利": 76,
+      "瑞银": 74,
+      "易方达": 73,
+      "南方东英": 70,
+      "柏瑞": 68,
+      "安本标准": 68,
+      "霸菱": 68,
+      "恒生": 68,
+      "普信": 64,
+      "华夏": 60,
+      "晋达": 60,
+      "路博迈": 58,
+      "资本集团": 58,
+      "保诚瀚亚": 54,
+      "瑞士百达": 54,
+      "首源投资": 54,
+      "东亚联丰": 50,
+      "骏利亨德森": 48,
+      "高盛": 46,
+      "美富信": 46,
+      "纽约梅隆": 46,
+      "中银香港": 43,
+      "安盛": 42,
+      "信安": 42,
+      "惠理": 38,
+      "品浩": 38,
+      "博时": 32,
+      "木星资管": 30,
+      "法盛资本": 28,
+      "嘉实": 25,
+      "泰康": 24,
+      "威灵顿": 24,
+      "大成": 23,
+      "汇添富": 22,
+      "南方": 22,
+      "广发国际": 22,
+      "摩根斯坦利": 22,
+      "思博瑞资管": 22,
+      "工银资管": 20,
+      "未来": 20,
+      "野村": 20,
+      "富国": 19,
+      "荷宝": 18,
+      "海通": 17,
+      "华泰": 12,
+      "高腾": 11,
+      "招银国际": 11,
+      "中金": 10,
+      "摩根": 10,
+      "建银国际": 9,
+      "Muzinich": 9,
+      "友邦": 9,
+      "中信": 9,
+      "安联": 8,
+      "兴证国际": 8,
+      "英卓": 8,
+      "动量环球": 6,
+      "浦银国际": 6,
+      "圣詹姆斯广场": 6,
+      "中国人寿富兰克林": 6,
+      "工银瑞信": 5,
+      "国泰君安": 5,
+      "华安": 5,
+      "平安资管": 5,
+      "交银国际": 4,
+      "三井住友": 4,
+      "尚渤投资": 4,
+      "太平资管": 4,
+      "招商永隆": 4,
+      "中邮国际": 4,
+      "太平": 3,
+      "睿远": 3,
+      "东方资管": 3,
+      "建信": 3,
+      "凯基": 3,
+      "铭基环球": 3,
+      "瑞士盈丰": 3,
+      "招证资管": 3,
+      "资产管理集团": 3,
+      "兴证": 2,
+      "首域盈信": 2,
+      "安本": 2,
+      "德意志资管": 2,
+      "光大": 2,
+      "广发基金": 2,
+      "建银": 2,
+      "罗安贝": 2,
+      "民银资本": 2,
+      "农银国际": 2,
+      "农银汇理": 2,
+      "融通基金": 2,
+      "申万宏源": 2,
+      "信达": 2,
+      "信银资本": 2,
+      "英仕曼": 2,
+      "永明": 2,
+      "誉信": 2,
+      "中欧": 2,
+      "巴克莱": 1,
+      "法盛": 1,
+      "工银": 1,
+      "国海富兰克林": 1,
+      "国泰": 1,
+      "国泰全球": 1,
+      "国投证券": 1,
+      "国信": 1,
+      "弘收投资": 1,
+      "华富建业": 1,
+      "辉立资本": 1,
+      "简坤": 1,
+      "民银": 1,
+      "鹏格斯资本": 1,
+      "日兴资产": 1,
+      "日兴资管": 1,
+      "融通国际": 1,
+      "时富金融": 1,
+      "小飞": 1,
+      "银河": 1,
+      "永丰金": 1,
+      "长盛基金": 1,
+      "资威": 1
+    },
+    "manager_monthly_url_counts": {
+      "富达": 241,
+      "贝莱德": 191,
+      "摩根大通": 98,
+      "汇丰": 95,
+      "东方汇理": 80,
+      "安联环球": 80,
+      "施罗德": 76,
+      "富兰克林邓普顿": 74,
+      "南方东英": 70,
+      "柏瑞": 53,
+      "景顺": 45,
+      "联博资产": 45,
+      "中银保诚": 44,
+      "东亚联丰": 36,
+      "瑞银": 35,
+      "法巴": 35,
+      "恒生": 32,
+      "霸菱": 32,
+      "易方达": 31,
+      "路博迈": 29,
+      "安本标准": 28,
+      "普信": 28,
+      "资本集团": 28,
+      "华夏": 27,
+      "保诚瀚亚": 27,
+      "瑞士百达": 27,
+      "首源投资": 27,
+      "骏利亨德森": 24,
+      "美富信": 23,
+      "高盛": 23,
+      "中银香港": 21,
+      "惠理": 20,
+      "大成": 19,
+      "纽约梅隆": 18,
+      "信安": 18,
+      "品浩": 18,
+      "安盛": 17,
+      "宏利": 16,
+      "博时": 14,
+      "法盛资本": 14,
+      "南方": 12,
+      "晋达": 12,
+      "木星资管": 12,
+      "威灵顿": 12,
+      "广发国际": 12,
+      "思博瑞资管": 11,
+      "摩根斯坦利": 11,
+      "摩根": 10,
+      "汇添富": 8,
+      "富国": 8,
+      "野村": 8,
+      "中金": 7,
+      "海通": 6,
+      "高腾": 6,
+      "华泰": 6,
+      "招银国际": 5,
+      "泰康": 5,
+      "建银国际": 5,
+      "嘉实": 5,
+      "工银资管": 4,
+      "安联": 3,
+      "兴证国际": 3,
+      "荷宝": 3,
+      "兴证": 2,
+      "首域盈信": 2,
+      "太平资管": 2,
+      "睿远": 1
+    },
+    "deduplicated_fund_manager_rows": 2134
+  },
+  "adapter_gaps": [
+    {
+      "manager": "Muzinich",
+      "has_adapter": false,
+      "fund_count": 9,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 9,
+      "missing_run_command_fund_count": 9,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "中信",
+      "has_adapter": false,
+      "fund_count": 9,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 9,
+      "missing_run_command_fund_count": 9,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "友邦",
+      "has_adapter": false,
+      "fund_count": 9,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 9,
+      "missing_run_command_fund_count": 9,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "英卓",
+      "has_adapter": false,
+      "fund_count": 8,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 8,
+      "missing_run_command_fund_count": 8,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "中国人寿富兰克林",
+      "has_adapter": false,
+      "fund_count": 6,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 6,
+      "missing_run_command_fund_count": 6,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "动量环球",
+      "has_adapter": false,
+      "fund_count": 6,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 6,
+      "missing_run_command_fund_count": 6,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "圣詹姆斯广场",
+      "has_adapter": false,
+      "fund_count": 6,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 6,
+      "missing_run_command_fund_count": 6,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "浦银国际",
+      "has_adapter": false,
+      "fund_count": 6,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 6,
+      "missing_run_command_fund_count": 6,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "华安",
+      "has_adapter": false,
+      "fund_count": 5,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 5,
+      "missing_run_command_fund_count": 5,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "工银瑞信",
+      "has_adapter": false,
+      "fund_count": 5,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 5,
+      "missing_run_command_fund_count": 5,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "三井住友",
+      "has_adapter": false,
+      "fund_count": 4,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 4,
+      "missing_run_command_fund_count": 4,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "中邮国际",
+      "has_adapter": false,
+      "fund_count": 4,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 4,
+      "missing_run_command_fund_count": 4,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "交银国际",
+      "has_adapter": false,
+      "fund_count": 4,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 4,
+      "missing_run_command_fund_count": 4,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "尚渤投资",
+      "has_adapter": false,
+      "fund_count": 4,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 4,
+      "missing_run_command_fund_count": 4,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "招商永隆",
+      "has_adapter": false,
+      "fund_count": 4,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 4,
+      "missing_run_command_fund_count": 4,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "凯基",
+      "has_adapter": false,
+      "fund_count": 3,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 3,
+      "missing_run_command_fund_count": 3,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "建信",
+      "has_adapter": false,
+      "fund_count": 3,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 3,
+      "missing_run_command_fund_count": 3,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "招证资管",
+      "has_adapter": false,
+      "fund_count": 3,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 3,
+      "missing_run_command_fund_count": 3,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "瑞士盈丰",
+      "has_adapter": false,
+      "fund_count": 3,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 3,
+      "missing_run_command_fund_count": 3,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "资产管理集团",
+      "has_adapter": false,
+      "fund_count": 3,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 3,
+      "missing_run_command_fund_count": 3,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "铭基环球",
+      "has_adapter": false,
+      "fund_count": 3,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 3,
+      "missing_run_command_fund_count": 3,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "中欧",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "信达",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "信银资本",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "光大",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "农银国际",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "农银汇理",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "安本",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "广发基金",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "建银",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "德意志资管",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "民银资本",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "永明",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "申万宏源",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "罗安贝",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "英仕曼",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "融通基金",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "誉信",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 2,
+      "missing_run_command_fund_count": 2,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "兴证国际",
+      "has_adapter": false,
+      "fund_count": 4,
+      "monthly_url_fund_count": 3,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2",
+        "兴证"
+      ]
+    },
+    {
+      "manager": "华富建业",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "国信",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "国投证券",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "国泰",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "国泰全球",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "国海富兰克林",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "小飞",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "工银",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "巴克莱",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "弘收投资",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "日兴资产",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "日兴资管",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "时富金融",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "民银",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "永丰金",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "法盛",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "简坤",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "融通国际",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "资威",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "辉立资本",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "银河",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "长盛基金",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "鹏格斯资本",
+      "has_adapter": false,
+      "fund_count": 1,
+      "monthly_url_fund_count": 0,
+      "missing_monthly_link_fund_count": 1,
+      "missing_run_command_fund_count": 1,
+      "sheets": [
+        "Sheet2"
+      ]
+    },
+    {
+      "manager": "南方",
+      "has_adapter": false,
+      "fund_count": 11,
+      "monthly_url_fund_count": 11,
+      "missing_monthly_link_fund_count": 0,
+      "missing_run_command_fund_count": 0,
+      "sheets": [
+        "Sheet1",
+        "Sheet2",
+        "南方"
+      ]
+    },
+    {
+      "manager": "太平资管",
+      "has_adapter": false,
+      "fund_count": 2,
+      "monthly_url_fund_count": 2,
+      "missing_monthly_link_fund_count": 0,
+      "missing_run_command_fund_count": 0,
+      "sheets": [
+        "Sheet2",
+        "太平"
+      ]
+    }
+  ],
+  "name_match": {
+    "unique_exact_match_rows": 3856,
+    "ambiguous_rows": 159,
+    "unmatched_rows": 30,
+    "unmatched_sample": [
+      {
+        "sheet": "Sheet1",
+        "row": 8,
+        "fund_name": "富国中国中小盘成长基金",
+        "fund_key": "富国中国中小盘成长基金",
+        "manager": "富国",
+        "monthly_url": "https://www.fullgoal.com.hk/fundDetail/smallMid/index.html",
+        "run_command": "python download_fullgoal_factsheet.py \"https://www.fullgoal.com.hk/fundDetail/smallMid/index.html\""
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 9,
+        "fund_name": "富达全球聚焦基金",
+        "fund_key": "富达全球聚焦基金",
+        "manager": "富达",
+        "monthly_url": "https://www.fidelity.com.tw/fund-and-service/fundui/funds/Fidelity-Funds-Global-Focus-Fund-A-ACC-USD/documents",
+        "run_command": "python download_fidelity_tw_factsheet.py https://www.fidelity.com.tw/fund-and-service/fundui/funds/Fidelity-Funds-Global-Focus-Fund-A-ACC-USD/documents"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 10,
+        "fund_name": "富达环球股票基金",
+        "fund_key": "富达环球股票基金",
+        "manager": "富达",
+        "monthly_url": "https://www.fidelity.com.hk/zh/funds/factsheet/CFGE/H/tab-documents",
+        "run_command": "python download_fidelity_factsheet.py CFGE/H"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 12,
+        "fund_name": "东方汇理环球股票基金",
+        "fund_key": "东方汇理环球股票基金",
+        "manager": "东方汇理",
+        "monthly_url": "https://www.amundi.com.hk/zh_retail/product/view/LU1880398471",
+        "run_command": "python download_amundi_factsheet.py LU1880398471"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 13,
+        "fund_name": "贝莱德环球灵活配置策略股票基金",
+        "fund_key": "贝莱德环球灵活配置策略股票基金",
+        "manager": "贝莱德",
+        "monthly_url": "https://www.blackrock.com/hk/zh/literature?productIdentifier=LU2720916845%7E334659",
+        "run_command": "python download_blackrock_factsheet.py"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 16,
+        "fund_name": "摩根亚洲总收益债券",
+        "fund_key": "摩根亚洲总收益债券",
+        "manager": "摩根",
+        "monthly_url": "https://am.jpmorgan.com/hk/zh/asset-management/per/products/jpmorgan-asian-total-return-bond-mth-usd-hk0000055597#/documents",
+        "run_command": "python download_jpmorgan_documents.py \"https://am.jpmorgan.com/hk/zh/asset-management/per/products/jpmorgan-asian-total-return-bond-mth-usd-hk0000055597\""
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 21,
+        "fund_name": "海通亚洲总收益债券",
+        "fund_key": "海通亚洲总收益债券",
+        "manager": "海通",
+        "monthly_url": "https://gthtam.com.hk/asm/zh-chs/Home/library/38?series=Funds",
+        "run_command": "python download_gthtam_factsheet.py"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 24,
+        "fund_name": "博时精选新兴市场债券",
+        "fund_key": "博时精选新兴市场债券",
+        "manager": "博时",
+        "monthly_url": "https://www.bosera.com.hk/zh-HK/products/fund/detail/SLIEO",
+        "run_command": "python download_bosera_factsheet.py"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 31,
+        "fund_name": "富国精选投资级债券基金",
+        "fund_key": "富国精选投资级债券基金",
+        "manager": "富国",
+        "monthly_url": "https://www.fullgoal.com.hk/fundDetail/selectInvestmentGradeBondFund/index.html",
+        "run_command": "python download_fullgoal_factsheet.py \"https://www.fullgoal.com.hk/fundDetail/selectInvestmentGradeBondFund/index.html\""
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 34,
+        "fund_name": "兴证国际中国核心资产基金",
+        "fund_key": "兴证国际中国核心资产基金",
+        "manager": "兴证",
+        "monthly_url": "https://www.xyzq.com.hk/detail/asset-manage/fund-detail/1711530264564/download",
+        "run_command": "python download_xyzq_factsheet.py"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 35,
+        "fund_name": "瑞银香港中国机会股票基金",
+        "fund_key": "瑞银香港中国机会股票基金",
+        "manager": "瑞银",
+        "monthly_url": "https://www.ubs.com/hk/tc/assetmanagement/funds/asset-class.html",
+        "run_command": "python download_ubs_factsheet.py"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 48,
+        "fund_name": "兴证中国核心资产基金",
+        "fund_key": "兴证中国核心资产基金",
+        "manager": "兴证",
+        "monthly_url": "https://www.xyzq.com.hk/detail/asset-manage/fund-detail/1711530264564/download",
+        "run_command": "python download_xyzq_factsheet.py"
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 54,
+        "fund_name": "南方中国新平衡机会基金",
+        "fund_key": "南方中国新平衡机会基金",
+        "manager": "南方",
+        "monthly_url": "https://www.csopasset.com/tc/products/china-new-balance#",
+        "run_command": "python download_csop_factsheet.py \"https://www.csopasset.com/tc/products/china-new-balance\" \"China New Balance Opportunity Fund\""
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 49,
+        "fund_name": "安联欧元均衡基金",
+        "fund_key": "安联欧元均衡基金",
+        "manager": "安联",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 84,
+        "fund_name": "安联全球新兴市场高息股票基金",
+        "fund_key": "安联全球新兴市场高息股票基金",
+        "manager": "安联环球",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 303,
+        "fund_name": "欧洲特别时机基金",
+        "fund_key": "欧洲特别时机基金",
+        "manager": "贝莱德",
+        "monthly_url": "https://www.blackrock.com/hk/zh/literature?productIdentifier=LU1355424745%7EBRSZCU748%7E282447",
+        "run_command": "python download_blackrock_factsheet.py LU1355424745~282447"
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 341,
+        "fund_name": "可持续环球基建基金",
+        "fund_key": "可持续环球基建基金",
+        "manager": "贝莱德",
+        "monthly_url": "https://www.blackrock.com/hk/zh/literature?productIdentifier=LU2346227817%7EBRWN6EKY2%7E319296",
+        "run_command": "python download_blackrock_factsheet.py LU2346227817~319296"
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 827,
+        "fund_name": "荷宝量化高收益债券",
+        "fund_key": "荷宝量化高收益债券",
+        "manager": "荷宝",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 1066,
+        "fund_name": "嘉实中美科技50 ETF",
+        "fund_key": "嘉实中美科技50etf",
+        "manager": "嘉实",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 1293,
+        "fund_name": "NB 新兴市场股票基金",
+        "fund_key": "nb新兴市场股票基金",
+        "manager": "路博迈",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 1462,
+        "fund_name": "南方东英富时亚洲科技指数ETF",
+        "fund_key": "南方东英富时亚洲科技指数etf",
+        "manager": "南方",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "Sheet2",
+        "row": 1929,
+        "fund_name": "中信里昂短久期中国债券基金",
+        "fund_key": "中信里昂短久期中国债券基金",
+        "manager": "中信",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "安联环球",
+        "row": 4,
+        "fund_name": "安联欧元均衡基金",
+        "fund_key": "安联欧元均衡基金",
+        "manager": "安联",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "安联环球",
+        "row": 39,
+        "fund_name": "安联全球新兴市场高息股票基金",
+        "fund_key": "安联全球新兴市场高息股票基金",
+        "manager": "安联环球",
+        "monthly_url": "https://hk.allianzgi.com/en-hk/retail/products-solutions/retail-funds/allianz-high-dividend-emerging-markets-equity-amg-hkd",
+        "run_command": "python download_allianz_factsheet.py \"https://hk.allianzgi.com/en-hk/retail/products-solutions/retail-funds/allianz-high-dividend-emerging-markets-equity-amg-hkd\""
+      },
+      {
+        "sheet": "贝莱德",
+        "row": 51,
+        "fund_name": "欧洲特别时机基金",
+        "fund_key": "欧洲特别时机基金",
+        "manager": "贝莱德",
+        "monthly_url": "https://www.blackrock.com/hk/zh/literature?productIdentifier=LU1355424745%7EBRSZCU748%7E282447",
+        "run_command": "python download_blackrock_factsheet.py LU1355424745~282447"
+      },
+      {
+        "sheet": "贝莱德",
+        "row": 89,
+        "fund_name": "可持续环球基建基金",
+        "fund_key": "可持续环球基建基金",
+        "manager": "贝莱德",
+        "monthly_url": "https://www.blackrock.com/hk/zh/literature?productIdentifier=LU2346227817%7EBRWN6EKY2%7E319296",
+        "run_command": "python download_blackrock_factsheet.py LU2346227817~319296"
+      },
+      {
+        "sheet": "嘉实",
+        "row": 5,
+        "fund_name": "嘉实中美科技50 ETF",
+        "fund_key": "嘉实中美科技50etf",
+        "manager": "嘉实",
+        "monthly_url": "",
+        "run_command": ""
+      },
+      {
+        "sheet": "路博迈",
+        "row": 24,
+        "fund_name": "NB 新兴市场股票基金",
+        "fund_key": "nb新兴市场股票基金",
+        "manager": "路博迈",
+        "monthly_url": "https://www.nb.com/products/ucits-funds/emerging-markets-equity-fund",
+        "run_command": "python download_neuberger_factsheet.py \"https://www.nb.com/products/ucits-funds/emerging-markets-equity-fund\" \"Neuberger Berman Emerging Markets Equity Fund\""
+      },
+      {
+        "sheet": "南方",
+        "row": 7,
+        "fund_name": "南方东英富时亚洲科技指数ETF",
+        "fund_key": "南方东英富时亚洲科技指数etf",
+        "manager": "南方",
+        "monthly_url": "https://www.csopasset.com/en/products/hk-cftc",
+        "run_command": "python download_csop_factsheet.py \"https://www.csopasset.com/en/products/hk-cftc\" \"CSOP FTSE Asia Tech and Dividend Index ETF\" monthly"
+      },
+      {
+        "sheet": "荷宝",
+        "row": 10,
+        "fund_name": "荷宝量化高收益债券",
+        "fund_key": "荷宝量化高收益债券",
+        "manager": "荷宝",
+        "monthly_url": "",
+        "run_command": ""
+      }
+    ],
+    "warning": "名称级匹配仅用于审计基线，正式落库必须通过基金代码或人工确认。"
+  },
+  "adapters": {
+    "fund_link_adapter_count": 69,
+    "paths": [
+      "code/companies/99fund/99fund_fund_link.py",
+      "code/companies/aberdeen/aberdeen_fund_link.py",
+      "code/companies/alliancebernstein/alliancebernstein_fund_link.py",
+      "code/companies/allianz/allianz_fund_link.py",
+      "code/companies/allspring/allspring_fund_link.py",
+      "code/companies/amundi/amundi_fund_link.py",
+      "code/companies/axa/axa_fund_link.py",
+      "code/companies/barings/barings_fund_link.py",
+      "code/companies/blackrock/blackrock_fund_link.py",
+      "code/companies/bnp/bnp_fund_link.py",
+      "code/companies/bny/bny_fund_link.py",
+      "code/companies/bochk/bochk_fund_link.py",
+      "code/companies/bocip/bocip_fund_link.py",
+      "code/companies/bosera/bosera_fund_link.py",
+      "code/companies/buim/buim_fund_link.py",
+      "code/companies/capitalgroup/capitalgroup_fund_link.py",
+      "code/companies/ccbintl/ccbintl_fund_link.py",
+      "code/companies/chinaamc/chinaamc_fund_link.py",
+      "code/companies/cicc/cicc_fund_link.py",
+      "code/companies/cmbi/cmbi_fund_link.py",
+      "code/companies/cmsam/cmsam_fund_link.py",
+      "code/companies/csop/csop_fund_link.py",
+      "code/companies/dcfund/dcfund_fund_link.py",
+      "code/companies/eastspring/eastspring_fund_link.py",
+      "code/companies/efunds_hk/efunds_fund_link.py",
+      "code/companies/fidelity_hk/fidelity_fund_link.py",
+      "code/companies/fidelity_tw/fidelity_tw_fund_link.py",
+      "code/companies/firstsentier/firstsentier_fund_link.py",
+      "code/companies/firstsentier_global/firstsentier_global_fund_link.py",
+      "code/companies/foresight/foresight_fund_link.py",
+      "code/companies/franklin/franklin_fund_link.py",
+      "code/companies/fullgoal/fullgoal_fund_link.py",
+      "code/companies/gaoteng/gaoteng_fund_link.py",
+      "code/companies/gfintl/gfintl_fund_link.py",
+      "code/companies/goldman/goldman_fund_link.py",
+      "code/companies/gthtam/gthtam_fund_link.py",
+      "code/companies/gtjai/gtjai_fund_link.py",
+      "code/companies/hangseng/hangseng_fund_link.py",
+      "code/companies/harvest/harvest_fund_link.py",
+      "code/companies/hsbc/hsbc_fund_link.py",
+      "code/companies/huatai/huatai_fund_link.py",
+      "code/companies/icbcamg/icbcamg_fund_link.py",
+      "code/companies/invesco/invesco_fund_link.py",
+      "code/companies/janushenderson/janushenderson_fund_link.py",
+      "code/companies/jpmorgan/jpmorgan_fund_link.py",
+      "code/companies/jupiter/jupiter_fund_link.py",
+      "code/companies/manulife/manulife_fund_link.py",
+      "code/companies/mfs/mfs_fund_link.py",
+      "code/companies/mirae/mirae_fund_link.py",
+      "code/companies/morganstanley/morganstanley_fund_link.py",
+      "code/companies/natixis/natixis_fund_link.py",
+      "code/companies/neuberger/neuberger_fund_link.py",
+      "code/companies/ninetyone/ninetyone_fund_link.py",
+      "code/companies/nomura/nomura_fund_link.py",
+      "code/companies/orientam/orientam_fund_link.py",
+      "code/companies/pictet/pictet_fund_link.py",
+      "code/companies/pimco/pimco_fund_link.py",
+      "code/companies/pinebridge/pinebridge_fund_link.py",
+      "code/companies/pinganhk/pinganhk_fund_link.py",
+      "code/companies/principal/principal_fund_link.py",
+      "code/companies/robeco/robeco_fund_link.py",
+      "code/companies/schroder/schroder_fund_link.py",
+      "code/companies/taikang/taikang_fund_link.py",
+      "code/companies/taiping/taiping_fund_link.py",
+      "code/companies/troweprice/troweprice_fund_link.py",
+      "code/companies/ubs/ubs_fund_link.py",
+      "code/companies/valuepartners/valuepartners_fund_link.py",
+      "code/companies/wellington/wellington_fund_link.py",
+      "code/companies/xyzq/xyzq_fund_link.py"
+    ]
+  },
+  "skipped_sheets": [
+    {
+      "sheet": "下载方法说明",
+      "reason": "missing_columns",
+      "columns": [
+        "基金",
+        "月报链接",
+        "运行方式"
+      ]
+    }
+  ],
+  "next_action": "建立基金代码级 source_coverage_audit，对齐 funds 与 fund_report_sources 后再执行批量补链。"
+}

@@ -1,0 +1,1088 @@
+{
+  "schema_version": "knowledge-index-report-v1",
+  "project_root": "${FACTSHEET_PROJECT_ROOT}",
+  "scope": "both",
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_version": "v1",
+  "manifest_count": 322,
+  "current": {
+    "snapshot_id": "e0b9e36b-4bee-44d2-8d97-75d83410d991",
+    "documents_seen": 104,
+    "documents_indexed": 99,
+    "documents_skipped": 5,
+    "pages_written": 0,
+    "chunks_written": 0,
+    "chunks_deleted": 0,
+    "embeddings_written": 0,
+    "structured_jsons_seen": 0,
+    "structured_jsons_indexed": 0,
+    "structured_jsons_skipped": 0,
+    "skipped": [
+      {
+        "document_version_id": "09710791-7149-5634-8b3f-6a8fec2e966c",
+        "fund_code": "ABD893",
+        "reason": "report_period_conflict:2026-08!=2026-09"
+      },
+      {
+        "document_version_id": "c3668e9e-b224-5465-9f5b-abf5c2762f01",
+        "fund_code": "BWB363",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      },
+      {
+        "document_version_id": "30626813-fafe-5cac-b33e-ddeed537ee8c",
+        "fund_code": "BXR351",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      },
+      {
+        "document_version_id": "20b702e4-4189-58a0-a334-e03223a0b89e",
+        "fund_code": "BXR352",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      },
+      {
+        "document_version_id": "9d4d867b-eb47-571c-bfcb-177e53a1da28",
+        "fund_code": "BYA949",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      }
+    ],
+    "errors": []
+  },
+  "historical": {
+    "snapshot_id": "a85ad135-1fc3-5542-ad56-b8ef53c129fc",
+    "documents_seen": 322,
+    "documents_indexed": 169,
+    "documents_skipped": 153,
+    "pages_written": 0,
+    "chunks_written": 0,
+    "chunks_deleted": 0,
+    "embeddings_written": 0,
+    "structured_jsons_seen": 264,
+    "structured_jsons_indexed": 0,
+    "structured_jsons_skipped": 264,
+    "skipped": [
+      {
+        "sha256": "0740f3b4776660ed6aa2d664e6d8652cd620a39223f09bb08031a56f79add999",
+        "document_version_id": "e13e4141-a4b7-59c1-bec4-49ff19f8155f",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "08bb55ddd8be0db204af3ef64705daac71d9d04ab06dd7f4bcfd767f4fb8b69a",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "08e8334055782ee146bcf7bdcdace19fb5af6ec9e3a0ec3f56299b796909b461",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "122e974af7320326525758250bf2263935a19c431c4993dedb44d310c8ce4bcc",
+        "document_version_id": "628c2bae-efbf-5928-a888-e51f8d53c2a2",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "123477ef3c83a073c4c9b9906320489c352722cbad6a13bef854f9ea8d86d432",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "142b5aa60e719742426a4868e2cd7e2fc107cc820642bcda137c3d6bc9dc515a",
+        "document_version_id": "ef4a4ead-49b9-5f8b-8b55-d9d9d6a6a795",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "16112d8414ecfc81e4aee54ec3318155c3cdd8b5f4af345b152d5fbbdc333b0d",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "1643888fd8d71ad67eb7474d5418063a2c32f5fb23d43a5a06c837b94628004d",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "1808969ad67173345a0f73b4fbfde39b3dbd3536c92cd131f6701f9aab164eae",
+        "document_version_id": "c7b960fd-0986-5c44-b0b3-f889dc8cbe7e",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "1e60e268b0f764c3d093905895c579c2a8e3fa2614492e84a1ba487db3be8514",
+        "document_version_id": "d52f4be1-5a6e-5f5f-b0ee-6857ed0f1ac0",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "1e6b2a95924bcc9b21d15bf66dcbe415bc67664689acfb9f5a4512940f46c2c3",
+        "document_version_id": "685fa1f5-d136-5c08-a227-21e0d6936d62",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "1fa7dd24db04180a6ea3883e84cf0c3a848c19c20e689c6cb6c69d3046e90960",
+        "document_version_id": "3b5aa941-1019-5c8f-b508-a0c6c899ff14",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "1fd20df7753665911550ceda6013a01d84c93697008039821197bcf5c03bebad",
+        "document_version_id": "cbe72eca-438c-5ee9-a4ae-5b0c593517ae",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "29dd3e8ae12f0c9a11789938856dd631d4eb8a484ff57d7a7951566fa3c44e90",
+        "document_version_id": "cf8b8926-29ba-5163-bbea-4c9686a1a9c5",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "29ec7dd6ad4adf631f9e93122d05cc350e299b8d6f3f17a60740c8856d7f6616",
+        "document_version_id": "a6e35288-b68b-5026-8546-05e2db262ff1",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "2b013b8660051a2729035535ff97ac45f9cd4e8957c97a1338503db248b3452d",
+        "document_version_id": "10b4e6ca-4c3d-58f5-8c58-6828cab3f779",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "2bc29716d48a98a26a62ed72f6c31486179d6aad4f2f00c2ded25d51d4d17c78",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "2cbb89a58bce564582f899b70087e996f39597c34603189ba4dbb60fb46eea39",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "2cdb8b3700635abe6e2b75c03534a4e5b51d57e8dee06d9b3915323439c07cf3",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "2de2e5291be720891c4e6aa432d50491c5061b489c393da4a3f294df328c09c9",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "2edead6333ded426e86ce6175c28ce5cdf5b0d4d5f6371ec9e8addfeaafb5180",
+        "document_version_id": "af06b6d4-11eb-5e5f-93c0-35757d71367a",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3303bf857bef74bcea31ef763b3c4bf70f96e96748a3d1828bfba20e6ad5a82a",
+        "document_version_id": "4f0666c5-44ce-593a-b1b7-92981c5f83ba",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "342c1a2f21b6108bee0faa8611d8050d4f25ef58e297e97a7ffc7c752d47b892",
+        "document_version_id": "ff180f48-bbb0-592a-a5dd-890cccd9d970",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3433f1ef09d741009f9f68a5636f9884d636e187fa1646e88d91e403df7d1583",
+        "document_version_id": "8ad590d6-7bb3-5d8b-99d8-ba23c0dc6ec6",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3448fadda1e52af5828309dc78cefc58972b8215ce50c2b9ac99df390272acfe",
+        "document_version_id": "f96eb9da-5d4e-57a5-a89a-b7a702caf137",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "36395aa4b0b0d66fc44cf5823406a90f59395d86ad03f905a6d524aef1bb63b6",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "37178772a03530b2f0929d0ae88b993561cb58d05c6540dac792dec47b649c4b",
+        "document_version_id": "32be6725-3fba-5d27-bc83-22466332dc1d",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3862a620340dd21c05682c330c603da09f9f92006b961997d5268d98dfad93e8",
+        "document_version_id": "d68fbd5d-c9e1-56d7-9c0c-906f19e33930",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3b4228bdbd12e06a49e33136312130002cb39db1ebc7f52bf8556ef8687c1b20",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "3f940e7ce28e49571e420dbe45b8b9e8a36ff44e11437b62fa0501e0e47f130f",
+        "document_version_id": "78f59aa6-552e-5534-823e-c4e942ad0287",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3fcb30a761182ffdb5e282f4c1624852ba884b90cbacfab296f8c57eb46714cd",
+        "document_version_id": "abd12843-3f53-551b-a519-47439ce61317",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3fd2b1619f39abe4350556b6e4323cc53be4936d4f169541d95d55e324fe8ff6",
+        "document_version_id": "2c64d2ec-243f-518a-81b0-527405b90cdb",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "3fdef03d6c5341164c3372d383881886e0ac656dcb1096d48669fc4601a7b705",
+        "document_version_id": "862a9268-77a8-518f-b0bf-ee024c064b9e",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "40d020190994c77d736d98110b4e3f24febef09e44c6850d092e8fff1286a295",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "41da4c8ac738a3f0e3f6d1342387c80ec9f9c9f98180ec3deb6c7aff43f22136",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "41f72051ee4202d2edaf40b33923f41e476956f4c5dcd26f69780ef979fbbfeb",
+        "document_version_id": "7fa860a8-373a-5db9-95ee-bb8a8eb7f3c3",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "41fc157558fa008b9670605a2bf00e5183c4da77286fc0e9e437898fbe78654e",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "42b8361b6126cc2f5440ff05ac51fa9c7d08ac95fc964f8801f38b7a0a35f780",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "4304afeb0a56d575e59b836cee5563484cee791f3ef1b4a97a6125c5ce2797c9",
+        "document_version_id": "20b702e4-4189-58a0-a334-e03223a0b89e",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "451a80bedf491a2aa7464c6f5db67127207b67cbe1be28ece8c5d42e36de256b",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "4666768e7ec73325e4a706d7b67ed5f3201d00321cc2cab91e02e66a4fc739c6",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "4a79bace341c7e2021226841ae11fb64efd918c89be962714ce95b4d02651829",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "4d9f2388516e6269bc4e659d41ac032e6c4c87017bd8a9251f00a51866be8618",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "4dbd84db90d8a37fab6130feba7e242ec23ec5a9502035cd12da4e4ef627f8ed",
+        "document_version_id": "b045fdc6-429c-5722-827a-d5df0588fd45",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "4e0bf1d2fecc84b1b4578f2f705640b6b57b61fcac43d9af46af43c10f74381f",
+        "document_version_id": "23189934-c10a-5d45-81f2-c0279ec1ef2d",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "4e1769a160b9c6ed1c74b64076b001c95358176302843a3c884a8ca0d46f03e5",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "4efbed5afa68de38347dcc7f424ad58e7c438be0aeaa59966d80924fb2c1a9d7",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "529ba368e638112465eba350ec21698e6e80edd52977d77a2169a50c85baae9b",
+        "document_version_id": "bb3626d3-282f-580b-8dc4-88886cfe5d41",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "5386e27501b335d4d4f2db47ef167eea04392361c26da74146fa38d65bc349bd",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "539b37e382a4a7f3a3593ac990d5cb3110d71af9db3fd7ca81856066080675c9",
+        "document_version_id": "ac9aad6d-c578-5b70-bfd9-1cef4a79b02b",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "582760411e3e84c677eef5701b76c3e06ac2938dc89b7280e7da1c18d5d81fad",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "5f313e9e0511b6236344d12c4af8c8b29fc83c8c14ca73106a8b961c2a4c0208",
+        "document_version_id": "a4af8c74-9472-5330-ad04-e6e6f2fa8710",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "5f358ac28e7587e94cabf0e5a646d34cff26f10a4a36d21b982bd8f78b0ff4e4",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "62b6264e0d40413df37a5f47381a3522cf6711eb5dae9d8aa3ed59e9f15d3914",
+        "document_version_id": "16843310-ca0f-5ecb-a8ee-3ab49a548be7",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "64380d88859ee31fef1b82a64f0e927d32e2ab90b35e7008efdb4e8d1e220203",
+        "document_version_id": "233d8a41-324b-5af3-9833-0d5e5bdf24ff",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "64cbd255210ab157a88bbde83aaf01b0e8f697fcedbf60e12d8e92809ace9e46",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "6ad5502ec50ecba62b97d600901982b1f464f05335880d639c452db8400e1804",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "6bcaf95c0d7ae7fc0ceac0574a3a85d63d7dd4a370aca3e3b72b6efe83ab102e",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "6db53ce9b5f406ef0a2d692728fd137c3cb9bf72550791502c0414b92802fd03",
+        "document_version_id": "7a0fbb4d-9461-5ac2-8e7f-3b58129d5277",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "6db797f62f02e000a0ad5dd24b58602b7734a2801e3d287ece8757eadbb8f8eb",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "6dd5da67d9b0714661650764da51521d1c74876feb5f5d05778cb570c5a30e3b",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "6ec0cd8c061b004854e31d3a4875ce61e5dab58d4cf72287ab0bf408c793f539",
+        "document_version_id": "b97cc8b2-6c04-5a15-bdbe-4bd9fe08b887",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "6edd43ff49fad264bb475d517721b05b9cd0b2359190650840a23fcc93c0f7da",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "6f430e3302fe8d0bc4d605ca0f20b5ba231caf8e85860dafb9e872fdefbc4a5d",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "6fb989cabf568f4587763e2ba11db2ad1374a549d300a7f643608dbd39d08b69",
+        "document_version_id": "c3668e9e-b224-5465-9f5b-abf5c2762f01",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "70f269a7ad00df9ce058386ffdaf7e1ddc523b58a4c1c3c997c93c9d5bbaa968",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "77f4e0c60087fa0ed940488a0f5429fdb29638684c1cba3e46d8e46502cf2034",
+        "document_version_id": "20328d4d-0d23-5e8c-b8ee-531886a02bf3",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "78ccd4eda4b6abb7e2e696585a63c687ece54be935e6ca11f605472f8b1f6d13",
+        "document_version_id": "74667941-4198-55cf-9794-3cb0342c7f79",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "7ae5a6b64322f0ff1dbe7447f73e3f37e987cd8c8a0039b3ccaae849cba1b34a",
+        "document_version_id": "26f09f11-6105-5709-9acd-2c8140c9a3e9",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "7e1bd9d24500958bee11e92c9c523ec98638af57db14090824ae025ed6849fe3",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "80b259948c648fc18e500a8d148facc3bb4f42f6685d17208e122c59c48d47e3",
+        "document_version_id": "c6638d7a-dc24-5048-ab2c-b7c02e4a13bb",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "824c1a23f02c75ba3b13324d395fd4dd6bda1d7e3f2a8c14d343c279bbab1931",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "825f6e2056c4b86cf3bb4897d22557dcb22d78fbee96f3b159543bc0dba5a113",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "82dfb10bc003a4f8fbe7f51ce3d973d39cb81cd986cb3e9d383e3ab2ac946ccf",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "83345709795f25ee9e7b2bab4789cf7ea6ab9bec9660976d1fa0681bb28b009c",
+        "document_version_id": "912b05cc-8cb1-59af-af57-44bc8dbf2750",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "839769edc0ec785f732dceefa7c6172fa229b22c2d91ba52536377326218f1de",
+        "document_version_id": "8ffb1baf-908a-5b38-ac16-f1bc4dfe8a37",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "83d2883ef84981fd932e106414a26250450dec320695d2aad5c39d55ee18c623",
+        "document_version_id": "67ea69d6-fb7d-5242-817d-e5328d8368cd",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "84e3fe81dc9777ee10230b324c98b9434a7c5796a7186af2f72a511f6833cfb2",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "86699b0018744b19f86794ab9a829869224e98da3f0adb2aa53a5ac13fc70c59",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "87d4bb431bdf105c44fafefdd951d9e4d3e3bfe80d80327701e56277368c9103",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "8cdec669335558d26f4f34149dbcb064d22eb889f743867002cb4c7f2d5da405",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "8cece3a4fce909fc63e2722017fc0236e4e27810a0e183c864902cee762830a3",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "8cfa8947662702a2ef8b9ff161015e9ef210aadb0cbff4a7c13b5e528bcbea0b",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "8efeae8ff89d761b1991ef537ea731b6a3f4faefd900f1fdba55bc9b764df897",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "923d34553921af732d74dbe6d3bd19e7ef8a1e835ace8a8e5751cc77278ee46c",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "9380778c355fc7491d8632d49460958431bd636c59d51450ea714bc53bdb7648",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "9398e98284174bf43fbee9c1675b8e9648484ef6d75e798bcf29f66171490590",
+        "document_version_id": "7de59ff7-4f3e-5f8d-8ba2-1574bef4442d",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "9552fa5f185f91f77d77ff453e9d2351474169a233d74129cfe542f5d4a80a05",
+        "document_version_id": "700e7bdc-86c2-50b7-8c2d-8148aad1b79e",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "965c65284b1c1c8bf1df0166a73ac13bbb288f32c022563d1c7c6f0aacda0520",
+        "document_version_id": "2a5f86bc-a5d7-5532-bcf9-3f1f3e7f8811",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "96b1f539a0ac46e3e807fcfe5bcc10142b5fccf7e170589d507b03d7caea08c3",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "98ac122678b3c1f7050301f1ec7b7e6e1f07fbb6b702dd4c28db025ffb874e43",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "998724ce2dbd333cb4b3babf00b30035cd6dde887fea59f265b7ccbb4b8c9a6f",
+        "document_version_id": "9d4d867b-eb47-571c-bfcb-177e53a1da28",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "9a3aad11edddd5b5996b7fae50552c678e871fb22c616ef50d706de56ce78c90",
+        "document_version_id": "5cdb9fa6-1ea5-5fc9-84c9-0c43910a65f8",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "9e8db0675e8423d0ad78a8096314a8fdc2d5ca2b1dc7241fdca87206a8b9cf66",
+        "document_version_id": "b98892e3-3945-5cf1-b7c4-069ad301a476",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "9f712cc3c2eefaf6a07932345aaa894fcae2e3e7ab765022f0d4da3ec6f710a2",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "9f974d9410ca158a7893091d20201c86c0dedc4da81d18d9708770754c611838",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "a0302f106412a529aec21a8181f95b425db04a2312b43ddfc7f642241e7dfe07",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "a21c19c31f1438f9f899ee8ae0e3ef20af912ce9fccd3134b3fe62f4bdacb392",
+        "document_version_id": "2dd2aa44-2b9a-51f7-9557-fe8d79048034",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "a302666b71bff9d84e814d7f8953b29daee0feac78c1f362b3c56eb285a16d5b",
+        "document_version_id": "bbaa6bab-8166-5d57-83ce-c55ff3f1300d",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "a368afe556bd3b2f32bb8fba475594229d74846c74b9e04f3a1477b7dcdbfb93",
+        "document_version_id": "ae07f47c-d7da-531c-af71-8b7fd25060a8",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "a48add39ffb7acc33da2a692512e568805441cd1bb3baf19221eb6af1a65a367",
+        "document_version_id": "9c8093d0-9e2d-577b-992b-e04a20e6c9be",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "a5f0c0182581432c13d46293f18c51ad1b77af368b8de0f576a82d6cf5b4830e",
+        "document_version_id": "dbcd8e68-5e6c-5734-9df4-bb187fe23cf1",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "a7678bd9b7e1cd2444c984484fe3e9d7024f914dc980b5028400f9c17bcfd39e",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "ad07eb72dd8e51b13bb83db5c36b99adaf715dcc903d0bfc80e7b294d29fe64a",
+        "document_version_id": "1440e354-6013-53b8-9925-d8dd6166ab8f",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "ae8c536818723737460d2144bef3ad1d33ead9ba688066140706ace436a7d973",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "ae9ccb2036166d1fa672aeb992bacca17a37a68b0fa42dae912b478902c2474d",
+        "document_version_id": "30626813-fafe-5cac-b33e-ddeed537ee8c",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "af643b6ee448ecd14c3f6cd960d74d8b442e13a895500c1790fe5d077ed491cb",
+        "document_version_id": "324f1652-de5f-5123-801b-a7c4cecb5685",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "b0d638876824699d119a92734d0b1695fa0e97949762352a29362cdb56e0a663",
+        "document_version_id": "6a602a3f-9a3a-5507-aeb1-b90833e96a22",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "b4b26cde30c094a2afc7e84399dc421fe144e7162ef2f3e80bd13c33653d370e",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "b8d32a5bbc6136045143f7b4e9249704935c66c3b015c04f8540d24ac369b122",
+        "document_version_id": "4381690e-afb1-5ba9-a51f-83a1774aa57b",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "ba1a7122adff085bad2dae14a5e6343ac365ed5b2469e372e30435d1bc754708",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "ba6923e3e80961bc40ff3aa7ea7b4df1c5412e1d1881eb8e817af33fadd14cae",
+        "document_version_id": "a4cd64c7-0bef-5688-9c82-0ca08a9ce551",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "bbd89067c94dc3fb801f8feea73840d909a90bedf9377e25ff09d30c5744701e",
+        "document_version_id": "cd2aa2e5-0b1d-52fc-a99e-3210e27e8019",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "bd3bdc5c2dce9ab0796e14b2473532d7c632ddb70e56b62fb934138f01bbb106",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "bd62ec0cdf98040e3282748deae0f6f4e72add276e882b0b63518fd99cafc2c1",
+        "document_version_id": "6f4fba9f-b128-555a-ac91-968658195e5f",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "bd76b557d052b1e94f586664a4d19e18d70387552a8045dbdc05979d812870e1",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "bdc58fc831768988a4ebe01e84b4b6f9da66b3bdebda9e3b2efaa42d3d815937",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "c1cb945c40131007c0a4b97738ffd26c8c82cd7c215b8225a17f93a2d064d5d3",
+        "document_version_id": "9eb04d01-4ad5-5f3c-adc1-867eb6e99deb",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "c23837fa1f85eedb7693d3e8b382dcc96ec6eb83cb5ccb5ddea14d81a72c9fa2",
+        "document_version_id": "296e6a5d-8f67-51bc-87a1-7001cecbb0c9",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "c63921d4e1476abf4648b9c10234a3a969d2b99591d2830ca4a8658571f84ef9",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "c6fa5cf4462012ac64a5a8ec352e95cd4f63c57a021095b6c1cb19538ac217a3",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "ca1b8d7ff39e4a53e7ca3a91951495888df38d30c8003d689645b0ce593bdd5b",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "caefe3b408b25c29be67609ac1341c2b186fcc6a7f1190bf99c241d76d02516b",
+        "document_version_id": "4ebfdd33-9cd5-5eb3-9565-4d299d4ddf86",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "caf84d9abe2ea6b57f013408d9bf52c552f308dd8df815221eef230c632faefd",
+        "reason": "fund_match_ambiguous"
+      },
+      {
+        "sha256": "cc42a8f2bed824015dc0f66666ef26b0538d50da621b29a11db2c7ffb41e94c8",
+        "document_version_id": "0813ddbd-82d7-5171-bb69-3c20b303c614",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "cce15bc825e75eac19b621d172500cf5bf227b390d43f5e40fa95c08fce64ccf",
+        "document_version_id": "ea016967-c195-587d-bca2-1c1009f25308",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "cfbf4350c3200a33a13d3761c9fc2e642a1e8ff3b44beea526824de7a954249a",
+        "document_version_id": "3309ff08-b5af-5b20-88b8-b6ff054e5875",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "d1640e66aec5599dbf19c68bbafe7e8dd6c2ed41b9cb6d9c032becdd0a0dabd9",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "d19c1093e6de2cf54dac9d604eaba12ac5f295b705587e3fadc36d98f5875d25",
+        "document_version_id": "ff319d8c-9f8f-575e-b7bc-13fb1a2467c1",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "d21270a530aa9c132cedea3cda838f2eeb4aa933b2fa363df577a906eea87811",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "d21b453a41bb548cac8e76d6d87d9b2f050488bf555d42d7c50a1bb0af1fe24b",
+        "document_version_id": "09710791-7149-5634-8b3f-6a8fec2e966c",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "d27fed88310f7ce2786d3c3496889ee6f0d90a080658809978f8e2d99501c699",
+        "document_version_id": "64b3e934-e6a7-5311-9952-67d2f1a66b40",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "d2bddf87daf0f6907d21e1db5d97ddac1e8a118d09bf35fb906f78c56a025112",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "d4eed5086c1f51e9b4485ae253ef715c2bd347d0d1847aef56da925c203ea4df",
+        "document_version_id": "262f8d68-8c99-5ed1-89eb-4d14d85ba86f",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "d5f6ae2628dd24b34fbda4971a7325be89e69a47c72e0e7da384af64f97e28c0",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "d7ec127ad7ffe70c8df1bc7414d6b2704be76377c428512b05f662d12a623bbb",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "dcb84181104fe6ce14deb40dc54a82e292ab15f75f97692f3fcb8df36915e916",
+        "document_version_id": "82b1d65a-2564-59f0-b08b-f26bad3d9a03",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "dd148df973536865101f877d2f20a860af5ee8f2960edd4d9127969207df76f0",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "df8bd33f9bff18c0e54c6c60f0f9cf80bd98cf19adfc0c86476a0da06e0523b7",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "e05da13fe00680841dc2de4a026d5d75337bccc9d277c011cd833f78ea9845a9",
+        "document_version_id": "0593be8b-0e46-5c94-ba98-e30ccc0f8c0c",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "e1278d929a6fc3a9cd35a5404758c0e6ad300490b1c5123e08c9a4ed52bd301d",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "e2430c58716cbd17536cb65da271fd3f24002d3d2a8bc8920013f34f9909aa2c",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "ea16af091054b9483815daa3d003ffc29d55077941db871d51bf349ae2696ca6",
+        "document_version_id": "3b0acf86-cae6-5f19-971a-6d020a9d234c",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "ea3e1fb5aa74f21ffd7576d5252c6466f701f98f6854cb8d74294ab31617ed61",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "eab436d2c5cdde23ee67f068f40f51782e2595265d31f0d58e0295a8497114c3",
+        "document_version_id": "15155f20-06a5-5a9f-bbef-71bd10b56526",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "eabe13770dd56fc186271029bb77ca32e8e90382242d27ce10487d1d7245209a",
+        "document_version_id": "b70b4dbc-bc89-5334-90de-70bb245a711a",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "ebb46f9df102b65ac87509cc96a5ce745908aa992f6fdf2bff993e15248abd07",
+        "reason": "fund_match_missing"
+      },
+      {
+        "sha256": "f1b0435accc3c84777997ff37dd6b61dbd9362ff89863f768a9be5bd53847787",
+        "document_version_id": "aefad014-07ee-5ff1-840d-78755364bfd1",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "f3712aadfee5db7882336d562cdd26525317c3a47feeded7ab15cfa0a2631260",
+        "document_version_id": "0403a8d6-6bdb-517e-8a9c-abe9cfc3ef0e",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "f41b4d5e3a65673e8b8d00eb2438b53ac37870aa74bad6f1e56eae98a75bd5b8",
+        "document_version_id": "8b50ac92-fe35-5923-b7d2-d8530c7f2f0e",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "sha256": "f463e1b18e40eccb63870b485340e21b9d7fccc06757f195133e89a7c89dbcc1",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "fce9d602091af15a2824ab06ca5e76dcec7c7c4bfa26d72bc1efbda4ce2388a7",
+        "reason": "report_month_unresolved"
+      },
+      {
+        "sha256": "fd5a805c35c7a2ab2dcdcae95110245c5d5562d205f9cc490974ed3ad2471c30",
+        "document_version_id": "7b87d045-0ab5-5ba8-9c01-cb4b0bcd2d33",
+        "reason": "already_in_current_snapshot"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/东方汇理环球股票基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/东方汇理香港组合_-_亚太新动力股息基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/东方汇理香港组合_-_创新动力股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/equity/per_pdf/东方汇理香港组合_-_创新动力股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/东方汇理香港组合_-_灵活配置增长基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/equity/per_pdf/东方汇理香港组合_-_灵活配置增长基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/fixed_income/per_pdf/中银香港全天候中国高息债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/fixed_income/per_pdf/中银香港全天候中国高息债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/中银香港全天候香港股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/equity/per_pdf/中银香港全天候香港股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/兴证国际中国核心资产基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/equity/per_pdf/兴证国际中国核心资产基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/equity/per_pdf/动力高息基金.equity_fund.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/fixed_income/per_pdf/南方东英精选美元债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/南方中国新平衡机会基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/fixed_income/per_pdf/博时精选新兴市场债券.fixed_income.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/fixed_income/per_pdf/博时精选新兴市场债券.fixed_income.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/嘉实ESG中国股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/太平大中华新动力股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/富国中国中小盘成长基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/fixed_income/per_pdf/富国精选投资级债券基金.fixed_income.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/富达全球聚焦基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/富达环球股票基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/fixed_income/per_pdf/摩根亚洲总收益债券.fixed_income.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/fixed_income/per_pdf/摩根亚洲总收益债券.fixed_income.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/fixed_income/per_pdf/新兴市场债券基金.fixed_income.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/equity/per_pdf/日本中小型企业特别时机基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/fixed_income/per_pdf/柏瑞亚太投资级别债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞亚洲动态资产配置基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞亚洲_(日本除外)_小型公司股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞亚洲_(日本除外)_股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/fixed_income/per_pdf/柏瑞亚洲高收益总回报债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/fixed_income/per_pdf/柏瑞全球债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/fixed_income/per_pdf/柏瑞全球债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞印度股票基金.equity_fund.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/柏瑞大中华股票基金.equity_fund.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞大中华股票基金.equity_fund.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞拉丁美洲股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞日本股票基金.equity_fund.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞欧洲小型公司股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞欧洲研究增值股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/fixed_income/per_pdf/柏瑞环球债券基金.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞环球动态资产配置基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞环球新兴市场重点股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/柏瑞环球重点股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞美国大型资本研究增值基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞美国研究增值核心股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260908162205/structure_data/_work/equity/per_pdf/柏瑞(香港)环球重点股票基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/fixed_income/per_pdf/欧元企业债券基金.fixed_income.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/equity/per_pdf/欧洲基金.equity_fund.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/fixed_income/per_pdf/欧洲高收益债券基金.fixed_income.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/fixed_income/per_pdf/汇丰环球基金ICAV_–_环球政府债券UCITS_ETF.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/fixed_income/per_pdf/汇丰环球投资基金_-_亚洲ESG债券.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/fixed_income/per_pdf/汇丰环球投资基金-_亚洲货币债券.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰环球投资基金_-_全智选_-_亚洲焦点保守.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰环球投资基金_-_全智选_-_亚洲焦点增长.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/equity/per_pdf/汇丰环球投资基金_-_前沿市场.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/fixed_income/per_pdf/汇丰环球投资基金_-_欧元债券.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/fixed_income/per_pdf/汇丰环球投资基金_-_环球企业债券.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰环球投资基金_-_环球房地产股票.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/fixed_income/per_pdf/汇丰环球投资基金_–_环球投资级证券化信用债券.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/fixed_income/per_pdf/汇丰环球投资基金_-_环球政府债券.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰环球投资基金_-_环球新兴市场多元资产入息.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰环球投资基金_-_环球股票气候方案.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/466cfeaa-7244-4674-90b0-67496cac0298/staging/466cfeaa-7244-4674-90b0-67496cac0298/structure_data/_work/equity/per_pdf/汇丰环球投资基金-环球高息股票.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/fixed_income/per_pdf/汇丰环球投资基金_-_美国短期高收益债券.fixed_income.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰环球投资基金_-_美国聚焦入息.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰组合_-_环球智选1.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰组合_-_环球智选4.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/jobs/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/staging/6ac755a9-069a-4758-bc2f-7aaf5bf4de8a/structure_data/_work/equity/per_pdf/汇丰组合_-_环球智选5.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/fixed_income/per_pdf/海通亚洲总收益债券.fixed_income.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/fixed_income/per_pdf/海通亚洲总收益债券.fixed_income.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/fixed_income/per_pdf/环球债券收益基金.fixed_income.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/fixed_income/per_pdf/环球政府债券基金.fixed_income.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/fixed_income/per_pdf/环球高收益债券基金.fixed_income.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/瑞银香港中国机会股票基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/fixed_income/per_pdf/美元短期债券基金.fixed_income.json",
+        "reason": "structured_fund_match_ambiguous"
+      },
+      {
+        "structured_json": "data/20260729114133/structure_data/_work/equity/per_pdf/贝莱德环球灵活配置策略股票基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/20260831113635/structure_data/_work/equity/per_pdf/贝莱德环球灵活配置策略股票基金.equity_fund.json",
+        "reason": "structured_fund_match_missing"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/equity/per_pdf/贝莱德系统分析亚太股票绝对回报基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/equity/per_pdf/贝莱德系统分析多元绝对回报基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/equity/per_pdf/贝莱德系统分析环球股票绝对回报基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      },
+      {
+        "structured_json": "data/batches/b76ef053-f098-4c56-9e17-8e8e61142ec3/staging/f95cb5f1-f699-4b2f-983e-bc718eb01b5d/structure_data/_work/equity/per_pdf/贝莱德系统分析美国股票绝对回报基金.equity_fund.json",
+        "reason": "structured_pdf_or_version_already_indexed"
+      }
+    ],
+    "errors": []
+  }
+}

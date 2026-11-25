@@ -1,0 +1,150 @@
+{
+  "schema_version": "week-baseline-v1",
+  "generated_at": "2026-11-09T20:48:00+08:00",
+  "timezone": "Asia/Hong_Kong",
+  "migration": {
+    "head": "20261104_0014",
+    "upgrade": "passed"
+  },
+  "services": {
+    "postgres": {
+      "status": "running",
+      "port": 55432,
+      "readiness": "accepting_connections"
+    },
+    "api": {
+      "status": "running",
+      "base_url": "http://127.0.0.1:8000",
+      "health": "ok"
+    },
+    "worker": {
+      "status": "running"
+    },
+    "web": {
+      "status": "running",
+      "base_url": "http://127.0.0.1:5173"
+    }
+  },
+  "database": {
+    "current_snapshot_id": "9d679bd7-9c2a-43b6-9f4f-aeb1d2514950",
+    "funds": 2479,
+    "report_sources_all": 906,
+    "fund_metrics_current": 338,
+    "funds_with_metrics_current": 42,
+    "fund_holdings_current": 253,
+    "fund_allocations_current": 141,
+    "quality_issues": {
+      "open": 16664,
+      "resolved": 61,
+      "error": 110,
+      "warning": 16615
+    }
+  },
+  "source_coverage": {
+    "legacy_day2_monthly_baseline": {
+      "total": 775,
+      "complete": 686,
+      "gap": 89,
+      "complete_rate": 0.8852,
+      "source": "docs/development/05-day2-page-index-and-search.md"
+    },
+    "current_crawler_list_v1": {
+      "total": 853,
+      "complete": 770,
+      "gap": 83,
+      "complete_rate": 0.9027,
+      "source": "fund_report_sources.source_system=crawler-list-v1"
+    },
+    "current_all_source_rows": {
+      "total": 906,
+      "complete_by_monthly_columns": 770,
+      "gap_by_monthly_columns": 136,
+      "reason_counts": {
+        "missing_url": 1,
+        "missing_url_and_command": 122,
+        "missing_command": 13
+      },
+      "report": "docs/development/artifacts/20261109-week/source-gap-queue.json"
+    }
+  },
+  "knowledge_index": {
+    "status": "completed",
+    "snapshot_id": "9d679bd7-9c2a-43b6-9f4f-aeb1d2514950",
+    "documents": 61,
+    "funds": 40,
+    "pages": 950,
+    "chunks": 3795,
+    "embeddings": 3795,
+    "incomplete_chunks": 0,
+    "citation_tiers": {
+      "A_content_list_page_map": 3076,
+      "B_pdf_page_map": 719
+    },
+    "vector_model": "BAAI/bge-m3",
+    "vector_version": "v1",
+    "skipped": 4,
+    "skipped_reasons": {
+      "non_pdf_artifact:bloomberg_historical_market_data": 1,
+      "report_period_conflict": 3
+    },
+    "report": "docs/development/artifacts/20261109-week/knowledge-index-current-with-vectors.json",
+    "quality_report": "docs/development/artifacts/20261109-week/knowledge-index-quality.json",
+    "quality_status": "passed",
+    "quality_checks": {
+      "all_chunks_have_embeddings": true,
+      "missing_source_paths": 0,
+      "stale_embeddings": 0,
+      "invalid_chunk_hashes": 0,
+      "missing_or_invalid_pages": 0
+    }
+  },
+  "local_qwen": {
+    "available": true,
+    "model": "qwen3:4b",
+    "parameter_size": "4.0B",
+    "quantization": "Q4_K_M",
+    "size_bytes": 3181631242,
+    "size_vram_bytes": 3181631242,
+    "context_length": 4096,
+    "smoke_status": 200,
+    "smoke_elapsed_seconds": 1.867,
+    "note": "最小请求返回内容为空但 HTTP/usage 正常；周二需确认结构化提示的实际输出格式。"
+  },
+  "verification": {
+    "compileall": "passed",
+    "frontend_typescript": "passed",
+    "focused_tests": {
+      "passed": 12,
+      "skipped": 8,
+      "skip_reason": "PLATFORM_TEST_DATABASE_URL 未配置"
+    },
+    "api_smoke": {
+      "health": 200,
+      "snapshots_current": 200,
+      "funds": 200,
+      "quality_issues": 200,
+      "jobs": 200,
+      "knowledge_status": 200,
+      "local_model_health": 200
+    }
+  },
+  "known_blockers": [
+    "BSV019、BTM337、BUK159 因报告期与 PDF 冲突被排除，需走纠错后重新发布。",
+    "数据库集成测试尚未接入独立 PLATFORM_TEST_DATABASE_URL。"
+  ],
+  "qa_sample": {
+    "file": "docs/development/artifacts/20261109-week/qa-20.jsonl",
+    "total": 20,
+    "answered": 16,
+    "insufficient_evidence": 4,
+    "categories": {
+      "numeric_fact": 7,
+      "liquidity": 2,
+      "allocation": 1,
+      "holding": 3,
+      "cross_fund_comparison": 3,
+      "data_quality_gate": 1,
+      "no_answer": 3
+    }
+  }
+}

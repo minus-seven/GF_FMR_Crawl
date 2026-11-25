@@ -1,0 +1,64 @@
+{
+  "schema_version": "knowledge-index-quality-v1",
+  "generated_at": "2026-10-27T06:44:38.532194+00:00",
+  "status": "passed",
+  "current_snapshot_id": "aa6a0159-9f45-4c25-bfa5-24da0f6649b1",
+  "checks": {
+    "index_runs_completed": 4,
+    "chunks": 8799,
+    "pages": 907,
+    "embeddings": 8799,
+    "missing_source_paths": 0,
+    "missing_embeddings": 0,
+    "stale_embeddings": 0,
+    "invalid_chunk_hashes": 0,
+    "missing_or_invalid_pages": 0
+  },
+  "snapshots": {
+    "b76ef053-f098-4c56-9e17-8e8e61142ec3": {
+      "chunks": 1423,
+      "funds": 99,
+      "documents": 99,
+      "embeddings": 1423,
+      "embedding_coverage_percent": 100.0,
+      "citation_tiers": {
+        "B_pdf_page_map": 383,
+        "A_content_list_page_map": 1040
+      }
+    },
+    "a85ad135-1fc3-5542-ad56-b8ef53c129fc": {
+      "chunks": 4530,
+      "funds": 134,
+      "documents": 169,
+      "embeddings": 4530,
+      "embedding_coverage_percent": 100.0,
+      "citation_tiers": {
+        "A_content_list_page_map": 4230,
+        "B_pdf_page_map": 300
+      }
+    },
+    "e0b9e36b-4bee-44d2-8d97-75d83410d991": {
+      "chunks": 1423,
+      "funds": 99,
+      "documents": 99,
+      "embeddings": 1423,
+      "embedding_coverage_percent": 100.0,
+      "citation_tiers": {
+        "A_content_list_page_map": 1040,
+        "B_pdf_page_map": 383
+      }
+    },
+    "aa6a0159-9f45-4c25-bfa5-24da0f6649b1": {
+      "chunks": 1423,
+      "funds": 99,
+      "documents": 99,
+      "embeddings": 1423,
+      "embedding_coverage_percent": 100.0,
+      "citation_tiers": {
+        "A_content_list_page_map": 1040,
+        "B_pdf_page_map": 383
+      }
+    }
+  },
+  "failures": []
+}

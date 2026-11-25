@@ -1,0 +1,50 @@
+{
+  "schema_version": "knowledge-index-report-v1",
+  "project_root": "${FACTSHEET_PROJECT_ROOT}",
+  "scope": "current",
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_version": "v1",
+  "manifest_count": 322,
+  "current": {
+    "snapshot_id": "aa6a0159-9f45-4c25-bfa5-24da0f6649b1",
+    "documents_seen": 104,
+    "documents_indexed": 99,
+    "documents_skipped": 5,
+    "pages_written": 0,
+    "chunks_written": 1423,
+    "chunks_deleted": 0,
+    "embeddings_written": 1423,
+    "structured_jsons_seen": 0,
+    "structured_jsons_indexed": 0,
+    "structured_jsons_skipped": 0,
+    "skipped": [
+      {
+        "document_version_id": "09710791-7149-5634-8b3f-6a8fec2e966c",
+        "fund_code": "ABD893",
+        "reason": "report_period_conflict:2026-08!=2026-09"
+      },
+      {
+        "document_version_id": "c3668e9e-b224-5465-9f5b-abf5c2762f01",
+        "fund_code": "BWB363",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      },
+      {
+        "document_version_id": "30626813-fafe-5cac-b33e-ddeed537ee8c",
+        "fund_code": "BXR351",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      },
+      {
+        "document_version_id": "20b702e4-4189-58a0-a334-e03223a0b89e",
+        "fund_code": "BXR352",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      },
+      {
+        "document_version_id": "9d4d867b-eb47-571c-bfcb-177e53a1da28",
+        "fund_code": "BYA949",
+        "reason": "report_period_conflict:2026-10!=2026-09"
+      }
+    ],
+    "errors": []
+  },
+  "historical": null
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "qa-20-results-v1",
+  "generated_at": "2026-11-09T21:00:00+08:00",
+  "sample": "docs/development/artifacts/20261109-week/qa-20.jsonl",
+  "count": 20,
+  "http_status": {"200": 20},
+  "status_counts": {"answered": 16, "insufficient_evidence": 4},
+  "expected_status_match": 20,
+  "claim_evidence_binding_pass": 20,
+  "latency_ms": {"min": 2.2, "p50": 3.0, "p95": 6.5, "max": 13.2},
+  "category_counts": {
+    "numeric_fact": 7,
+    "liquidity": 2,
+    "allocation": 1,
+    "holding": 3,
+    "cross_fund_comparison": 3,
+    "data_quality_gate": 1,
+    "no_answer": 3
+  },
+  "observations": [
+    "SQL-first facts returned deterministic values and evidence bindings.",
+    "No-answer cases were refused instead of guessed.",
+    "Four answered cases retained structured-validation warnings for manual follow-up.",
+    "One knowledge case used full-text fallback because vector retrieval was unavailable."
+  ]
+}
