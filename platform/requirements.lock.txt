@@ -1,0 +1,14 @@
+# Cross-platform direct dependency lock for the API/Worker runtime.
+# Install this file only into the external FACTSHEET_VENV_ROOT environment.
+# Optional OS-specific dependencies of uvicorn[standard] are resolved by pip.
+SQLAlchemy==2.0.55
+alembic==1.20.1
+psycopg[binary]==3.3.6
+pgvector==0.5.1
+fastapi==0.159.1
+uvicorn[standard]==0.54.0
+httpx==0.28.1
+openpyxl==3.1.5
+pypdf==6.16.2
+PyMuPDF==1.28.2
+pytest==8.4.2

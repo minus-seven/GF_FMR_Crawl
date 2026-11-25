@@ -1,0 +1,12 @@
+{
+  "pipeline_version": 1,
+  "layout_id": "generic",
+  "detect": {},
+  "fields": {
+    "fund_size": {"rule_id": "generic_fund_size_v1", "stage": "deterministic", "parser": "fund_size", "fallback": ["native_text", "model_slice", "vision_header"]},
+    "report_date": {"rule_id": "generic_report_month_v1", "stage": "deterministic", "parser": "report_month", "fallback": ["month_hint", "model_slice"]},
+    "portfolio_duration_years": {"rule_id": "generic_duration_v1", "stage": "deterministic", "parser": "duration", "labels": ["平均年期", "平均屆滿期", "平均届满期", "平均存續期", "平均存续期", "組合久期", "组合久期", "加權平均存續期", "加权平均存续期", "Duration", "Average duration"], "fallback": ["model_slice", "vision_table"]},
+    "portfolio_ytm_percent": {"rule_id": "generic_ytm_v1", "stage": "deterministic", "parser": "ytm", "labels": ["平均最低孳息率", "最低孳息率", "平均到期孳息率", "到期孳息率", "平均到期收益率", "平均收益率", "期滿收益率", "期满收益率", "組合到期收益率", "组合到期收益率", "到期收益率", "最差收益率", "加權平均最差收益率", "加权平均最差收益率", "Yield to maturity", "Yield to worst", "YTM", "YTW"], "fallback": ["model_slice", "vision_table"]},
+    "credit_rating": {"rule_id": "generic_credit_rating_v1", "stage": "deterministic", "parser": "credit_rating", "fallback": ["model_slice", "vision_table"]}
+  }
+}

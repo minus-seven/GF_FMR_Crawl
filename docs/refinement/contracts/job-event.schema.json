@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fund-research.local/schemas/job-event.schema.json",
+  "title": "Fund Research Job Event",
+  "description": "Task progress event delivered over SSE and persisted in job_events.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "job_id",
+    "sequence_no",
+    "type",
+    "occurred_at",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "job_id": {
+      "type": "string",
+      "minLength": 8
+    },
+    "sequence_no": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "job.snapshot",
+        "job.stage",
+        "job.fund",
+        "job.backfill",
+        "job.warning",
+        "job.retry",
+        "job.publish",
+        "job.completed",
+        "heartbeat"
+      ]
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "snapshot_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  }
+}

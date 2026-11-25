@@ -1,0 +1,8 @@
+# Root download/MinerU/structure scripts. Install into the external
+# FACTSHEET_VENV_ROOT environment; do not create dependencies in the repo.
+requests
+playwright
+openpyxl
+pypdf
+opencc-python-reimplemented
+PyMuPDF

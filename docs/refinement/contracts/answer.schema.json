@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fund-research.local/schemas/answer.schema.json",
+  "title": "Grounded Fund Research Answer",
+  "description": "Answer with claims and citations, or a structured insufficient-evidence result.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "snapshot_id",
+    "status",
+    "answer",
+    "claims",
+    "limitations",
+    "next_actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "answered",
+        "insufficient_evidence",
+        "partial"
+      ]
+    },
+    "answer": {
+      "type": "string"
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim_id",
+          "text",
+          "claim_type",
+          "citations"
+        ],
+        "properties": {
+          "claim_id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "claim_type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "textual",
+              "comparison",
+              "change",
+              "derived"
+            ]
+          },
+          "metric_id": {
+            "type": "string"
+          },
+          "formula_version": {
+            "type": "string"
+          },
+          "citations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "document_version_id",
+                "page_number",
+                "excerpt",
+                "validation_status"
+              ],
+              "properties": {
+                "document_version_id": {
+                  "type": "string"
+                },
+                "page_number": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "excerpt": {
+                  "type": "string"
+                },
+                "validation_status": {
+                  "type": "string",
+                  "enum": [
+                    "validated",
+                    "wrong_fund",
+                    "wrong_version",
+                    "wrong_page",
+                    "excerpt_mismatch",
+                    "claim_not_supported",
+                    "stale"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  }
+}

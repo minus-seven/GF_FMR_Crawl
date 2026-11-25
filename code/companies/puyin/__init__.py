@@ -1,0 +1,1 @@
+"""SPDBI adapter package."""

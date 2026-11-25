@@ -1,0 +1,21 @@
+基金月报处理工具——交付使用说明
+
+一、请先完整解压
+不要直接在 ZIP 压缩包中双击运行。建议解压到较短的路径，例如：
+D:\基金月报处理工具
+
+二、首次使用
+1. 双击“首次配置环境.bat”。
+2. 检查并更新 Qwen Key 和 MinerU Token。
+3. 按顺序运行：
+   run_all_downloaders.bat
+   run_all_mineru.bat
+   run_all_structured_data.bat
+
+三、更新 Key
+修改 config.ini。
+
+四、注意
+config.ini 含有 API Key，属于敏感文件，请勿公开上传或转发。
+.runtime 是便携 Python、离线依赖和浏览器，不能删除。
+data\_cache 中保存 Ticker 缓存，保留后可以减少重复查询。

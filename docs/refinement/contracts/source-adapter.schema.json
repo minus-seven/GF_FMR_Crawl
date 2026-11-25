@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fund-research.local/schemas/source-adapter.schema.json",
+  "title": "Fund Source Adapter Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adapter_id",
+    "display_name",
+    "version",
+    "priority",
+    "manager_names",
+    "allowed_domains",
+    "capabilities",
+    "document_sources",
+    "policies"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "adapter_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]+$"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
+    },
+    "manager_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "manager_names": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_domains": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "document_sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "type",
+          "priority"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "only_when": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "source_backfill": {
+      "type": "object",
+      "required": [
+        "script",
+        "sheet_names",
+        "supports_probe",
+        "supports_rows_filter"
+      ],
+      "properties": {
+        "script": {
+          "type": "string",
+          "pattern": "^companies/"
+        },
+        "sheet_names": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "supports_probe": {
+          "const": true
+        },
+        "supports_rows_filter": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "policies": {
+      "type": "object",
+      "required": [
+        "prefer_monthly",
+        "allow_annual_fallback",
+        "allow_interim_fallback",
+        "allow_section_split"
+      ],
+      "properties": {
+        "prefer_monthly": {
+          "type": "boolean"
+        },
+        "allow_annual_fallback": {
+          "type": "boolean"
+        },
+        "allow_interim_fallback": {
+          "type": "boolean"
+        },
+        "allow_section_split": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "health_check": {
+      "type": "object",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "format": "uri"
+        },
+        "interval_minutes": {
+          "type": "integer",
+          "minimum": 5
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

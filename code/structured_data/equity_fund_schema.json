@@ -1,0 +1,120 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fund_name",
+    "report_date",
+    "fund_size_hkd_100m",
+    "fund_size_original",
+    "top_holdings",
+    "top_holdings_total_percent",
+    "geographic_allocation",
+    "sector_allocation",
+    "dividend",
+    "field_evidence"
+  ],
+  "properties": {
+    "fund_name": {"type": "string"},
+    "report_date": {"type": ["string", "null"], "description": "月报数据对应月份，格式为 YYYY-MM"},
+    "fund_size_hkd_100m": {"type": ["number", "null"], "description": "固定填 null，代码层会换算"},
+    "fund_size_original": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["amount", "currency", "unit"],
+      "properties": {
+        "amount": {"type": ["number", "null"]},
+        "currency": {"type": ["string", "null"]},
+        "unit": {"type": ["string", "null"]}
+      }
+    },
+    "top_holdings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ticker", "name", "weight_percent"],
+        "properties": {
+          "ticker": {"type": ["string", "null"], "description": "标准上市 Ticker；不要把普通缩写误当作 Ticker，无法可靠识别时为 null"},
+          "name": {"type": ["string", "null"]},
+          "weight_percent": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "top_holdings_total_percent": {"type": ["number", "null"]},
+    "geographic_allocation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["region", "weight_percent"],
+        "properties": {
+          "region": {"type": ["string", "null"]},
+          "weight_percent": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "sector_allocation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sector", "weight_percent"],
+        "properties": {
+          "sector": {"type": ["string", "null"]},
+          "weight_percent": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "dividend": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": [
+        "share_class",
+        "currency",
+        "frequency",
+        "dividend_per_unit",
+        "annualized_dividend_yield_percent"
+      ],
+      "properties": {
+        "share_class": {"type": ["string", "null"]},
+        "currency": {"type": ["string", "null"]},
+        "frequency": {
+          "type": ["string", "null"],
+          "enum": ["monthly", "quarterly", "semiannual", "annual", "irregular", "unknown", null]
+        },
+        "dividend_per_unit": {"type": ["number", "null"]},
+        "annualized_dividend_yield_percent": {"type": ["number", "null"]}
+      }
+    },
+    "field_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fund_size_original": {"$ref": "#/$defs/evidence_list"},
+        "report_date": {"$ref": "#/$defs/evidence_list"},
+        "top_holdings": {"$ref": "#/$defs/evidence_list"},
+        "geographic_allocation": {"$ref": "#/$defs/evidence_list"},
+        "sector_allocation": {"$ref": "#/$defs/evidence_list"},
+        "dividend": {"$ref": "#/$defs/evidence_list"}
+      }
+    }
+  },
+  "$defs": {
+    "evidence_list": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["page_idx", "block_index", "source", "kind", "quote"],
+        "properties": {
+          "page_idx": {"type": "integer", "minimum": 0},
+          "block_index": {"type": "integer", "minimum": 0},
+          "source": {"type": "string"},
+          "kind": {"type": "string"},
+          "quote": {"type": "string", "maxLength": 240}
+        }
+      }
+    }
+  }
+}

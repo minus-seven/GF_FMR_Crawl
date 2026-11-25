@@ -1,0 +1,55 @@
+# Local credentials and machine-specific configuration
+config.ini
+platform/.env.local
+.env
+.env.local
+*.secret
+*.key
+
+# Runtime, virtual environments and build outputs
+.runtime/
+.runtime
+.venv/
+.venv
+.venv-embed/
+.venv-embed
+platform/.runtime/
+platform/.runtime
+platform/web/node_modules/
+platform/web/node_modules
+platform/web/dist/
+*.tsbuildinfo
+
+# Business data and generated pipeline state
+data/
+data
+case/sources
+case/node_modules
+case/*.csv
+case/*.json
+case/*.ndjson
+爬虫list.xlsx
+爬虫list.xlsx.*
+HKEX基金综合资料库_完整_*.xlsx
+platform/backups/
+backups/
+logs/
+*.log
+
+# Local caches and temporary files
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.DS_Store
+~$*
+*.tmp
+*.writing
+
+# Large case inputs/exports; keep case Markdown and small fixtures in source control
+case/*.pdf
+case/*.xls
+case/*.docx
+case/*.xlsx
+case/*.png
+case/*inspect.ndjson
+case/node_modules/

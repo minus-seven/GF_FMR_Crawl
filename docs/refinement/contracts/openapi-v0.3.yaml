@@ -1,0 +1,4827 @@
+openapi: 3.1.0
+info:
+  title: Fund Research Knowledge Agent API
+  description: Fund queries, controlled tasks and page-level knowledge search API.
+  version: 0.4.0
+paths:
+  /api/health:
+    get:
+      tags:
+      - health
+      summary: Health
+      description: 检查 API、数据库和当前快照；参数 request/session 为请求上下文。
+      operationId: health_api_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_HealthData_'
+  /api/snapshots/current:
+    get:
+      tags:
+      - snapshots
+      summary: Current Snapshot
+      description: 返回当前发布快照；参数 request/session 为请求上下文。
+      operationId: current_snapshot_api_snapshots_current_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_SnapshotData_'
+  /api/funds:
+    get:
+      tags:
+      - funds
+      summary: Fund List
+      description: 分页查询基金；参数为过滤条件、分页和请求上下文。
+      operationId: fund_list_api_funds_get
+      parameters:
+      - name: manager_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Manager Id
+      - name: manager
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Manager
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+      - name: report_period
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: q
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Q
+      - name: secondary
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          default: []
+          title: Secondary
+      - name: sort_by
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort By
+      - name: sort_direction
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort Direction
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_FundPageData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/funds/collections:
+    post:
+      tags:
+      - funds
+      summary: Create Fund Collection
+      description: 创建绑定会话的临时基金集合；参数 request/session 为请求上下文。
+      operationId: create_fund_collection_api_funds_collections_post
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_FundCollectionData_'
+    get:
+      tags:
+      - funds
+      summary: List Fund Collections
+      description: 列出当前会话仍有效的临时基金集合；参数为会话键和数据库上下文。
+      operationId: list_fund_collections_api_funds_collections_get
+      parameters:
+      - name: session_key
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 200
+          title: Session Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_list_FundCollectionData__'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/funds/{fund_code}/sources/manage:
+    get:
+      tags:
+      - funds
+      summary: Manage Sources List
+      description: 返回基金全部来源（包含隐藏）；参数 fund_code/request/session 为上下文。
+      operationId: manage_sources_list_api_funds__fund_code__sources_manage_get
+      parameters:
+      - name: fund_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Fund Code
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_SourceManagementData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - funds
+      summary: Manage Sources Action
+      description: 执行来源显示、隐藏或删除；删除仅移除基金关联及派生数据。
+      operationId: manage_sources_action_api_funds__fund_code__sources_manage_post
+      parameters:
+      - name: fund_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Fund Code
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_SourceManagementData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/funds/{fund_code}/metrics:
+    get:
+      tags:
+      - funds
+      summary: Fund Metrics
+      description: 返回基金最新结构化指标；参数 fund_code/request/session 为请求上下文。
+      operationId: fund_metrics_api_funds__fund_code__metrics_get
+      parameters:
+      - name: fund_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Fund Code
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_MetricListData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/funds/{fund_code}/supplementary-source:
+    post:
+      tags:
+      - funds
+      summary: Create Supplementary Source
+      description: 创建单基金补充来源任务；支持 URL 或上传 PDF，并复用三段流水线。
+      operationId: create_supplementary_source_api_funds__fund_code__supplementary_source_post
+      parameters:
+      - name: fund_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Fund Code
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Idempotency-Key
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_SupplementarySourceData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/funds/{fund_code}:
+    get:
+      tags:
+      - funds
+      summary: Fund Detail
+      description: 返回基金确定性和补充来源详情；参数 fund_code/request/session。
+      operationId: fund_detail_api_funds__fund_code__get
+      parameters:
+      - name: fund_code
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Fund Code
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_FundDetailData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/quality/issues:
+    get:
+      tags:
+      - quality
+      summary: Quality Issues
+      description: 分页查询当前批次质量问题；参数为过滤和请求上下文。
+      operationId: quality_issues_api_quality_issues_get
+      parameters:
+      - name: severity
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Severity
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: fund_code
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fund Code
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_QualityPageData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/quality/issues/{issue_id}/review:
+    get:
+      tags:
+      - quality
+      summary: Quality Review Detail
+      description: 返回复核工作台所需的基金全量上下文和可编辑记录。
+      operationId: quality_review_detail_api_quality_issues__issue_id__review_get
+      parameters:
+      - name: issue_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Issue Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_QualityReviewData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - quality
+      summary: Quality Review Update
+      description: 保存编辑后的结构化记录，可选择同时关闭质量问题。
+      operationId: quality_review_update_api_quality_issues__issue_id__review_put
+      parameters:
+      - name: issue_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Issue Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityReviewUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_QualityReviewActionData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/quality/issues/{issue_id}/confirm:
+    post:
+      tags:
+      - quality
+      summary: Quality Review Confirm
+      description: 确认问题已人工核验；只改变质量状态并留下审计记录。
+      operationId: quality_review_confirm_api_quality_issues__issue_id__confirm_post
+      parameters:
+      - name: issue_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Issue Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+              - type: object
+                additionalProperties: true
+              - type: 'null'
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_QualityReviewActionData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/analytics/perspectives:
+    get:
+      tags:
+      - analytics
+      summary: Perspectives
+      description: 返回规模图表与投资组合结构；可按基金详情当前选中的来源版本过滤。
+      operationId: perspectives_api_analytics_perspectives_get
+      parameters:
+      - name: scope_fund_codes
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          title: Scope Fund Codes
+      - name: manager_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Manager Id
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+      - name: period
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Period
+      - name: source_document_version_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Source Document Version Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_PerspectiveData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/chat:
+    post:
+      tags:
+      - chat
+      summary: Chat
+      description: 执行 SQL 优先问答并返回证据契约；参数 body/request/session 为请求和上下文。
+      operationId: chat_api_chat_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_ChatResponseData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/master-database/options:
+    get:
+      tags:
+      - jobs
+      summary: Master Database Options
+      description: 返回综合资料库参考文件候选；参数 request/session 为 API 上下文。
+      operationId: master_database_options_api_jobs_master_database_options_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_MasterDatabaseOptionsData_'
+  /api/jobs/{job_id}/master-artifact:
+    get:
+      tags:
+      - jobs
+      summary: Master Database Artifact
+      description: 下载综合资料库任务缓存的最新 xlsx。
+      operationId: master_database_artifact_api_jobs__job_id__master_artifact_get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{job_id}/master-import:
+    post:
+      tags:
+      - jobs
+      summary: Import Master Database
+      description: 把已完成任务的缓存 xlsx 导入为新的发布批次。
+      operationId: import_master_database_api_jobs__job_id__master_import_post
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_MasterDatabaseImportData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{job_id}/publish:
+    post:
+      tags:
+      - jobs
+      summary: Internal Publish
+      description: 供本机 Worker 提交已验证 manifest；参数 job_id/body/request/session。
+      operationId: internal_publish_api_jobs__job_id__publish_post
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_PublishResultData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs:
+    post:
+      tags:
+      - jobs
+      summary: Submit Job
+      description: 创建任务并冻结范围；参数 body/request/response/key/session。
+      operationId: submit_job_api_jobs_post
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: true
+        schema:
+          type: string
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobCreateRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_JobData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - jobs
+      summary: Job List
+      description: 分页查询任务；参数 request/status/page/page_size/session。
+      operationId: job_list_api_jobs_get
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_JobPageData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/scope-options:
+    get:
+      tags:
+      - jobs
+      summary: Scope Options
+      description: 返回全量、管理人和资产类别范围选项；参数 request/session。
+      operationId: scope_options_api_jobs_scope_options_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_ScopeOptionsData_'
+  /api/jobs/{job_id}:
+    get:
+      tags:
+      - jobs
+      summary: Job Detail
+      description: 查询任务详情；参数 job_id/request/session。
+      operationId: job_detail_api_jobs__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_JobData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{job_id}/cancel:
+    post:
+      tags:
+      - jobs
+      summary: Cancel
+      description: 请求取消任务；参数 job_id/request/session。
+      operationId: cancel_api_jobs__job_id__cancel_post
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_JobData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{job_id}/retry:
+    post:
+      tags:
+      - jobs
+      summary: Retry
+      description: 从失败阶段继续任务；参数 job_id/request/session。
+      operationId: retry_api_jobs__job_id__retry_post
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_JobData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{job_id}/funds:
+    get:
+      tags:
+      - jobs
+      summary: Job Funds
+      description: 查询任务内基金结果和跳过/失败原因；参数 job/filter/page/session。
+      operationId: job_funds_api_jobs__job_id__funds_get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      - name: result_status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: array
+            items:
+              type: string
+          - type: 'null'
+          title: Result Status
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+          title: Page
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 1000
+          minimum: 1
+          default: 200
+          title: Page Size
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_JobFundScopePageData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{job_id}/issues:
+    get:
+      tags:
+      - jobs
+      summary: Job Issues
+      description: 查询任务各阶段跳过与失败基金；参数 job_id/request/session。
+      operationId: job_issues_api_jobs__job_id__issues_get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_JobFundIssuePageData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/jobs/{job_id}/events:
+    get:
+      tags:
+      - jobs
+      summary: Job Events
+      description: 以 SSE 推送任务事件；参数 job_id/request/last_event_id。
+      operationId: job_events_api_jobs__job_id__events_get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Job Id
+      - name: Last-Event-ID
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Last-Event-Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/models:
+    get:
+      tags:
+      - settings
+      summary: Model Settings
+      description: 读取本机模型设置；参数 request/response 为请求上下文。
+      operationId: model_settings_api_settings_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_ModelSettingsData_'
+    put:
+      tags:
+      - settings
+      summary: Save Model Settings
+      description: 保存模型设置；参数 body/request/response 为更新内容和请求上下文。
+      operationId: save_model_settings_api_settings_models_put
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModelSettingsUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_ModelSettingsData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/settings/models/local-health:
+    get:
+      tags:
+      - settings
+      summary: Local Model Health
+      description: 检查本地模型服务是否可用；参数 request/response 为请求上下文。
+      operationId: local_model_health_api_settings_models_local_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_LocalModelHealthData_'
+  /api/knowledge/status:
+    get:
+      tags:
+      - knowledge
+      summary: Knowledge Status
+      description: 返回当前发布快照的知识索引质量；参数 request/session 为上下文。
+      operationId: knowledge_status_api_knowledge_status_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_KnowledgeIndexStatusData_'
+  /api/knowledge/search:
+    get:
+      tags:
+      - knowledge
+      summary: Knowledge Search
+      description: 检索发布快照中的页级证据；参数为查询范围与数据库会话。
+      operationId: knowledge_search_api_knowledge_search_get
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Q
+      - name: mode
+        in: query
+        required: false
+        schema:
+          enum:
+          - fulltext
+          - vector
+          - hybrid
+          type: string
+          default: fulltext
+          title: Mode
+      - name: fund_codes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          default: []
+          title: Fund Codes
+      - name: report_periods
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            format: date
+          default: []
+          title: Report Periods
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          default: 10
+          title: Limit
+      - name: snapshot_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Snapshot Id
+      - name: query_vector
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: number
+          default: []
+          title: Query Vector
+      - name: embedding_model
+        in: query
+        required: false
+        schema:
+          type: string
+          default: BAAI/bge-m3
+          title: Embedding Model
+      - name: embedding_version
+        in: query
+        required: false
+        schema:
+          type: string
+          default: v1
+          title: Embedding Version
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_KnowledgeSearchData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/agent/intent:
+    post:
+      tags:
+      - agent
+      summary: Recognize Intent
+      description: 识别意图并返回受控路由；参数 body/request 为请求和 API 上下文。
+      operationId: recognize_intent_api_agent_intent_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IntentRecognitionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_IntentRecognitionData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/agent/plan:
+    post:
+      tags:
+      - agent
+      summary: Plan
+      description: 生成只读或待确认的 Agent 计划；参数 body/request/session 为请求和数据库上下文。
+      operationId: plan_api_agent_plan_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentPlanRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_AgentPlanData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/agent/runs/{run_id}:
+    get:
+      tags:
+      - agent
+      summary: Run Detail
+      description: 读取 Agent 计划；参数 run_id/request/session 为运行 ID 和数据库上下文。
+      operationId: run_detail_api_agent_runs__run_id__get
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Run Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_AgentPlanData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/agent/runs/{run_id}/confirm:
+    post:
+      tags:
+      - agent
+      summary: Confirm
+      description: 确认或拒绝 Agent 计划；参数 run_id/body/request/session 为运行、确认和数据库上下文。
+      operationId: confirm_api_agent_runs__run_id__confirm_post
+      parameters:
+      - name: run_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Run Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentConfirmRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse_AgentPlanData_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    AgentConfirmRequest:
+      properties:
+        confirmed:
+          type: boolean
+          title: Confirmed
+      type: object
+      required:
+      - confirmed
+      title: AgentConfirmRequest
+      description: 确认或拒绝计划；参数 confirmed 表示是否允许创建任务。
+    AgentPlanData:
+      properties:
+        run_id:
+          type: string
+          format: uuid
+          title: Run Id
+        snapshot_id:
+          type: string
+          format: uuid
+          title: Snapshot Id
+        status:
+          type: string
+          enum:
+          - read_only
+          - awaiting_confirmation
+          - confirmed
+          - rejected
+          - failed
+          - needs_clarification
+          title: Status
+        intent:
+          type: string
+          enum:
+          - query
+          - compare
+          - supplementary_source
+          - create_monthly_job
+          - create_semiannual_job
+          title: Intent
+        intent_envelope:
+          anyOf:
+          - $ref: '#/components/schemas/IntentEnvelope'
+          - type: 'null'
+        question:
+          type: string
+          title: Question
+        plan:
+          additionalProperties: true
+          type: object
+          title: Plan
+        scope_definition:
+          additionalProperties: true
+          type: object
+          title: Scope Definition
+        scope_count:
+          type: integer
+          title: Scope Count
+        task_target:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Task Target
+        model_policy:
+          additionalProperties: true
+          type: object
+          title: Model Policy
+        estimated_minutes:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Estimated Minutes
+        impact_summary:
+          items:
+            type: string
+          type: array
+          title: Impact Summary
+        limitations:
+          items:
+            type: string
+          type: array
+          title: Limitations
+        requires_confirmation:
+          type: boolean
+          title: Requires Confirmation
+        confirmation_expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Confirmation Expires At
+        job_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Job Id
+      type: object
+      required:
+      - run_id
+      - snapshot_id
+      - status
+      - intent
+      - question
+      - scope_count
+      - requires_confirmation
+      title: AgentPlanData
+      description: 受控 Agent 计划和执行结果；参数由计划服务填充。
+    AgentPlanRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Question
+        fund_codes:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          title: Fund Codes
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        collection_session_key:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Collection Session Key
+        task_target:
+          anyOf:
+          - type: string
+            enum:
+            - fund_monthly
+            - fund_semiannual
+          - type: 'null'
+          title: Task Target
+        structured_provider:
+          anyOf:
+          - type: string
+            enum:
+            - deepseek
+            - qwen
+            - local
+          - type: 'null'
+          title: Structured Provider
+      type: object
+      required:
+      - question
+      title: AgentPlanRequest
+      description: 生成受控计划；参数为自然语言问题、基金范围和可选任务策略。
+    AllocationValue:
+      properties:
+        dimension:
+          type: string
+          title: Dimension
+        category:
+          type: string
+          title: Category
+        weight:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Weight
+        unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unit
+        report_period:
+          type: string
+          format: date
+          title: Report Period
+        source_page:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Source Page
+        source_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Label
+      type: object
+      required:
+      - dimension
+      - category
+      - weight
+      - unit
+      - report_period
+      - source_page
+      title: AllocationValue
+      description: One regional, sector, duration or rating allocation.
+    ApiResponse_AgentPlanData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/AgentPlanData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[AgentPlanData]
+    ApiResponse_ChatResponseData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatResponseData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[ChatResponseData]
+    ApiResponse_FundCollectionData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/FundCollectionData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[FundCollectionData]
+    ApiResponse_FundDetailData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/FundDetailData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[FundDetailData]
+    ApiResponse_FundPageData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/FundPageData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[FundPageData]
+    ApiResponse_HealthData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/HealthData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[HealthData]
+    ApiResponse_IntentRecognitionData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/IntentRecognitionData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[IntentRecognitionData]
+    ApiResponse_JobData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/JobData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[JobData]
+    ApiResponse_JobFundIssuePageData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/JobFundIssuePageData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[JobFundIssuePageData]
+    ApiResponse_JobFundScopePageData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/JobFundScopePageData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[JobFundScopePageData]
+    ApiResponse_JobPageData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/JobPageData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[JobPageData]
+    ApiResponse_KnowledgeIndexStatusData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/KnowledgeIndexStatusData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[KnowledgeIndexStatusData]
+    ApiResponse_KnowledgeSearchData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/KnowledgeSearchData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[KnowledgeSearchData]
+    ApiResponse_LocalModelHealthData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/LocalModelHealthData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[LocalModelHealthData]
+    ApiResponse_MasterDatabaseImportData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/MasterDatabaseImportData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[MasterDatabaseImportData]
+    ApiResponse_MasterDatabaseOptionsData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/MasterDatabaseOptionsData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[MasterDatabaseOptionsData]
+    ApiResponse_MetricListData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/MetricListData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[MetricListData]
+    ApiResponse_ModelSettingsData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/ModelSettingsData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[ModelSettingsData]
+    ApiResponse_PerspectiveData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/PerspectiveData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[PerspectiveData]
+    ApiResponse_PublishResultData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/PublishResultData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[PublishResultData]
+    ApiResponse_QualityPageData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/QualityPageData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[QualityPageData]
+    ApiResponse_QualityReviewActionData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/QualityReviewActionData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[QualityReviewActionData]
+    ApiResponse_QualityReviewData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/QualityReviewData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[QualityReviewData]
+    ApiResponse_ScopeOptionsData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/ScopeOptionsData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[ScopeOptionsData]
+    ApiResponse_SnapshotData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/SnapshotData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[SnapshotData]
+    ApiResponse_SourceManagementData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/SourceManagementData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[SourceManagementData]
+    ApiResponse_SupplementarySourceData_:
+      properties:
+        data:
+          $ref: '#/components/schemas/SupplementarySourceData'
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[SupplementarySourceData]
+    ApiResponse_list_FundCollectionData__:
+      properties:
+        data:
+          items:
+            $ref: '#/components/schemas/FundCollectionData'
+          type: array
+          title: Data
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        request_id:
+          type: string
+          title: Request Id
+        meta:
+          $ref: '#/components/schemas/ResponseMeta'
+      type: object
+      required:
+      - data
+      - snapshot_id
+      - request_id
+      - meta
+      title: ApiResponse[list[FundCollectionData]]
+    CategoryOptionData:
+      properties:
+        category:
+          type: string
+          title: Category
+        fund_count:
+          type: integer
+          title: Fund Count
+      type: object
+      required:
+      - category
+      - fund_count
+      title: CategoryOptionData
+      description: 资产类别范围选项。
+    ChatClaim:
+      properties:
+        claim_id:
+          type: string
+          title: Claim Id
+        text:
+          type: string
+          title: Text
+        evidence_ids:
+          items:
+            type: string
+          type: array
+          title: Evidence Ids
+      type: object
+      required:
+      - claim_id
+      - text
+      title: ChatClaim
+      description: 回答中的一条可追溯事实声明。
+    ChatEvidence:
+      properties:
+        evidence_id:
+          type: string
+          title: Evidence Id
+        evidence_type:
+          type: string
+          enum:
+          - structured_record
+          - document_chunk
+          title: Evidence Type
+        supports:
+          type: string
+          title: Supports
+        fund_code:
+          type: string
+          title: Fund Code
+        fund_name:
+          type: string
+          title: Fund Name
+        report_period:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+        document_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Document Version Id
+        page_number:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Page Number
+        section_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Section Title
+        citation_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Citation Tier
+        source_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Label
+        source_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Path
+        source_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Url
+        content:
+          type: string
+          title: Content
+        content_hash:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content Hash
+      type: object
+      required:
+      - evidence_id
+      - evidence_type
+      - supports
+      - fund_code
+      - fund_name
+      - report_period
+      - document_version_id
+      - page_number
+      - content
+      title: ChatEvidence
+      description: 可审计证据；结构化记录不伪造 PDF 页码。
+    ChatRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Question
+        fund_codes:
+          items:
+            type: string
+          type: array
+          maxItems: 100
+          title: Fund Codes
+        report_period:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+        snapshot_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Snapshot Id
+        mode:
+          type: string
+          enum:
+          - fulltext
+          - vector
+          - hybrid
+          title: Mode
+          default: hybrid
+        query_vector:
+          items:
+            type: number
+          type: array
+          maxItems: 1024
+          title: Query Vector
+        limit:
+          type: integer
+          maximum: 20.0
+          minimum: 1.0
+          title: Limit
+          default: 8
+      type: object
+      required:
+      - question
+      title: ChatRequest
+      description: 问答请求；参数为问题、基金范围、报告期和检索模式。
+    ChatResponseData:
+      properties:
+        question:
+          type: string
+          title: Question
+        status:
+          type: string
+          enum:
+          - answered
+          - insufficient_evidence
+          - evidence_only
+          title: Status
+        route:
+          type: string
+          enum:
+          - sql
+          - sql+knowledge
+          - knowledge_search
+          title: Route
+        answer:
+          type: string
+          title: Answer
+        snapshot_id:
+          type: string
+          format: uuid
+          title: Snapshot Id
+        structured_values:
+          items:
+            $ref: '#/components/schemas/ChatStructuredValue'
+          type: array
+          title: Structured Values
+        claims:
+          items:
+            $ref: '#/components/schemas/ChatClaim'
+          type: array
+          title: Claims
+        evidence:
+          items:
+            $ref: '#/components/schemas/ChatEvidence'
+          type: array
+          title: Evidence
+        limitations:
+          items:
+            type: string
+          type: array
+          title: Limitations
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      required:
+      - question
+      - status
+      - route
+      - answer
+      - snapshot_id
+      title: ChatResponseData
+      description: 问答结果；每条事实声明必须能回指证据。
+    ChatStructuredValue:
+      properties:
+        fund_code:
+          type: string
+          title: Fund Code
+        fund_name:
+          type: string
+          title: Fund Name
+        report_period:
+          type: string
+          format: date
+          title: Report Period
+        field:
+          type: string
+          title: Field
+        value:
+          anyOf:
+          - type: number
+          - type: string
+          - type: 'null'
+          title: Value
+        unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unit
+        review_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Review Status
+        quality_status:
+          type: string
+          title: Quality Status
+        document_version_id:
+          type: string
+          format: uuid
+          title: Document Version Id
+      type: object
+      required:
+      - fund_code
+      - fund_name
+      - report_period
+      - field
+      - value
+      - unit
+      - quality_status
+      - document_version_id
+      title: ChatStructuredValue
+      description: SQL 直接命中的结构化值。
+    DeepseekSettingsData:
+      properties:
+        base_url:
+          type: string
+          title: Base Url
+        api_key:
+          type: string
+          title: Api Key
+        api_key_configured:
+          type: boolean
+          title: Api Key Configured
+        api_key_hint:
+          type: string
+          title: Api Key Hint
+        primary_model:
+          type: string
+          title: Primary Model
+        fallback_model:
+          type: string
+          title: Fallback Model
+        vision_model:
+          type: string
+          title: Vision Model
+      type: object
+      required:
+      - base_url
+      - api_key
+      - api_key_configured
+      - api_key_hint
+      - primary_model
+      - fallback_model
+      - vision_model
+      title: DeepseekSettingsData
+      description: DeepSeek 本机配置。
+    DeepseekSettingsUpdate:
+      properties:
+        base_url:
+          type: string
+          maxLength: 1000
+          minLength: 1
+          title: Base Url
+        api_key:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Api Key
+        clear_api_key:
+          type: boolean
+          title: Clear Api Key
+          default: false
+        primary_model:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Primary Model
+        fallback_model:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Fallback Model
+        vision_model:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Vision Model
+      type: object
+      required:
+      - base_url
+      - primary_model
+      - fallback_model
+      - vision_model
+      title: DeepseekSettingsUpdate
+      description: DeepSeek 设置更新请求。
+    DownloadSourceOption:
+      properties:
+        rank:
+          type: integer
+          title: Rank
+        kind:
+          type: string
+          title: Kind
+        stability:
+          type: string
+          title: Stability
+        source_url:
+          type: string
+          title: Source Url
+        run_command:
+          type: string
+          title: Run Command
+        reason:
+          type: string
+          title: Reason
+      type: object
+      required:
+      - rank
+      - kind
+      - stability
+      - source_url
+      - run_command
+      - reason
+      title: DownloadSourceOption
+      description: One executable source in fallback order.
+    FundCollectionData:
+      properties:
+        collection_id:
+          type: string
+          format: uuid
+          title: Collection Id
+        label:
+          type: string
+          title: Label
+        fund_codes:
+          items:
+            type: string
+          type: array
+          title: Fund Codes
+        count:
+          type: integer
+          title: Count
+        expires_at:
+          type: string
+          format: date-time
+          title: Expires At
+      type: object
+      required:
+      - collection_id
+      - label
+      - fund_codes
+      - count
+      - expires_at
+      title: FundCollectionData
+      description: 临时基金集合。
+    FundDetailData:
+      properties:
+        fund_id:
+          type: string
+          format: uuid
+          title: Fund Id
+        fund_code:
+          type: string
+          title: Fund Code
+        name_cn:
+          type: string
+          title: Name Cn
+        name_en:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name En
+        manager_id:
+          type: string
+          format: uuid
+          title: Manager Id
+        manager_name:
+          type: string
+          title: Manager Name
+        manager_name_en:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Manager Name En
+        manager_short_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Manager Short Name
+        umbrella_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Umbrella Name
+        umbrella_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Umbrella Code
+        asset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Category
+        asset_subcategory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Subcategory
+        domicile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Domicile
+        base_currency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Currency
+        management_style:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Management Style
+        status:
+          type: string
+          title: Status
+        sfc_authorized_at:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Sfc Authorized At
+        regulation_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Regulation Category
+        tracking_index:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tracking Index
+        quality_status:
+          $ref: '#/components/schemas/QualityStatus'
+        report_period:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+        metrics:
+          items:
+            $ref: '#/components/schemas/MetricValue'
+          type: array
+          title: Metrics
+        holdings:
+          items:
+            $ref: '#/components/schemas/HoldingValue'
+          type: array
+          title: Holdings
+        allocations:
+          items:
+            $ref: '#/components/schemas/AllocationValue'
+          type: array
+          title: Allocations
+        reports:
+          items:
+            $ref: '#/components/schemas/FundReportData'
+          type: array
+          title: Reports
+        report_sources:
+          items:
+            $ref: '#/components/schemas/ReportSource'
+          type: array
+          title: Report Sources
+        regions:
+          items:
+            additionalProperties:
+              type: string
+            type: object
+          type: array
+          title: Regions
+        tags:
+          items:
+            additionalProperties:
+              type: string
+            type: object
+          type: array
+          title: Tags
+        stock_codes:
+          items:
+            type: string
+          type: array
+          title: Stock Codes
+        latest_document:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Latest Document
+      type: object
+      required:
+      - fund_id
+      - fund_code
+      - name_cn
+      - name_en
+      - manager_id
+      - manager_name
+      - manager_name_en
+      - manager_short_name
+      - umbrella_name
+      - umbrella_code
+      - asset_category
+      - asset_subcategory
+      - domicile
+      - base_currency
+      - management_style
+      - status
+      - sfc_authorized_at
+      - regulation_category
+      - tracking_index
+      - quality_status
+      - report_period
+      title: FundDetailData
+      description: Complete deterministic fund detail.
+    FundPageData:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/FundSummary'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+        total:
+          type: integer
+          title: Total
+        matching_fund_codes:
+          items:
+            type: string
+          type: array
+          title: Matching Fund Codes
+        secondary_options:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Secondary Options
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      - total
+      title: FundPageData
+      description: Paginated fund result.
+    FundReportData:
+      properties:
+        report_period:
+          type: string
+          format: date
+          title: Report Period
+        document_version_id:
+          type: string
+          format: uuid
+          title: Document Version Id
+        source_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Label
+        report_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Report Kind
+        metrics:
+          items:
+            $ref: '#/components/schemas/MetricValue'
+          type: array
+          title: Metrics
+        holdings:
+          items:
+            $ref: '#/components/schemas/HoldingValue'
+          type: array
+          title: Holdings
+        allocations:
+          items:
+            $ref: '#/components/schemas/AllocationValue'
+          type: array
+          title: Allocations
+      type: object
+      required:
+      - report_period
+      - document_version_id
+      title: FundReportData
+      description: Structured data grouped by one report period/source.
+    FundSummary:
+      properties:
+        fund_id:
+          type: string
+          format: uuid
+          title: Fund Id
+        fund_code:
+          type: string
+          title: Fund Code
+        name_cn:
+          type: string
+          title: Name Cn
+        name_en:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name En
+        manager_id:
+          type: string
+          format: uuid
+          title: Manager Id
+        manager_name:
+          type: string
+          title: Manager Name
+        umbrella_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Umbrella Name
+        asset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Category
+        asset_subcategory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Subcategory
+        status:
+          type: string
+          title: Status
+        report_period:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+        quality_status:
+          $ref: '#/components/schemas/QualityStatus'
+        latest_scale:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Latest Scale
+        latest_scale_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Latest Scale Date
+        secondary_values:
+          additionalProperties:
+            anyOf:
+            - type: string
+            - type: 'null'
+          type: object
+          title: Secondary Values
+      type: object
+      required:
+      - fund_id
+      - fund_code
+      - name_cn
+      - name_en
+      - manager_id
+      - manager_name
+      - umbrella_name
+      - asset_category
+      - asset_subcategory
+      - status
+      - report_period
+      - quality_status
+      title: FundSummary
+      description: Fund row used by browse and compare workflows.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    HealthData:
+      properties:
+        status:
+          type: string
+          title: Status
+        database:
+          type: string
+          title: Database
+        snapshot_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Snapshot Id
+        fund_count:
+          type: integer
+          title: Fund Count
+        report_source_count:
+          type: integer
+          title: Report Source Count
+      type: object
+      required:
+      - status
+      - database
+      - snapshot_id
+      - fund_count
+      - report_source_count
+      title: HealthData
+      description: Database and publication health summary.
+    HoldingValue:
+      properties:
+        security_name:
+          type: string
+          title: Security Name
+        ticker:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ticker
+        weight:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Weight
+        market_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Market Value
+        holding_quantity:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Holding Quantity
+        registration_place:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Registration Place
+        holding_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Holding Type
+        report_period:
+          type: string
+          format: date
+          title: Report Period
+        source_page:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Source Page
+        source_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Label
+      type: object
+      required:
+      - security_name
+      - ticker
+      - weight
+      - market_value
+      - report_period
+      - source_page
+      title: HoldingValue
+      description: One security holding.
+    IntentCandidate:
+      properties:
+        intent:
+          type: string
+          enum:
+          - query_metric
+          - query_holdings
+          - compare_funds
+          - explain_report
+          - trace_quality_issue
+          - locate_source
+          - find_missing_data
+          - plan_monthly_job
+          - plan_semiannual_job
+          - plan_supplement_source
+          - unknown
+          title: Intent
+        score:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Score
+        reasons:
+          items:
+            type: string
+          type: array
+          title: Reasons
+      type: object
+      required:
+      - intent
+      - score
+      title: IntentCandidate
+      description: 规则层产生的候选意图；参数 intent/score/reasons 为候选信息。
+    IntentConstraints:
+      properties:
+        metric:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Metric
+        top_n:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 1.0
+          - type: 'null'
+          title: Top N
+        currency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Currency
+        source_requirement:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Requirement
+      type: object
+      title: IntentConstraints
+      description: 意图查询约束；参数为指标、持仓数量、币种和来源要求。
+    IntentEnvelope:
+      properties:
+        schema_version:
+          type: string
+          const: intent-v1
+          title: Schema Version
+          default: intent-v1
+        intent:
+          type: string
+          enum:
+          - query_metric
+          - query_holdings
+          - compare_funds
+          - explain_report
+          - trace_quality_issue
+          - locate_source
+          - find_missing_data
+          - plan_monthly_job
+          - plan_semiannual_job
+          - plan_supplement_source
+          - unknown
+          title: Intent
+          default: unknown
+        operation:
+          type: string
+          enum:
+          - read
+          - plan
+          - write
+          title: Operation
+          default: read
+        domain:
+          type: string
+          enum:
+          - fund_metric
+          - holding
+          - report
+          - quality
+          - task
+          - unknown
+          title: Domain
+          default: unknown
+        scope:
+          $ref: '#/components/schemas/IntentScope'
+        time:
+          $ref: '#/components/schemas/IntentTime'
+        constraints:
+          $ref: '#/components/schemas/IntentConstraints'
+        output:
+          type: string
+          enum:
+          - answer_with_evidence
+          - table
+          - evidence_only
+          - task_plan
+          - clarification
+          title: Output
+          default: clarification
+        confidence:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Confidence
+          default: 0.0
+        needs_clarification:
+          type: boolean
+          title: Needs Clarification
+          default: false
+        clarification_question:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Clarification Question
+        reasons:
+          items:
+            type: string
+          type: array
+          maxItems: 20
+          title: Reasons
+        classifier:
+          type: string
+          enum:
+          - rules
+          - local_qwen
+          title: Classifier
+          default: rules
+        classifier_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Classifier Model
+        classifier_latency_ms:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Classifier Latency Ms
+      type: object
+      title: IntentEnvelope
+      description: 统一意图结果；参数由预解析器或本地模型分类器生成。
+    IntentRecognitionData:
+      properties:
+        envelope:
+          $ref: '#/components/schemas/IntentEnvelope'
+        candidates:
+          items:
+            $ref: '#/components/schemas/IntentCandidate'
+          type: array
+          title: Candidates
+        route:
+          $ref: '#/components/schemas/RouteDecision'
+      type: object
+      required:
+      - envelope
+      - route
+      title: IntentRecognitionData
+      description: 意图识别结果；参数由规则候选、统一意图和路由策略填充。
+    IntentRecognitionRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 2000
+          minLength: 1
+          title: Question
+        task_target:
+          anyOf:
+          - type: string
+            enum:
+            - fund_monthly
+            - fund_semiannual
+          - type: 'null'
+          title: Task Target
+        allow_local_model:
+          type: boolean
+          title: Allow Local Model
+          default: false
+      type: object
+      required:
+      - question
+      title: IntentRecognitionRequest
+      description: 意图识别请求；参数 question/task_target/allow_local_model 为问题、任务目标和模型开关。
+    IntentScope:
+      properties:
+        fund_codes:
+          items:
+            type: string
+          type: array
+          maxItems: 1000
+          title: Fund Codes
+        collection_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Collection Id
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        manager:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Manager
+      type: object
+      title: IntentScope
+      description: 意图作用范围；参数由规则或模型分类器填充。
+    IntentTime:
+      properties:
+        report_type:
+          type: string
+          enum:
+          - monthly
+          - semiannual
+          - annual
+          - unknown
+          title: Report Type
+          default: unknown
+        report_date:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Date
+        latest:
+          type: boolean
+          title: Latest
+          default: false
+      type: object
+      title: IntentTime
+      description: 意图时间约束；参数 report_type/report_date/latest 为报告口径。
+    JobCreateRequest:
+      properties:
+        scope:
+          $ref: '#/components/schemas/JobScopeRequest'
+        stages:
+          items:
+            $ref: '#/components/schemas/StageName'
+          type: array
+          minItems: 1
+          title: Stages
+        input_job_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Input Job Id
+        document_policy:
+          additionalProperties: true
+          type: object
+          title: Document Policy
+        model_policy:
+          additionalProperties: true
+          type: object
+          title: Model Policy
+        task_target:
+          $ref: '#/components/schemas/TaskTarget'
+          default: fund_monthly
+      type: object
+      required:
+      - scope
+      - stages
+      title: JobCreateRequest
+      description: Create-job request body.
+    JobData:
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+        batch_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Batch Id
+        base_batch_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Base Batch Id
+        status:
+          type: string
+          title: Status
+        outcome:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Outcome
+        scope_count:
+          type: integer
+          title: Scope Count
+        scope_definition:
+          additionalProperties: true
+          type: object
+          title: Scope Definition
+        model_policy:
+          additionalProperties: true
+          type: object
+          title: Model Policy
+        scope_display:
+          $ref: '#/components/schemas/JobScopeDisplayData'
+        requested_stages:
+          items:
+            type: string
+          type: array
+          title: Requested Stages
+        scope_hash:
+          type: string
+          title: Scope Hash
+        current_stage:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Stage
+        cancellation_requested:
+          type: boolean
+          title: Cancellation Requested
+        progress:
+          $ref: '#/components/schemas/JobProgress'
+        steps:
+          items:
+            $ref: '#/components/schemas/JobStepData'
+          type: array
+          title: Steps
+        lock:
+          $ref: '#/components/schemas/JobLockData'
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        started_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Started At
+        finished_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Finished At
+        error_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Code
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        manifest_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Manifest Path
+        task_target:
+          $ref: '#/components/schemas/TaskTarget'
+          default: fund_monthly
+      type: object
+      required:
+      - job_id
+      - batch_id
+      - base_batch_id
+      - status
+      - outcome
+      - scope_count
+      - scope_definition
+      - scope_display
+      - requested_stages
+      - scope_hash
+      - current_stage
+      - cancellation_requested
+      - progress
+      - steps
+      - lock
+      - created_at
+      - started_at
+      - finished_at
+      - error_code
+      - error_message
+      - manifest_path
+      title: JobData
+      description: Task state returned by list and detail endpoints.
+    JobFundIssueData:
+      properties:
+        fund_id:
+          type: string
+          format: uuid
+          title: Fund Id
+        fund_code:
+          type: string
+          title: Fund Code
+        fund_name:
+          type: string
+          title: Fund Name
+        stage:
+          type: string
+          title: Stage
+        result_status:
+          type: string
+          title: Result Status
+        reason:
+          type: string
+          title: Reason
+      type: object
+      required:
+      - fund_id
+      - fund_code
+      - fund_name
+      - stage
+      - result_status
+      - reason
+      title: JobFundIssueData
+      description: 任务内按阶段聚合的跳过或失败基金。
+    JobFundIssuePageData:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/JobFundIssueData'
+          type: array
+          title: Items
+        total:
+          type: integer
+          title: Total
+        skipped:
+          type: integer
+          title: Skipped
+        failed:
+          type: integer
+          title: Failed
+      type: object
+      required:
+      - items
+      - total
+      - skipped
+      - failed
+      title: JobFundIssuePageData
+      description: 任务异常基金明细。
+    JobFundScopeItemData:
+      properties:
+        fund_id:
+          type: string
+          format: uuid
+          title: Fund Id
+        fund_code:
+          type: string
+          title: Fund Code
+        fund_name:
+          type: string
+          title: Fund Name
+        result_status:
+          type: string
+          title: Result Status
+        skip_reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Skip Reason
+      type: object
+      required:
+      - fund_id
+      - fund_code
+      - fund_name
+      - result_status
+      - skip_reason
+      title: JobFundScopeItemData
+      description: 任务内单基金的执行结果与原因。
+    JobFundScopePageData:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/JobFundScopeItemData'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      - total
+      title: JobFundScopePageData
+      description: 任务基金结果分页。
+    JobLockData:
+      properties:
+        acquired:
+          type: boolean
+          title: Acquired
+        owner:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Owner
+        expires_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Expires At
+      type: object
+      required:
+      - acquired
+      - owner
+      - expires_at
+      title: JobLockData
+      description: Current global write lock metadata.
+    JobPageData:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/JobData'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      - total
+      title: JobPageData
+      description: Paginated task list.
+    JobProgress:
+      properties:
+        total:
+          type: integer
+          title: Total
+        processed:
+          type: integer
+          title: Processed
+        succeeded:
+          type: integer
+          title: Succeeded
+        skipped:
+          type: integer
+          title: Skipped
+        failed:
+          type: integer
+          title: Failed
+      type: object
+      required:
+      - total
+      - processed
+      - succeeded
+      - skipped
+      - failed
+      title: JobProgress
+      description: Aggregate progress across all requested stages.
+    JobScopeDisplayData:
+      properties:
+        mode:
+          type: string
+          title: Mode
+        primary:
+          type: string
+          title: Primary
+        secondary:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Secondary
+      type: object
+      required:
+      - mode
+      - primary
+      - secondary
+      title: JobScopeDisplayData
+      description: 面向界面的任务范围名称。
+    JobScopeRequest:
+      properties:
+        mode:
+          $ref: '#/components/schemas/ScopeMode'
+        manager_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Manager Ids
+        categories:
+          items:
+            type: string
+          type: array
+          title: Categories
+        fund_codes:
+          items:
+            type: string
+          type: array
+          title: Fund Codes
+        tag_filters:
+          items:
+            type: string
+          type: array
+          title: Tag Filters
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        collection_session_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Collection Session Key
+      type: object
+      required:
+      - mode
+      title: JobScopeRequest
+      description: Task scope frozen when the job is created.
+    JobStepData:
+      properties:
+        step_type:
+          type: string
+          title: Step Type
+        status:
+          type: string
+          title: Status
+        total:
+          type: integer
+          title: Total
+        succeeded:
+          type: integer
+          title: Succeeded
+        skipped:
+          type: integer
+          title: Skipped
+        failed:
+          type: integer
+          title: Failed
+      type: object
+      required:
+      - step_type
+      - status
+      - total
+      - succeeded
+      - skipped
+      - failed
+      title: JobStepData
+      description: One stage summary.
+    KnowledgeIndexStatusData:
+      properties:
+        snapshot_id:
+          type: string
+          format: uuid
+          title: Snapshot Id
+        index_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Index Status
+        index_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Index Version
+        parser_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Parser Version
+        documents:
+          type: integer
+          title: Documents
+        funds:
+          type: integer
+          title: Funds
+        pages:
+          type: integer
+          title: Pages
+        chunks:
+          type: integer
+          title: Chunks
+        embeddings:
+          type: integer
+          title: Embeddings
+        incomplete_chunks:
+          type: integer
+          title: Incomplete Chunks
+        citation_tiers:
+          additionalProperties:
+            type: integer
+          type: object
+          title: Citation Tiers
+        vector_model:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vector Model
+        vector_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Vector Version
+      type: object
+      required:
+      - snapshot_id
+      - index_status
+      - index_version
+      - parser_version
+      - documents
+      - funds
+      - pages
+      - chunks
+      - embeddings
+      - incomplete_chunks
+      - citation_tiers
+      - vector_model
+      - vector_version
+      title: KnowledgeIndexStatusData
+      description: Published knowledge index quality and runtime status.
+    KnowledgeSearchData:
+      properties:
+        query:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Query
+        mode:
+          type: string
+          enum:
+          - fulltext
+          - vector
+          - hybrid
+          title: Mode
+        vector_available:
+          type: boolean
+          title: Vector Available
+        limitations:
+          items:
+            type: string
+          type: array
+          title: Limitations
+        items:
+          items:
+            $ref: '#/components/schemas/KnowledgeSearchItem'
+          type: array
+          title: Items
+      type: object
+      required:
+      - query
+      - mode
+      - vector_available
+      - items
+      title: KnowledgeSearchData
+      description: Knowledge search result envelope data.
+    KnowledgeSearchItem:
+      properties:
+        chunk_id:
+          type: string
+          format: uuid
+          title: Chunk Id
+        fund_id:
+          type: string
+          format: uuid
+          title: Fund Id
+        fund_code:
+          type: string
+          title: Fund Code
+        fund_name:
+          type: string
+          title: Fund Name
+        report_period:
+          type: string
+          format: date
+          title: Report Period
+        document_version_id:
+          type: string
+          format: uuid
+          title: Document Version Id
+        page_number:
+          type: integer
+          title: Page Number
+        section_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Section Title
+        chunk_type:
+          type: string
+          title: Chunk Type
+        citation_tier:
+          type: string
+          title: Citation Tier
+        content:
+          type: string
+          title: Content
+        source_path:
+          type: string
+          title: Source Path
+        score:
+          type: number
+          title: Score
+        content_hash:
+          type: string
+          title: Content Hash
+      type: object
+      required:
+      - chunk_id
+      - fund_id
+      - fund_code
+      - fund_name
+      - report_period
+      - document_version_id
+      - page_number
+      - section_title
+      - chunk_type
+      - citation_tier
+      - content
+      - source_path
+      - score
+      - content_hash
+      title: KnowledgeSearchItem
+      description: One citation-ready search result.
+    LocalModelHealthData:
+      properties:
+        available:
+          type: boolean
+          title: Available
+        base_url:
+          type: string
+          title: Base Url
+        models:
+          items:
+            type: string
+          type: array
+          title: Models
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+      type: object
+      required:
+      - available
+      - base_url
+      title: LocalModelHealthData
+      description: 本地模型服务的轻量健康检查结果。
+    LocalModelSettingsData:
+      properties:
+        base_url:
+          type: string
+          title: Base Url
+        primary_model:
+          type: string
+          title: Primary Model
+        workers:
+          type: integer
+          maximum: 2.0
+          minimum: 1.0
+          title: Workers
+      type: object
+      required:
+      - base_url
+      - primary_model
+      - workers
+      title: LocalModelSettingsData
+      description: 本地 Qwen 模型运行时配置。
+    LocalModelSettingsUpdate:
+      properties:
+        base_url:
+          type: string
+          maxLength: 1000
+          minLength: 1
+          title: Base Url
+        primary_model:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Primary Model
+        workers:
+          type: integer
+          maximum: 2.0
+          minimum: 1.0
+          title: Workers
+          default: 1
+      type: object
+      required:
+      - base_url
+      - primary_model
+      title: LocalModelSettingsUpdate
+      description: 本地 Qwen 模型设置更新请求。
+    ManagerOptionData:
+      properties:
+        manager_id:
+          type: string
+          format: uuid
+          title: Manager Id
+        manager_name:
+          type: string
+          title: Manager Name
+        fund_count:
+          type: integer
+          title: Fund Count
+      type: object
+      required:
+      - manager_id
+      - manager_name
+      - fund_count
+      title: ManagerOptionData
+      description: 管理人范围选项。
+    MasterDatabaseImportData:
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+        workbook_path:
+          type: string
+          title: Workbook Path
+        summary:
+          additionalProperties: true
+          type: object
+          title: Summary
+      type: object
+      required:
+      - job_id
+      - workbook_path
+      - summary
+      title: MasterDatabaseImportData
+      description: 综合资料库落库结果。
+    MasterDatabaseOptionsData:
+      properties:
+        default_reference_file:
+          type: string
+          title: Default Reference File
+        reference_files:
+          items:
+            type: string
+          type: array
+          title: Reference Files
+        default_sheet:
+          type: string
+          title: Default Sheet
+          default: 主数据
+        default_rename_sheet:
+          type: string
+          title: Default Rename Sheet
+          default: 改名
+        crawler_root:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Crawler Root
+        crawler_available:
+          type: boolean
+          title: Crawler Available
+      type: object
+      required:
+      - default_reference_file
+      - crawler_available
+      title: MasterDatabaseOptionsData
+      description: 综合资料库任务的可用参考文件与旧爬虫状态。
+    MetricListData:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/MetricValue'
+          type: array
+          title: Items
+        report_period:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+        quality_status:
+          $ref: '#/components/schemas/QualityStatus'
+      type: object
+      required:
+      - items
+      - report_period
+      - quality_status
+      title: MetricListData
+      description: Latest metric set for one fund.
+    MetricValue:
+      properties:
+        metric_name:
+          type: string
+          title: Metric Name
+        numeric_value:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Numeric Value
+        text_value:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Text Value
+        unit:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Unit
+        report_period:
+          type: string
+          format: date
+          title: Report Period
+        review_status:
+          type: string
+          title: Review Status
+        quality_status:
+          $ref: '#/components/schemas/QualityStatus'
+        source_page:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Source Page
+        document_version_id:
+          type: string
+          format: uuid
+          title: Document Version Id
+        source_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Label
+      type: object
+      required:
+      - metric_name
+      - numeric_value
+      - text_value
+      - unit
+      - report_period
+      - review_status
+      - quality_status
+      - source_page
+      - document_version_id
+      title: MetricValue
+      description: A single traceable metric value.
+    MineruSettingsData:
+      properties:
+        mode:
+          type: string
+          enum:
+          - lightweight
+          - token
+          title: Mode
+        api_url:
+          type: string
+          title: Api Url
+        api_token:
+          type: string
+          title: Api Token
+        token_configured:
+          type: boolean
+          title: Token Configured
+        token_hint:
+          type: string
+          title: Token Hint
+      type: object
+      required:
+      - mode
+      - api_url
+      - api_token
+      - token_configured
+      - token_hint
+      title: MineruSettingsData
+      description: MinerU 的本机配置与真实值。
+    MineruSettingsUpdate:
+      properties:
+        mode:
+          type: string
+          enum:
+          - lightweight
+          - token
+          title: Mode
+        api_url:
+          type: string
+          maxLength: 500
+          minLength: 1
+          title: Api Url
+        api_token:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Api Token
+        clear_api_token:
+          type: boolean
+          title: Clear Api Token
+          default: false
+      type: object
+      required:
+      - mode
+      - api_url
+      title: MineruSettingsUpdate
+      description: MinerU 设置更新请求。
+    ModelSettingsData:
+      properties:
+        mineru:
+          $ref: '#/components/schemas/MineruSettingsData'
+        structured_provider:
+          type: string
+          enum:
+          - deepseek
+          - qwen
+          - local
+          title: Structured Provider
+        structured_thinking:
+          type: boolean
+          title: Structured Thinking
+        deepseek:
+          $ref: '#/components/schemas/DeepseekSettingsData'
+        qwen:
+          $ref: '#/components/schemas/QwenSettingsData'
+        local:
+          $ref: '#/components/schemas/LocalModelSettingsData'
+      type: object
+      required:
+      - mineru
+      - structured_provider
+      - structured_thinking
+      - deepseek
+      - qwen
+      - local
+      title: ModelSettingsData
+      description: 外部模型设置响应。
+    ModelSettingsUpdate:
+      properties:
+        mineru:
+          $ref: '#/components/schemas/MineruSettingsUpdate'
+        structured_provider:
+          type: string
+          enum:
+          - deepseek
+          - qwen
+          - local
+          title: Structured Provider
+        structured_thinking:
+          type: boolean
+          title: Structured Thinking
+        deepseek:
+          $ref: '#/components/schemas/DeepseekSettingsUpdate'
+        qwen:
+          $ref: '#/components/schemas/QwenSettingsUpdate'
+        local:
+          $ref: '#/components/schemas/LocalModelSettingsUpdate'
+      type: object
+      required:
+      - mineru
+      - structured_provider
+      - structured_thinking
+      - deepseek
+      - qwen
+      - local
+      title: ModelSettingsUpdate
+      description: 外部模型设置保存请求。
+    PerspectiveData:
+      properties:
+        views:
+          items:
+            $ref: '#/components/schemas/PerspectiveView'
+          type: array
+          title: Views
+        scope_count:
+          type: integer
+          title: Scope Count
+      type: object
+      required:
+      - views
+      - scope_count
+      title: PerspectiveData
+      description: Approved ECharts views for the current scope.
+    PerspectiveView:
+      properties:
+        view_id:
+          type: string
+          title: View Id
+        title:
+          type: string
+          title: Title
+        chart_type:
+          type: string
+          title: Chart Type
+        dimension:
+          type: string
+          title: Dimension
+        metric:
+          type: string
+          title: Metric
+        unit:
+          type: string
+          title: Unit
+        dataset:
+          items:
+            additionalProperties: true
+            type: object
+          type: array
+          title: Dataset
+        source_period:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Period
+        snapshot_id:
+          type: string
+          title: Snapshot Id
+        quality:
+          $ref: '#/components/schemas/QualityStatus'
+      type: object
+      required:
+      - view_id
+      - title
+      - chart_type
+      - dimension
+      - metric
+      - unit
+      - snapshot_id
+      - quality
+      title: PerspectiveView
+      description: Dataset for one approved ECharts chart.
+    PublishRequest:
+      properties:
+        manifest_path:
+          type: string
+          title: Manifest Path
+        manifest_sha256:
+          type: string
+          pattern: ^[0-9a-f]{64}$
+          title: Manifest Sha256
+        lease_token:
+          type: string
+          maxLength: 64
+          minLength: 32
+          title: Lease Token
+      type: object
+      required:
+      - manifest_path
+      - manifest_sha256
+      - lease_token
+      title: PublishRequest
+      description: Worker request to publish a validated staging manifest.
+    PublishResultData:
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          title: Job Id
+        batch_id:
+          type: string
+          format: uuid
+          title: Batch Id
+        status:
+          type: string
+          title: Status
+        manifest_path:
+          type: string
+          title: Manifest Path
+        manifest_sha256:
+          type: string
+          title: Manifest Sha256
+        current_snapshot_id:
+          type: string
+          format: uuid
+          title: Current Snapshot Id
+      type: object
+      required:
+      - job_id
+      - batch_id
+      - status
+      - manifest_path
+      - manifest_sha256
+      - current_snapshot_id
+      title: PublishResultData
+      description: API publication result.
+    QualityIssueData:
+      properties:
+        issue_id:
+          type: string
+          format: uuid
+          title: Issue Id
+        fund_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Fund Id
+        fund_code:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fund Code
+        fund_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fund Name
+        severity:
+          type: string
+          title: Severity
+        issue_type:
+          type: string
+          title: Issue Type
+        details:
+          type: string
+          title: Details
+        status:
+          type: string
+          title: Status
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        manager_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Manager Name
+        asset_category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Category
+        asset_subcategory:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Asset Subcategory
+        base_currency:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Currency
+        domicile:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Domicile
+        fund_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fund Status
+        report_period:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+      type: object
+      required:
+      - issue_id
+      - fund_id
+      - fund_code
+      - fund_name
+      - severity
+      - issue_type
+      - details
+      - status
+      - created_at
+      - metadata
+      title: QualityIssueData
+      description: One quality issue returned to the quality page.
+    QualityPageData:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/QualityIssueData'
+          type: array
+          title: Items
+        page:
+          type: integer
+          title: Page
+        page_size:
+          type: integer
+          title: Page Size
+        total:
+          type: integer
+          title: Total
+      type: object
+      required:
+      - items
+      - page
+      - page_size
+      - total
+      title: QualityPageData
+      description: Paginated quality issue result.
+    QualityReviewActionData:
+      properties:
+        issue_id:
+          type: string
+          format: uuid
+          title: Issue Id
+        status:
+          type: string
+          title: Status
+        updated_at:
+          type: string
+          format: date-time
+          title: Updated At
+        changed_sections:
+          items:
+            type: string
+          type: array
+          title: Changed Sections
+      type: object
+      required:
+      - issue_id
+      - status
+      - updated_at
+      title: QualityReviewActionData
+      description: Result of confirming or saving a quality review.
+    QualityReviewData:
+      properties:
+        issue:
+          $ref: '#/components/schemas/QualityIssueData'
+        fund:
+          anyOf:
+          - $ref: '#/components/schemas/FundDetailData'
+          - type: 'null'
+        record:
+          additionalProperties: true
+          type: object
+          title: Record
+        audit:
+          additionalProperties: true
+          type: object
+          title: Audit
+      type: object
+      required:
+      - issue
+      title: QualityReviewData
+      description: Composite review workbench payload for one quality issue.
+    QualityReviewUpdate:
+      properties:
+        record:
+          additionalProperties: true
+          type: object
+          title: Record
+        comment:
+          anyOf:
+          - type: string
+            maxLength: 2000
+          - type: 'null'
+          title: Comment
+        resolve:
+          type: boolean
+          title: Resolve
+          default: true
+      type: object
+      title: QualityReviewUpdate
+      description: Editable structured record submitted by the review workbench.
+    QualityStatus:
+      type: string
+      enum:
+      - complete
+      - missing_file
+      - missing_metric
+      - parse_failed
+      - extraction_failed
+      - validation_warning
+      - review_required
+      - stale
+      title: QualityStatus
+      description: Stable quality states shared by API, ECharts and Agent.
+    QwenSettingsData:
+      properties:
+        base_url:
+          type: string
+          title: Base Url
+        api_key:
+          type: string
+          title: Api Key
+        api_key_configured:
+          type: boolean
+          title: Api Key Configured
+        api_key_hint:
+          type: string
+          title: Api Key Hint
+        primary_model:
+          type: string
+          title: Primary Model
+        fallback_model:
+          type: string
+          title: Fallback Model
+        vision_model:
+          type: string
+          title: Vision Model
+      type: object
+      required:
+      - base_url
+      - api_key
+      - api_key_configured
+      - api_key_hint
+      - primary_model
+      - fallback_model
+      - vision_model
+      title: QwenSettingsData
+      description: Qwen 本机配置。
+    QwenSettingsUpdate:
+      properties:
+        base_url:
+          type: string
+          maxLength: 1000
+          minLength: 1
+          title: Base Url
+        api_key:
+          anyOf:
+          - type: string
+            maxLength: 4096
+          - type: 'null'
+          title: Api Key
+        clear_api_key:
+          type: boolean
+          title: Clear Api Key
+          default: false
+        primary_model:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Primary Model
+        fallback_model:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Fallback Model
+        vision_model:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Vision Model
+      type: object
+      required:
+      - base_url
+      - primary_model
+      - fallback_model
+      - vision_model
+      title: QwenSettingsUpdate
+      description: Qwen 设置更新请求。
+    ReportSource:
+      properties:
+        source_id:
+          type: string
+          title: Source Id
+        source_sheet:
+          type: string
+          title: Source Sheet
+        source_row:
+          type: integer
+          title: Source Row
+        monthly_report_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Monthly Report Url
+        fallback_report_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Fallback Report Url
+        run_command:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Run Command
+        match_status:
+          type: string
+          title: Match Status
+        match_method:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Match Method
+        match_confidence:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Match Confidence
+        is_active:
+          type: boolean
+          title: Is Active
+        source_label:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Label
+        report_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Report Kind
+        report_period:
+          anyOf:
+          - type: string
+            format: date
+          - type: 'null'
+          title: Report Period
+        document_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Document Version Id
+        language:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Language
+        available_sections:
+          items:
+            type: string
+          type: array
+          title: Available Sections
+        download_candidates:
+          items:
+            $ref: '#/components/schemas/DownloadSourceOption'
+          type: array
+          title: Download Candidates
+        is_visible:
+          type: boolean
+          title: Is Visible
+          default: true
+        priority:
+          type: integer
+          title: Priority
+          default: 1
+        semiannual_report_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Semiannual Report Url
+        semiannual_run_command:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Semiannual Run Command
+        annual_report_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Annual Report Url
+        annual_run_command:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Annual Run Command
+      type: object
+      required:
+      - source_id
+      - source_sheet
+      - source_row
+      - monthly_report_url
+      - fallback_report_url
+      - run_command
+      - match_status
+      - match_method
+      - match_confidence
+      - is_active
+      title: ReportSource
+      description: Crawler report page and command metadata.
+    ResponseMeta:
+      properties:
+        server_time:
+          type: string
+          format: date-time
+          title: Server Time
+      type: object
+      required:
+      - server_time
+      title: ResponseMeta
+      description: Metadata attached to every successful response.
+    RouteDecision:
+      properties:
+        route:
+          type: string
+          title: Route
+        tool_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Name
+        requires_confirmation:
+          type: boolean
+          title: Requires Confirmation
+          default: false
+        allowed:
+          type: boolean
+          title: Allowed
+          default: true
+        reason:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reason
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+      type: object
+      required:
+      - route
+      title: RouteDecision
+      description: 意图到工具的策略决定；参数由策略门生成。
+    ScopeMode:
+      type: string
+      enum:
+      - all
+      - manager
+      - category
+      - funds
+      - tag
+      - collection
+      title: ScopeMode
+      description: Supported deterministic task scope selectors.
+    ScopeOptionsData:
+      properties:
+        total_funds:
+          type: integer
+          title: Total Funds
+        managers:
+          items:
+            $ref: '#/components/schemas/ManagerOptionData'
+          type: array
+          title: Managers
+        categories:
+          items:
+            $ref: '#/components/schemas/CategoryOptionData'
+          type: array
+          title: Categories
+      type: object
+      required:
+      - total_funds
+      - managers
+      - categories
+      title: ScopeOptionsData
+      description: 任务中心可用的确定性范围选项。
+    SnapshotData:
+      properties:
+        snapshot_id:
+          type: string
+          format: uuid
+          title: Snapshot Id
+        status:
+          type: string
+          title: Status
+        source_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Kind
+        source_sha256:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Source Sha256
+        coverage:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Coverage
+        fund_count:
+          type: integer
+          title: Fund Count
+        published_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Published At
+        release_version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Release Version
+      type: object
+      required:
+      - snapshot_id
+      - status
+      - source_kind
+      - source_sha256
+      - coverage
+      - fund_count
+      - published_at
+      - release_version
+      title: SnapshotData
+      description: Current immutable published snapshot.
+    SourceManagementData:
+      properties:
+        fund_code:
+          type: string
+          title: Fund Code
+        items:
+          items:
+            $ref: '#/components/schemas/SourceManagementItem'
+          type: array
+          title: Items
+      type: object
+      required:
+      - fund_code
+      title: SourceManagementData
+      description: 基金全部来源管理数据。
+    SourceManagementItem:
+      properties:
+        source_id:
+          type: string
+          title: Source Id
+        label:
+          type: string
+          title: Label
+        report_kind:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Report Kind
+        report_period:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Report Period
+        is_visible:
+          type: boolean
+          title: Is Visible
+        is_active:
+          type: boolean
+          title: Is Active
+        document_version_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Document Version Id
+        metric_count:
+          type: integer
+          title: Metric Count
+          default: 0
+        holding_count:
+          type: integer
+          title: Holding Count
+          default: 0
+      type: object
+      required:
+      - source_id
+      - label
+      - is_visible
+      - is_active
+      title: SourceManagementItem
+      description: 来源管理列表项。
+    StageName:
+      type: string
+      enum:
+      - download
+      - parse
+      - structure
+      title: StageName
+      description: Whitelisted worker stages.
+    SupplementarySourceData:
+      properties:
+        job:
+          $ref: '#/components/schemas/JobData'
+        estimated_minutes:
+          type: integer
+          title: Estimated Minutes
+        source_kind:
+          type: string
+          title: Source Kind
+      type: object
+      required:
+      - job
+      - estimated_minutes
+      - source_kind
+      title: SupplementarySourceData
+      description: 单基金补充来源任务的创建结果。
+    TaskTarget:
+      type: string
+      enum:
+      - fund_monthly
+      - fund_semiannual
+      - master_database
+      title: TaskTarget
+      description: 任务下载和结构化目标。
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
