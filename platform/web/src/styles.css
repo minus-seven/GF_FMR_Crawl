@@ -216,61 +216,14 @@ code, .mono { font-family: "SFMono-Regular", "Menlo", monospace; }
 .data-panel { overflow: hidden; }
 .table-wrap { width: 100%; overflow: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 10px; }
-.fund-database-table-wrap { overflow: hidden; }
-.fund-database-table { table-layout: fixed; }
-.fund-database-select-col { width: 4%; }
-.fund-database-name-col { width: 28%; }
-.fund-database-manager-col { width: 25%; }
-.fund-database-category-col { width: 15%; }
-.fund-database-period-col { width: 12%; }
-.fund-database-quality-col { width: 16%; }
-.fund-database-table th, .fund-database-table td { padding: 9px 9px; }
-.fund-database-select-cell { text-align: center; }
-.fund-database-select-cell input { width: 13px; height: 13px; margin: 0; accent-color: var(--teal); }
-.fund-database-name-cell, .fund-database-manager-cell, .fund-database-category-cell { min-width: 0; }
-.fund-database-period-cell, .fund-database-quality-cell { white-space: nowrap; }
 th { position: sticky; top: 0; z-index: 2; padding: 10px 13px; text-align: left; color: #7a827c; background: #f3f0e8; border-bottom: 1px solid var(--line); font-size: 8px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 td { padding: 11px 13px; border-bottom: 1px solid #e9e5dc; vertical-align: middle; }
 tbody tr:last-child td { border-bottom: 0; }
 tbody tr { transition: background 120ms ease; }
 tbody tr:hover { background: rgba(225,238,234,.35); }
-.fund-name-link { position: relative; display: block; min-width: 0; }
 .fund-name-link strong, .table-secondary { display: block; color: var(--ink); font-size: 11px; font-weight: 600; }
-.fund-name-marquee { display: block; width: 100%; overflow: hidden; white-space: nowrap; }
-.fund-name-marquee > strong { display: inline-block; min-width: 100%; white-space: nowrap; }
-.fund-name-marquee.is-long > strong { animation: fund-name-marquee 10s ease-in-out infinite alternate; }
-@keyframes fund-name-marquee {
-  0%, 18% { transform: translateX(0); }
-  82%, 100% { transform: translateX(-42%); }
-}
-.fund-name-marquee.is-long:hover,
-.fund-name-marquee.is-long:focus-within {
-  position: absolute;
-  z-index: 4;
-  left: -5px;
-  top: -5px;
-  width: max-content;
-  max-width: min(420px, calc(100vw - 32px));
-  min-width: 100%;
-  padding: 5px 7px;
-  overflow: visible;
-  white-space: normal;
-  border: 1px solid var(--line-strong);
-  border-radius: 6px;
-  background: var(--paper);
-  box-shadow: var(--shadow);
-}
-.fund-name-marquee.is-long:hover > strong,
-.fund-name-marquee.is-long:focus-within > strong {
-  min-width: 0;
-  white-space: normal;
-  animation: none;
-}
-.fund-name-link > span:not(.fund-name-marquee), .table-tertiary { display: block; margin-top: 3px; max-width: 300px; overflow: hidden; color: #8b918a; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
-.fund-database-manager-cell .table-secondary, .fund-database-manager-cell .table-tertiary { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.fund-category-values { display: flex; align-items: center; flex-wrap: nowrap; gap: 3px; min-width: 0; }
-.category-token, .tag-cloud span { display: inline-flex; flex: 0 0 auto; padding: 3px 5px; border-radius: 5px; background: #e9eee8; color: #4f6861; font-size: 8px; line-height: 1.1; white-space: nowrap; }
-.category-token-secondary { background: #eef0e8; color: #667267; }
+.fund-name-link span, .table-tertiary { display: block; margin-top: 3px; max-width: 300px; overflow: hidden; color: #8b918a; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.category-token, .tag-cloud span { display: inline-flex; padding: 4px 7px; border-radius: 5px; background: #e9eee8; color: #4f6861; font-size: 9px; }
 .row-arrow { color: var(--teal); font-size: 9px; font-weight: 600; }
 .pagination { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; border-top: 1px solid var(--line); color: #858b85; font-size: 9px; }
 .pagination div { display: flex; gap: 5px; }

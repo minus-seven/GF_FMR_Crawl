@@ -23,11 +23,7 @@ platform/web/dist/
 # Business data and generated pipeline state
 data/
 data
-case/sources
-case/node_modules
-case/*.csv
-case/*.json
-case/*.ndjson
+state/
 爬虫list.xlsx
 爬虫list.xlsx.*
 HKEX基金综合资料库_完整_*.xlsx
@@ -46,6 +42,11 @@ __pycache__/
 *.writing
 
 # Large case inputs/exports; keep case Markdown and small fixtures in source control
+case/sources
+case/node_modules
+case/*.csv
+case/*.json
+case/*.ndjson
 case/*.pdf
 case/*.xls
 case/*.docx
@@ -53,6 +54,7 @@ case/*.xlsx
 case/*.png
 case/*inspect.ndjson
 case/node_modules/
+
 # Approved repository input workbooks
 !inputs/
 !inputs/*.xlsx

@@ -16,7 +16,7 @@ import threading
 import time
 import uuid
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.exc import DBAPIError, OperationalError
 from sqlalchemy.orm import Session
@@ -782,18 +782,6 @@ class Worker:
                         stage,
                         result,
                     )
-                    pending_count = session.scalar(
-                        select(func.count())
-                        .select_from(JobFundScope)
-                        .where(
-                            JobFundScope.job_id == current_job.id,
-                            JobFundScope.result_status == "pending",
-                        )
-                    )
-                    if result.status == "success" and pending_count:
-                        raise RuntimeError(
-                            f"{stage} 阶段结果未覆盖 {pending_count} 只基金，拒绝发布不完整批次"
-                        )
                     if result.status == "cancelled":
                         raise InterruptedError(result.message)
                     if result.status != "success":
