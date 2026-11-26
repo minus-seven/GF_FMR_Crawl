@@ -2043,7 +2043,16 @@ def run_structure_stage(
     if structured_provider not in {"deepseek", "qwen", "local"}:
         structured_provider = ""
     local_model = str(model_policy.get("local_model") or "qwen3:4b").strip()
-    model_workers = 1 if structured_provider == "local" else MODEL_WORKERS
+    if structured_provider == "local":
+        # Ollama 本地模型受内存约束，只允许有界并发；任务模型策略已在
+        # jobs.py 校验为 1 或 2，读取时再做一次防御性收敛。
+        try:
+            local_workers = int(model_policy.get("local_workers", 1) or 1)
+        except (TypeError, ValueError):
+            local_workers = 1
+        model_workers = max(1, min(2, local_workers))
+    else:
+        model_workers = MODEL_WORKERS
     command = [
         sys.executable,
         str(LEGACY_CODE_DIR / "run_all_structured_data.py"),
@@ -2088,7 +2097,8 @@ def run_structure_stage(
                 "FACTSHEET_PRIMARY_MODEL": local_model,
                 "FACTSHEET_FALLBACK_MODEL": local_model,
                 "FACTSHEET_VISION_MODEL": "",
-                "FACTSHEET_MODEL_WORKERS": "1",
+                "FACTSHEET_MODEL_WORKERS": str(model_workers),
+                "FACTSHEET_MODEL_CONCURRENCY": str(model_workers),
                 "FACTSHEET_STRUCTURED_THINKING": "false",
             })
         write_log(
