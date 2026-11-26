@@ -409,6 +409,26 @@ export function TasksPage() {
     let active = true;
     let source: EventSource | null = null;
 
+    const syncSelectedJob = () => {
+      api.job(selected.job_id).then((response) => {
+        if (!active) return;
+        setSelected(response.data);
+        setData((current) =>
+          current
+            ? {
+                ...current,
+                items: current.items.map((item) =>
+                  item.job_id === response.data.job_id ? response.data : item,
+                ),
+              }
+            : current,
+        );
+        if (response.data.status === "completed") {
+          window.dispatchEvent(new Event("snapshot:refresh"));
+        }
+      }).catch(() => undefined);
+    };
+
     const attach = (afterSequence: number) => {
       if (!active) return;
       source = eventSource(selected.job_id, afterSequence);
@@ -441,18 +461,7 @@ export function TasksPage() {
               : current,
           );
           if (["job.completed", "job.warning"].includes(next.type)) {
-            api.job(selected.job_id).then((response) => {
-              if (!active) return;
-              setSelected(response.data);
-              setData((current) =>
-                current
-                  ? { ...current, items: current.items.map((item) => item.job_id === response.data.job_id ? response.data : item) }
-                  : current,
-              );
-              if (next.type === "job.completed") {
-                window.dispatchEvent(new Event("snapshot:refresh"));
-              }
-            }).catch(() => undefined);
+            syncSelectedJob();
             source?.close();
           }
         } catch {
@@ -475,6 +484,7 @@ export function TasksPage() {
           isTerminalJob(selected.status)
           || lastEvent && ["job.completed", "job.warning"].includes(lastEvent.type)
         ) {
+          syncSelectedJob();
           return;
         }
         attach(response.data.last_sequence_no);
@@ -484,7 +494,7 @@ export function TasksPage() {
       active = false;
       source?.close();
     };
-  }, [selected?.job_id]);
+  }, [selected?.job_id, tick]);
   useEffect(() => {
     if (!selected) {
       setIssueData(null);

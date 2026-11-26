@@ -147,6 +147,144 @@ def discover_combined_files(batch_root: Path) -> list[Path]:
     )
 
 
+_STRUCTURED_RESULT_MODELS = (FundMetric, FundHolding, FundAllocation)
+_STRUCTURED_DROP_RATIO = 0.20
+_STRUCTURED_DROP_MIN_RECORDS = 10
+_STRUCTURED_DROP_MIN_FUNDS = 3
+
+
+def clone_batch_results(
+    session: Session,
+    *,
+    source_batch_id: Any,
+    target_batch_id: Any,
+) -> None:
+    """复制一个发布批次的派生结果到新批次。
+
+    参数 source_batch_id/target_batch_id：来源和目标批次 ID。
+    结构化结果属于不可变发布快照的一部分；新批次必须先继承它们，
+    再由本次任务覆盖实际更新的基金。规模与质量问题也一并继承，避免
+    仅下载或仅更新主数据的任务把页面已有结果清空。
+    """
+
+    statements = (
+        """
+        INSERT INTO fund_metrics (
+          id, batch_id, fund_id, document_version_id, report_period,
+          metric_name, numeric_value, text_value, unit, confidence,
+          review_status, source_page, metadata_json
+        )
+        SELECT gen_random_uuid(), :target, fund_id, document_version_id,
+               report_period, metric_name, numeric_value, text_value, unit,
+               confidence, review_status, source_page, metadata_json
+        FROM fund_metrics WHERE batch_id = :source
+        """,
+        """
+        INSERT INTO fund_holdings (
+          id, batch_id, fund_id, document_version_id, report_period,
+          security_name, ticker, holding_quantity, registration_place, holding_type,
+          weight, market_value, source_page
+        )
+        SELECT gen_random_uuid(), :target, fund_id, document_version_id,
+               report_period, security_name, ticker, holding_quantity,
+               registration_place, holding_type, weight, market_value, source_page
+        FROM fund_holdings WHERE batch_id = :source
+        """,
+        """
+        INSERT INTO fund_allocations (
+          id, batch_id, fund_id, document_version_id, report_period,
+          dimension, category, weight, unit, source_page, metadata_json
+        )
+        SELECT gen_random_uuid(), :target, fund_id, document_version_id,
+               report_period, dimension, category, weight, unit, source_page,
+               metadata_json
+        FROM fund_allocations WHERE batch_id = :source
+        """,
+        """
+        INSERT INTO fund_scale_history (
+          id, fund_id, source_batch_id, as_of_date, fund_size, currency,
+          source_unit
+        )
+        SELECT gen_random_uuid(), fund_id, :target, as_of_date, fund_size,
+               currency, source_unit
+        FROM fund_scale_history
+        WHERE source_batch_id = :source AND as_of_date <= CURRENT_DATE
+        """,
+        """
+        INSERT INTO quality_issues (
+          id, batch_id, fund_id, severity, issue_type, details, status,
+          metadata_json
+        )
+        SELECT gen_random_uuid(), :target, fund_id, severity, issue_type,
+               details, status, metadata_json
+        FROM quality_issues WHERE batch_id = :source
+        """,
+    )
+    for statement in statements:
+        session.execute(
+            text(statement),
+            {"source": source_batch_id, "target": target_batch_id},
+        )
+
+
+def structured_snapshot_counts(
+    session: Session,
+    batch_id: Any,
+) -> tuple[int, int]:
+    """返回批次的结构化记录数和覆盖基金数。"""
+
+    total = 0
+    fund_ids: set[Any] = set()
+    for model in _STRUCTURED_RESULT_MODELS:
+        total += int(
+            session.scalar(
+                select(func.count())
+                .select_from(model)
+                .where(model.batch_id == batch_id)
+            )
+            or 0
+        )
+        fund_ids.update(
+            session.scalars(
+                select(model.fund_id).where(model.batch_id == batch_id)
+            ).all()
+        )
+    return total, len(fund_ids)
+
+
+def validate_structured_snapshot_drop(
+    session: Session,
+    *,
+    source_batch_id: Any,
+    target_batch_id: Any,
+    context: str,
+) -> tuple[int, int, int, int]:
+    """拒绝结构化记录或基金覆盖显著下降的新批次。
+
+    参数 context：错误信息中的发布上下文。
+    返回：来源记录数、目标记录数、来源基金数、目标基金数。
+    """
+
+    source_records, source_funds = structured_snapshot_counts(session, source_batch_id)
+    target_records, target_funds = structured_snapshot_counts(session, target_batch_id)
+    record_drop = (
+        source_records >= _STRUCTURED_DROP_MIN_RECORDS
+        and target_records < source_records * (1 - _STRUCTURED_DROP_RATIO)
+    )
+    fund_drop = (
+        source_funds >= _STRUCTURED_DROP_MIN_FUNDS
+        and target_funds < source_funds * (1 - _STRUCTURED_DROP_RATIO)
+    )
+    if record_drop or fund_drop:
+        raise ValueError(
+            f"{context}结构化结果异常减少："
+            f"记录 {source_records}->{target_records}，"
+            f"覆盖基金 {source_funds}->{target_funds}；"
+            f"超过 {_STRUCTURED_DROP_RATIO:.0%} 下降阈值，已阻止发布"
+        )
+    return source_records, target_records, source_funds, target_funds
+
+
 class D1ImportService:
     """Import HKEX master, crawler supplements and structured outputs."""
 
@@ -179,12 +317,15 @@ class D1ImportService:
         self._fund_by_code: dict[str, Fund] = {}
         self._fund_by_id: dict[Any, Fund] = {}
         self._fund_by_name: dict[str, list[Fund]] = {}
+        self._fund_by_exact_name: dict[str, list[Fund]] = {}
         self._fund_by_manager_name: dict[tuple[str, str], list[Fund]] = {}
         self._fund_by_manager_name_umbrella: dict[tuple[str, str, str], list[Fund]] = {}
         self._fund_by_manager_historical_name: dict[tuple[str, str], list[Fund]] = {}
         self._fund_by_historical_name: dict[str, list[Fund]] = {}
         self._fund_categories: dict[Any, str] = {}
         self._fund_ids_by_report_url: dict[str, list[Any]] = {}
+        self._fund_manager_names: dict[Any, set[str]] = {}
+        self._fund_source_urls: dict[Any, str] = {}
         self._summary = ImportSummary(batch_id="", scope_hash="", warnings=[])
 
     def import_all(
@@ -218,6 +359,9 @@ class D1ImportService:
             raise FileNotFoundError(
                 f"{selected_structured} 下没有可导入的结构化合并 JSON"
             )
+
+        state = self.session.get(PublicationState, 1)
+        current_batch_id = state.current_batch_id if state else None
 
         input_fingerprint = {
             "schema": self.IMPORTER_VERSION,
@@ -253,6 +397,14 @@ class D1ImportService:
         )
         self.session.add(batch)
         self.session.flush()
+        if current_batch_id is not None:
+            # 主数据/来源重导入不能把历史月报、半年报结构化结果遗漏掉。
+            # 先复制当前发布快照，再用本次 structured_root 覆盖同基金同文档版本。
+            clone_batch_results(
+                self.session,
+                source_batch_id=current_batch_id,
+                target_batch_id=batch.id,
+            )
         self._summary = ImportSummary(
             batch_id=str(batch_id),
             scope_hash=scope_hash,
@@ -304,6 +456,13 @@ class D1ImportService:
             )
             or 0
         )
+        if current_batch_id is not None:
+            validate_structured_snapshot_drop(
+                self.session,
+                source_batch_id=current_batch_id,
+                target_batch_id=batch.id,
+                context="综合资料库导入",
+            )
         self._finish_batch(batch, activate=activate)
         return self._summary
 
@@ -359,62 +518,11 @@ class D1ImportService:
         )
 
         # 保持当前报告结构化结果，主数据任务只替换其权威主数据输入。
-        for statement in (
-            """
-            INSERT INTO fund_metrics (
-              id, batch_id, fund_id, document_version_id, report_period,
-              metric_name, numeric_value, text_value, unit, confidence,
-              review_status, source_page, metadata_json
-            )
-            SELECT gen_random_uuid(), :target, fund_id, document_version_id,
-                   report_period, metric_name, numeric_value, text_value, unit,
-                   confidence, review_status, source_page, metadata_json
-            FROM fund_metrics WHERE batch_id = :source
-            """,
-            """
-            INSERT INTO fund_holdings (
-              id, batch_id, fund_id, document_version_id, report_period,
-              security_name, ticker, holding_quantity, registration_place,
-              holding_type, weight, market_value, source_page
-            )
-            SELECT gen_random_uuid(), :target, fund_id, document_version_id,
-                   report_period, security_name, ticker, holding_quantity,
-                   registration_place, holding_type, weight, market_value,
-                   source_page
-            FROM fund_holdings WHERE batch_id = :source
-            """,
-            """
-            INSERT INTO fund_allocations (
-              id, batch_id, fund_id, document_version_id, report_period,
-              dimension, category, weight, unit, source_page, metadata_json
-            )
-            SELECT gen_random_uuid(), :target, fund_id, document_version_id,
-                   report_period, dimension, category, weight, unit, source_page,
-                   metadata_json
-            FROM fund_allocations WHERE batch_id = :source
-            """,
-            """
-            INSERT INTO fund_scale_history (
-              id, fund_id, source_batch_id, as_of_date, fund_size, currency,
-              source_unit
-            )
-            SELECT gen_random_uuid(), fund_id, :target, as_of_date, fund_size,
-                   currency, source_unit
-            FROM fund_scale_history
-            WHERE source_batch_id = :source AND as_of_date <= CURRENT_DATE
-            """,
-            """
-            INSERT INTO quality_issues (
-              id, batch_id, fund_id, severity, issue_type, details, status,
-              metadata_json
-            )
-            SELECT gen_random_uuid(), :target, fund_id, severity, issue_type,
-                   details, status, metadata_json
-            FROM quality_issues WHERE batch_id = :source
-            """,
-        ):
-            self.session.execute(text(statement), {"source": current.id, "target": batch.id})
-
+        clone_batch_results(
+            self.session,
+            source_batch_id=current.id,
+            target_batch_id=batch.id,
+        )
         fund_ids = [stable_uuid("fund-code", row.fund_code) for row in workbook.funds]
         # 这些表是基金当前主数据属性，不携带批次；用新权威工作簿完整替换。
         for model in (FundClassification, FundRegion, FundTag):
@@ -436,6 +544,13 @@ class D1ImportService:
                     "raw_row": self._json_safe_row(row.values),
                 }
 
+        self.session.flush()
+        validate_structured_snapshot_drop(
+            self.session,
+            source_batch_id=current.id,
+            target_batch_id=batch.id,
+            context="综合资料库增量导入",
+        )
         self._finish_batch(batch, activate=activate)
         self.session.flush()
         return self._summary
@@ -459,6 +574,7 @@ class D1ImportService:
         )
         for fund in funds:
             self._fund_by_id[fund.id] = fund
+            self._fund_by_exact_name.setdefault(normalize_text(fund.name_cn), []).append(fund)
             self._fund_by_name.setdefault(
                 normalize_name(fund.name_cn),
                 [],
@@ -470,6 +586,36 @@ class D1ImportService:
             )
             if classification is not None:
                 self._fund_categories[fund.id] = classification.level_1
+
+        manager_rows = self.session.execute(
+            select(Fund.id, Manager.name_cn, Manager.name_en, Manager.short_name)
+            .join(Manager, Manager.id == Fund.manager_id)
+            .where(Fund.id.in_(self._fund_by_id))
+        ).all()
+        for fund_id, *names in manager_rows:
+            self._fund_manager_names[fund_id] = {
+                normalize_name(value) for value in names if normalize_name(value)
+            }
+        source_rows = self.session.execute(
+            select(
+                FundReportSource.fund_id,
+                FundReportSource.monthly_report_url,
+                FundReportSource.fallback_report_url,
+                FundReportSource.semiannual_report_url,
+                FundReportSource.annual_report_url,
+            )
+            .where(
+                FundReportSource.fund_id.in_(self._fund_by_id),
+                FundReportSource.is_active.is_(True),
+            )
+            .order_by(FundReportSource.priority.asc(), FundReportSource.created_at.desc())
+        ).all()
+        for fund_id, *urls in source_rows:
+            if fund_id not in self._fund_source_urls:
+                self._fund_source_urls[fund_id] = next(
+                    (str(url) for url in urls if normalize_text(url)),
+                    "",
+                )
 
         structured_files = discover_combined_files(batch_root)
         if not structured_files:
@@ -596,6 +742,7 @@ class D1ImportService:
             funds.append(fund)
             self._fund_by_code[row.fund_code] = fund
             self._fund_by_id[fund_id] = fund
+            self._fund_by_exact_name.setdefault(normalize_text(row.name_cn), []).append(fund)
             self._fund_by_name.setdefault(normalize_name(row.name_cn), []).append(fund)
             manager_key = (normalize_name(row.manager_short_name), normalize_name(row.name_cn))
             self._fund_by_manager_name.setdefault(manager_key, []).append(fund)
@@ -1085,9 +1232,17 @@ class D1ImportService:
         record: dict[str, Any],
         category: str,
         source_url: str | None,
+        manager_name: str | None = None,
     ) -> Fund | None:
         """查找结构化记录对应的基金；参数 record/category/source_url 为匹配上下文。"""
 
+        fund_code = normalize_text(record.get("fund_code"))
+        if fund_code and fund_code in self._fund_by_code:
+            return self._fund_by_code[fund_code]
+        raw_name = normalize_text(record.get("fund_name"))
+        exact_names = self._fund_by_exact_name.get(raw_name, [])
+        if len(exact_names) == 1:
+            return exact_names[0]
         if source_url:
             linked = self._fund_ids_by_report_url.get(source_url, [])
             if len(linked) == 1 and linked[0] in self._fund_by_id:
@@ -1098,7 +1253,17 @@ class D1ImportService:
         matching = [
             fund for fund in candidates if self._fund_categories.get(fund.id) == category
         ]
-        return matching[0] if len(matching) == 1 else None
+        if len(matching) == 1:
+            return matching[0]
+        manager_key = normalize_name(manager_name)
+        if manager_key:
+            managed = [
+                fund for fund in candidates
+                if manager_key in self._fund_manager_names.get(fund.id, set())
+            ]
+            if len(managed) == 1:
+                return managed[0]
+        return None
 
     def _combined_meta_path(self, combined_path: Path, record: dict[str, Any]) -> Path | None:
         """定位结构化记录对应 meta；参数 combined_path/record 为输入记录。"""
@@ -1161,7 +1326,15 @@ class D1ImportService:
                 source_url = source_urls.get(
                     (normalize_name(category), normalize_name(record.get("fund_name")))
                 )
-                fund = self._resolve_fund(record, category, source_url)
+                meta_path = self._combined_meta_path(combined_path, record)
+                meta = self._read_json(meta_path)
+                manager_profile = (meta.get("_meta") or {}).get("manager_profile")
+                manager_name = (
+                    manager_profile.get("manager")
+                    if isinstance(manager_profile, dict)
+                    else None
+                )
+                fund = self._resolve_fund(record, category, source_url, manager_name)
                 if fund is None:
                     self._summary.skipped_records += 1
                     self._add_quality_issue(
@@ -1228,7 +1401,10 @@ class D1ImportService:
         confidence = "high" if review_status == "ok" else "review"
         source_category = normalize_name(category)
         fund_name_key = normalize_name(fund.name_cn)
-        source_url = source_urls.get((source_category, fund_name_key))
+        source_url = (
+            source_urls.get((source_category, fund_name_key))
+            or self._fund_source_urls.get(fund.id)
+        )
 
         document, version = self._ensure_document(
             batch,

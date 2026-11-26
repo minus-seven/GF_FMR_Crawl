@@ -1108,6 +1108,18 @@ def run_download_stage(
     results = []
     candidates: list[DownloadCandidate] = []
 
+    def fund_results() -> list[dict]:
+        """把每只基金的最终下载状态返回给任务发布层。"""
+
+        return [
+            {
+                "fund_code": candidate.scope.fund_code_snapshot,
+                "status": candidate.scope.result_status or "failed",
+                "reason": candidate.scope.skip_reason,
+            }
+            for candidate in candidates
+        ]
+
     for scope in scopes:
         if cancel_event.is_set():
             return AdapterResult("cancelled", "任务已取消", {"results": results})
@@ -1259,7 +1271,7 @@ def run_download_stage(
         return AdapterResult(
             "cancelled",
             "下载被用户取消",
-            {"results": results},
+            {"results": results, "fund_results": fund_results()},
             artifact_count=successful,
         )
 
@@ -1378,14 +1390,22 @@ def run_download_stage(
             return AdapterResult(
                 "cancelled",
                 "爬虫补全被用户取消",
-                {"results": results, "backfilled": backfilled},
+                {
+                    "results": results,
+                    "fund_results": fund_results(),
+                    "backfilled": backfilled,
+                },
                 artifact_count=successful,
             )
     if execute_many(phase2_downloads):
         return AdapterResult(
             "cancelled",
             "下载被用户取消",
-            {"results": results, "backfilled": backfilled},
+            {
+                "results": results,
+                "fund_results": fund_results(),
+                "backfilled": backfilled,
+            },
             artifact_count=successful,
         )
 
@@ -1420,7 +1440,7 @@ def run_download_stage(
         return AdapterResult(
             "cancelled",
             "任务已取消",
-            {"results": results},
+            {"results": results, "fund_results": fund_results()},
             artifact_count=successful,
         )
     status = "failed" if successful == 0 and failed else "success"
@@ -1433,6 +1453,8 @@ def run_download_stage(
             "failed": failed,
             "backfilled": backfilled,
             "results": results,
+            "fund_results": fund_results(),
+            "complete_fund_results": True,
         },
         artifact_count=successful,
     )
@@ -1814,6 +1836,12 @@ def _concise_failure_reason(reason: str) -> str:
         return "API 认证失败"
     if "403" in normalized:
         return "API 无访问权限"
+    if (
+        "-30001" in normalized
+        or "file size exceeds lightweight api limit" in normalized
+        or ("10mb" in normalized and "lightweight" in normalized)
+    ):
+        return "PDF 超过 MinerU 轻量接口 10MB 限制"
     if "no such file" in normalized or "factsheet 下没有" in normalized:
         return "缺少输入文件"
     return text[:120] or "未提供具体原因"
@@ -2043,16 +2071,7 @@ def run_structure_stage(
     if structured_provider not in {"deepseek", "qwen", "local"}:
         structured_provider = ""
     local_model = str(model_policy.get("local_model") or "qwen3:4b").strip()
-    if structured_provider == "local":
-        # Ollama 本地模型受内存约束，只允许有界并发；任务模型策略已在
-        # jobs.py 校验为 1 或 2，读取时再做一次防御性收敛。
-        try:
-            local_workers = int(model_policy.get("local_workers", 1) or 1)
-        except (TypeError, ValueError):
-            local_workers = 1
-        model_workers = max(1, min(2, local_workers))
-    else:
-        model_workers = MODEL_WORKERS
+    model_workers = 1 if structured_provider == "local" else MODEL_WORKERS
     command = [
         sys.executable,
         str(LEGACY_CODE_DIR / "run_all_structured_data.py"),
@@ -2097,8 +2116,7 @@ def run_structure_stage(
                 "FACTSHEET_PRIMARY_MODEL": local_model,
                 "FACTSHEET_FALLBACK_MODEL": local_model,
                 "FACTSHEET_VISION_MODEL": "",
-                "FACTSHEET_MODEL_WORKERS": str(model_workers),
-                "FACTSHEET_MODEL_CONCURRENCY": str(model_workers),
+                "FACTSHEET_MODEL_WORKERS": "1",
                 "FACTSHEET_STRUCTURED_THINKING": "false",
             })
         write_log(

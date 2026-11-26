@@ -295,7 +295,7 @@ export function FundDetailPage() {
         <div><small>管理人</small><strong>{fund.manager_name}</strong></div>
         <div><small>伞 / 系列</small><strong>{fund.umbrella_name || "未归属伞"}</strong></div>
         <div><small>基础货币</small><strong>{fund.base_currency || "未披露"}</strong></div>
-        <div><small>最新报告期</small><strong>{formatDate(fund.report_period)}</strong></div>
+        <div><small>认可日期</small><strong>{formatDate(fund.sfc_authorized_at)}</strong></div>
         <div><small>注册地</small><strong>{fund.domicile || "未披露"}</strong></div>
       </section>
 

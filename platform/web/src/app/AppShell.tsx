@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Activity,
   Database,
@@ -42,8 +42,13 @@ export function AppShell() {
   const [search, setSearch] = useState("");
   const [offline, setOffline] = useState<ApiError | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const jobsRequestInFlight = useRef(false);
+  const hasActiveJob = jobs.some((job) =>
+    ["waiting_lock", "queued", "running", "retrying", "validating", "publishing"].includes(job.status),
+  );
 
   useEffect(() => {
+    if (!hasActiveJob) return;
     let active = true;
     Promise.all([api.snapshot(), api.jobs({ pageSize: 5 })])
       .then(([snapshotResponse, jobResponse]) => {
@@ -73,6 +78,8 @@ export function AppShell() {
   useEffect(() => {
     let active = true;
     const refreshJobs = () => {
+      if (jobsRequestInFlight.current) return;
+      jobsRequestInFlight.current = true;
       api
         .jobs({ pageSize: 20 })
         .then((response) => {
@@ -85,14 +92,17 @@ export function AppShell() {
           if (active) {
             setOffline(reason instanceof ApiError ? reason : null);
           }
+        })
+        .finally(() => {
+          jobsRequestInFlight.current = false;
         });
     };
-    const timer = window.setInterval(refreshJobs, 1500);
+    const timer = window.setInterval(refreshJobs, 5000);
     return () => {
       active = false;
       window.clearInterval(timer);
     };
-  }, []);
+  }, [hasActiveJob]);
 
   const activeJob = useMemo(
     () =>

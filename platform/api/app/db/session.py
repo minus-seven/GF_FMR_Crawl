@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from contextlib import contextmanager
+import os
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -19,7 +20,14 @@ def create_db_engine(database_url: str | None = None):
     """
 
     url = database_url or get_settings().database_url
-    return create_engine(url, pool_pre_ping=True, future=True)
+    return create_engine(
+        url,
+        pool_pre_ping=True,
+        pool_size=int(os.environ.get("PLATFORM_DB_POOL_SIZE", "10")),
+        max_overflow=int(os.environ.get("PLATFORM_DB_MAX_OVERFLOW", "10")),
+        pool_timeout=float(os.environ.get("PLATFORM_DB_POOL_TIMEOUT", "5")),
+        future=True,
+    )
 
 
 def create_session_factory(database_url: str | None = None) -> sessionmaker[Session]:

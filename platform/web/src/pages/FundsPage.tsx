@@ -341,8 +341,16 @@ export function FundsPage() {
       {!loading && !error && !data?.items.length ? <EmptyState /> : null}
       {!loading && !error && data?.items.length ? (
         <section className="data-panel">
-          <div className="table-wrap">
-            <table>
+          <div className="table-wrap fund-database-table-wrap">
+            <table className="fund-database-table">
+              <colgroup>
+                <col className="fund-database-select-col" />
+                <col className="fund-database-name-col" />
+                <col className="fund-database-manager-col" />
+                <col className="fund-database-category-col" />
+                <col className="fund-database-period-col" />
+                <col className="fund-database-quality-col" />
+              </colgroup>
               <thead>
                 <tr>
                   <th aria-label="选择" />
@@ -351,27 +359,35 @@ export function FundsPage() {
                   <th>类别</th>
                   <th>报告期</th>
                   <th>质量</th>
-                  <th aria-label="详情" />
                 </tr>
               </thead>
               <tbody>
                 {data.items.map((fund) => (
                   <tr key={fund.fund_id}>
-                    <td><input type="checkbox" checked={selectedCodes.has(fund.fund_code)} onChange={() => toggleFund(fund.fund_code)} aria-label={`选择 ${fund.fund_code}`} /></td>
-                    <td>
+                    <td className="fund-database-select-cell"><input type="checkbox" checked={selectedCodes.has(fund.fund_code)} onChange={() => toggleFund(fund.fund_code)} aria-label={`选择 ${fund.fund_code}`} /></td>
+                    <td className="fund-database-name-cell">
                       <Link className="fund-name-link" to={`/funds/${fund.fund_code}`}>
-                        <strong>{fund.name_cn}</strong>
+                        <span
+                          className={`fund-name-marquee${fund.name_cn.length > 18 ? " is-long" : ""}`}
+                          title={fund.name_cn}
+                        >
+                          <strong>{fund.name_cn}</strong>
+                        </span>
                         <span>{fund.name_en || fund.fund_code}</span>
                       </Link>
                     </td>
-                    <td>
+                    <td className="fund-database-manager-cell">
                       <strong className="table-secondary">{fund.manager_name}</strong>
                       <span className="table-tertiary">{fund.umbrella_name || "无伞信息"}</span>
                     </td>
-                    <td><span className="category-token">{fund.asset_category || "未分类"}</span></td>
-                    <td className="mono">{fund.report_period ?? "—"}</td>
-                    <td><QualityBadge status={fund.quality_status} /></td>
-                    <td><Link className="row-arrow" to={`/funds/${fund.fund_code}`}>查看</Link></td>
+                    <td className="fund-database-category-cell">
+                      <div className="fund-category-values">
+                        <span className="category-token">{fund.asset_category || "未分类"}</span>
+                        {fund.asset_subcategory ? <span className="category-token category-token-secondary">{fund.asset_subcategory}</span> : null}
+                      </div>
+                    </td>
+                    <td className="mono fund-database-period-cell">{fund.report_period ?? "—"}</td>
+                    <td className="fund-database-quality-cell"><QualityBadge status={fund.quality_status} /></td>
                   </tr>
                 ))}
               </tbody>

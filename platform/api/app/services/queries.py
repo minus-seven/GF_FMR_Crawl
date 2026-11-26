@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
+import math
 from typing import Iterable
 from uuid import UUID
 
@@ -218,6 +219,16 @@ def list_funds(
         .correlate(Fund)
         .scalar_subquery()
     )
+    source_raw = (
+        select(
+            FundSourceId.fund_id.label("fund_id"),
+            FundSourceId.metadata_json.label("metadata_json"),
+        )
+        .where(FundSourceId.source_system.in_(["HKEX", "hkex-master"]))
+        .order_by(FundSourceId.fund_id, FundSourceId.created_at.desc())
+        .distinct(FundSourceId.fund_id)
+        .subquery()
+    )
     base = (
         select(
             Fund,
@@ -230,22 +241,13 @@ def list_funds(
             issue_summary.c.has_warning,
             scale_value.label("latest_scale"),
             scale_date.label("latest_scale_date"),
+            source_raw.c.metadata_json.label("source_metadata"),
         )
         .join(Manager, Manager.id == Fund.manager_id)
         .outerjoin(Umbrella, Umbrella.id == Fund.umbrella_id)
         .outerjoin(FundClassification, FundClassification.fund_id == Fund.id)
         .outerjoin(latest_period, latest_period.c.fund_id == Fund.id)
         .outerjoin(issue_summary, issue_summary.c.fund_id == Fund.id)
-    )
-    source_raw = (
-        select(
-            FundSourceId.fund_id.label("fund_id"),
-            FundSourceId.metadata_json.label("metadata_json"),
-        )
-        .where(FundSourceId.source_system.in_(["HKEX", "hkex-master"]))
-        .order_by(FundSourceId.fund_id, FundSourceId.created_at.desc())
-        .distinct(FundSourceId.fund_id)
-        .subquery()
     )
     base = base.outerjoin(source_raw, source_raw.c.fund_id == Fund.id)
     conditions = []
@@ -367,8 +369,8 @@ def list_funds(
             quality = QualityStatus.MISSING_METRIC
         else:
             quality = QualityStatus.COMPLETE
-        source_id = session.scalar(select(FundSourceId).where(FundSourceId.fund_id == fund.id).limit(1))
-        raw_values = (source_id.metadata_json or {}).get("raw_row", {}) if source_id else {}
+        source_metadata = row.source_metadata or {}
+        raw_values = source_metadata.get("raw_row", {}) if isinstance(source_metadata, dict) else {}
         items.append(
             FundSummary(
                 fund_id=fund.id,
@@ -1128,8 +1130,13 @@ def get_perspectives(
         select(
             scoped.c.as_of_date,
             func.sum(scoped.c.fund_size).label("value"),
+            func.count(func.distinct(scoped.c.fund_id)).label("fund_count"),
         )
         .group_by(scoped.c.as_of_date)
+        .having(
+            func.count(func.distinct(scoped.c.fund_id))
+            >= max(1, math.ceil(scope_count * 0.05))
+        )
         .order_by(scoped.c.as_of_date)
     ).all()
     trend = [

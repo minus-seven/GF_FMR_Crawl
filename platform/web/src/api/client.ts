@@ -29,6 +29,7 @@ import type {
 } from "./types";
 
 const API_BASE = (import.meta.env.VITE_API_BASE ?? "").replace(/\/$/, "");
+const API_REQUEST_TIMEOUT_MS = 15_000;
 
 export class ApiError extends Error {
   readonly code: string;
@@ -67,14 +68,37 @@ async function request<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<ApiEnvelope<T>> {
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers: {
-      Accept: "application/json",
-      ...(options.body && !(options.body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
-      ...options.headers,
-    },
-  });
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), API_REQUEST_TIMEOUT_MS);
+  const externalSignal = options.signal;
+  if (externalSignal) {
+    if (externalSignal.aborted) controller.abort();
+    else externalSignal.addEventListener("abort", () => controller.abort(), { once: true });
+  }
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        Accept: "application/json",
+        ...(options.body && !(options.body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
+        ...options.headers,
+      },
+    });
+  } catch (reason) {
+    if (reason instanceof Error && reason.name === "AbortError") {
+      throw new ApiError("API 请求超时，请确认服务器和数据库已启动后重试", {
+        code: "E_REQUEST_TIMEOUT",
+        requestId: "",
+        retryable: true,
+        status: 408,
+      });
+    }
+    throw reason;
+  } finally {
+    window.clearTimeout(timeout);
+  }
   // Read the body once and parse it defensively. When the API process is down
   // (or a reverse proxy returns an empty HTML/502 body), calling
   // `response.json()` directly throws a raw SyntaxError and hides the actual
