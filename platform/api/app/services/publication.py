@@ -419,7 +419,7 @@ def publish_job_manifest(
                 task_batch_root,
                 {scope.fund_id for scope in scopes},
             )
-            if summary.structured_records == 0 or summary.skipped_records:
+            if summary.structured_records == 0:
                 raise ApiError(
                     422,
                     "E_PUBLISH_STRUCTURED",
@@ -428,6 +428,20 @@ def publish_job_manifest(
                         f"记录 {summary.structured_records}，"
                         f"跳过 {summary.skipped_records}"
                     ),
+                )
+            if summary.skipped_records:
+                append_event(
+                    session,
+                    job,
+                    "job.publish_warning",
+                    {
+                        "code": "E_PUBLISH_STRUCTURED_PARTIAL",
+                        "message": (
+                            "部分结构化记录无法唯一匹配，已跳过并继续发布："
+                            f"记录 {summary.structured_records}，跳过 {summary.skipped_records}"
+                        ),
+                        "skipped_records": summary.skipped_records,
+                    },
                 )
             _publish_supplementary_source(
                 session,

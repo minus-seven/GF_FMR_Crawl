@@ -6,6 +6,7 @@ import argparse
 from pathlib import Path
 import sys
 import time
+from types import SimpleNamespace
 
 import pytest
 
@@ -114,6 +115,34 @@ def test_explicit_precise_mode_does_not_fall_back(
 
     with pytest.raises(parse_mineru_pdf.MinerUError, match="HTTP 401"):
         parse_mineru_pdf.parse_pdf(_args(pdf, tmp_path / "markdown", "precise"))
+
+
+def test_agent_size_limit_falls_back_to_native_pdf_text(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """轻量 Agent 超过 10MB 限制时应保留原文并继续流水线。"""
+
+    pdf = tmp_path / "large-fund.pdf"
+    pdf.write_bytes(b"%PDF-1.4\n%%EOF\n")
+    outdir = tmp_path / "markdown"
+
+    def fail_agent(*args: object, **kwargs: object) -> dict[str, object]:
+        raise parse_mineru_pdf.MinerUError(
+            "MinerU Agent parsing failed: -30001 file size exceeds lightweight API limit (10MB), please use the standard"
+        )
+
+    monkeypatch.setattr(parse_mineru_pdf, "_parse_agent", fail_agent)
+    monkeypatch.setattr(parse_mineru_pdf, "PdfReader", lambda path: SimpleNamespace(pages=[]))
+
+    manifest_path = parse_mineru_pdf.parse_pdf(_args(pdf, outdir, "agent"))
+    manifest = parse_mineru_pdf.json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    assert manifest["status"] == "done"
+    assert manifest["mode"] == "native"
+    assert manifest["fallback_from"] == "agent"
+    assert "-30001" in manifest["fallback_reason"]
+    assert Path(manifest["markdown_path"]).is_file()
 
 
 def test_mineru_batch_parses_independent_pdfs_concurrently(

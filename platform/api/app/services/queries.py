@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
+import math
 from typing import Iterable
 from uuid import UUID
 
@@ -1128,8 +1129,13 @@ def get_perspectives(
         select(
             scoped.c.as_of_date,
             func.sum(scoped.c.fund_size).label("value"),
+            func.count(func.distinct(scoped.c.fund_id)).label("fund_count"),
         )
         .group_by(scoped.c.as_of_date)
+        .having(
+            func.count(func.distinct(scoped.c.fund_id))
+            >= max(1, math.ceil(scope_count * 0.05))
+        )
         .order_by(scoped.c.as_of_date)
     ).all()
     trend = [

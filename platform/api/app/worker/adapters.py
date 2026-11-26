@@ -1836,6 +1836,12 @@ def _concise_failure_reason(reason: str) -> str:
         return "API 认证失败"
     if "403" in normalized:
         return "API 无访问权限"
+    if (
+        "-30001" in normalized
+        or "file size exceeds lightweight api limit" in normalized
+        or ("10mb" in normalized and "lightweight" in normalized)
+    ):
+        return "PDF 超过 MinerU 轻量接口 10MB 限制"
     if "no such file" in normalized or "factsheet 下没有" in normalized:
         return "缺少输入文件"
     return text[:120] or "未提供具体原因"

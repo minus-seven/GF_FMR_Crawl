@@ -116,6 +116,17 @@ class MinerUError(RuntimeError):
     """Raised when MinerU returns an unusable response or artifact."""
 
 
+def _is_lightweight_size_limit(error: BaseException) -> bool:
+    """识别 Agent 轻量接口的文件大小限制；参数 error 为 MinerU 原始错误。"""
+
+    text = str(error).casefold()
+    return (
+        "-30001" in text
+        or "file size exceeds lightweight api limit" in text
+        or ("10mb" in text and "lightweight" in text)
+    )
+
+
 def _parse_native_pdf_text(
     pdf_path: Path,
     output_dir: Path,
@@ -656,6 +667,20 @@ def parse_pdf(args: argparse.Namespace) -> Path:
                 interval=args.interval,
                 log_callback=log_callback,
             )
+    except MinerUError as exc:
+        # Agent 轻量路线对单文件有 10MB 限制。不能把该类可预期错误
+        # 直接升级为整批失败：保留原 PDF，并生成可供结构化阶段消费的
+        # 原生文字 Markdown，同时在 manifest 中明确记录降级原因。
+        if requested_mode not in {"auto", "agent"} or not _is_lightweight_size_limit(exc):
+            raise
+        parsed = _parse_native_pdf_text(
+            pdf_path,
+            output_dir,
+            reason=f"{type(exc).__name__}: {exc}",
+            log_callback=log_callback,
+        )
+        parsed["fallback_from"] = "agent"
+        parsed["fallback_reason"] = f"{type(exc).__name__}: {exc}"
     except (requests.RequestException, ConnectionError, OSError) as exc:
         if requested_mode not in {"auto", "agent"}:
             raise
