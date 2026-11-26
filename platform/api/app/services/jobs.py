@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 import uuid
 
-from sqlalchemy import delete, desc, func, select
+from sqlalchemy import delete, desc, func, select, text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import Session
 
@@ -165,6 +165,18 @@ def append_event(
     payload: dict,
 ) -> JobEvent:
     """追加任务事件；参数 session/job/event_type/payload 为事件内容。"""
+
+    # 下载阶段由多个基金线程并发回调；不能只用 ``MAX(sequence_no)+1``，
+    # 否则两个独立 Session 可能同时读到同一个 MAX 并触发唯一键冲突。
+    # PostgreSQL 事务级 advisory lock 按 job_id 串行化同一任务的事件号，
+    # 不阻塞其他任务，也不改变事件表结构和既有序号。
+    session.execute(
+        text(
+            "SELECT pg_advisory_xact_lock("
+            "hashtextextended(:job_id, 0))"
+        ),
+        {"job_id": str(job.id)},
+    )
 
     event = JobEvent(
         id=uuid.uuid4(),
@@ -957,8 +969,24 @@ def retry_job(
         and supplementary.get("source_kind") == "url"
         and bool(str(supplementary.get("source_url") or "").strip())
     )
+    pending_scope_count = session.scalar(
+        select(func.count())
+        .select_from(JobFundScope)
+        .where(
+            JobFundScope.job_id == job.id,
+            JobFundScope.result_status == "pending",
+        )
+    ) or 0
     for step in steps:
-        if step.status == "completed" and not refresh_url_source:
+        # 发布失败或旧 Worker 中断后，阶段可能被错误标记 completed，
+        # 但仍有基金保持 pending。此时不能直接跳过阶段，否则会把
+        # 不完整 staging 发布成 completed_with_gaps；必须重新执行该阶段，
+        # 由 Adapter 为无来源基金写入 skipped，并由发布闸门复核覆盖率。
+        if (
+            step.status == "completed"
+            and not refresh_url_source
+            and not pending_scope_count
+        ):
             continue
         step.status = "pending"
         step.success_count = 0
