@@ -363,3 +363,18 @@ def test_publish_hash_failure_keeps_current_snapshot_and_batch_staging(
         session.execute(delete(Job).where(Job.id == job_id))
         session.execute(delete(DatasetBatch).where(DatasetBatch.id == batch_id))
         session.commit()
+
+
+def test_safe_manifest_file_accepts_external_data_job_staging_manifest(
+    tmp_path: Path,
+) -> None:
+    """外置 data 根目录下的任务 manifest 应通过路径闸门。"""
+
+    from app.services.publication import _safe_manifest_file
+
+    data_root = tmp_path / "state" / "data"
+    manifest = data_root / "jobs" / str(uuid.uuid4()) / "staging_manifest.json"
+    manifest.parent.mkdir(parents=True)
+    manifest.write_text("{}", encoding="utf-8")
+
+    assert _safe_manifest_file(manifest, data_root) == manifest.resolve()

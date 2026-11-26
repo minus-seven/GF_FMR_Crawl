@@ -1108,6 +1108,18 @@ def run_download_stage(
     results = []
     candidates: list[DownloadCandidate] = []
 
+    def fund_results() -> list[dict]:
+        """把每只基金的最终下载状态返回给任务发布层。"""
+
+        return [
+            {
+                "fund_code": candidate.scope.fund_code_snapshot,
+                "status": candidate.scope.result_status or "failed",
+                "reason": candidate.scope.skip_reason,
+            }
+            for candidate in candidates
+        ]
+
     for scope in scopes:
         if cancel_event.is_set():
             return AdapterResult("cancelled", "任务已取消", {"results": results})
@@ -1259,7 +1271,7 @@ def run_download_stage(
         return AdapterResult(
             "cancelled",
             "下载被用户取消",
-            {"results": results},
+            {"results": results, "fund_results": fund_results()},
             artifact_count=successful,
         )
 
@@ -1378,14 +1390,22 @@ def run_download_stage(
             return AdapterResult(
                 "cancelled",
                 "爬虫补全被用户取消",
-                {"results": results, "backfilled": backfilled},
+                {
+                    "results": results,
+                    "fund_results": fund_results(),
+                    "backfilled": backfilled,
+                },
                 artifact_count=successful,
             )
     if execute_many(phase2_downloads):
         return AdapterResult(
             "cancelled",
             "下载被用户取消",
-            {"results": results, "backfilled": backfilled},
+            {
+                "results": results,
+                "fund_results": fund_results(),
+                "backfilled": backfilled,
+            },
             artifact_count=successful,
         )
 
@@ -1420,7 +1440,7 @@ def run_download_stage(
         return AdapterResult(
             "cancelled",
             "任务已取消",
-            {"results": results},
+            {"results": results, "fund_results": fund_results()},
             artifact_count=successful,
         )
     status = "failed" if successful == 0 and failed else "success"
@@ -1433,6 +1453,8 @@ def run_download_stage(
             "failed": failed,
             "backfilled": backfilled,
             "results": results,
+            "fund_results": fund_results(),
+            "complete_fund_results": True,
         },
         artifact_count=successful,
     )

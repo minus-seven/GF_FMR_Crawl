@@ -16,7 +16,11 @@ from sqlalchemy.orm import Session
 
 from app.api.errors import ApiError
 from app.core.config import get_settings, logical_data_path, resolve_managed_path
-from app.importers.service import D1ImportService
+from app.importers.service import (
+    D1ImportService,
+    clone_batch_results,
+    validate_structured_snapshot_drop,
+)
 from app.models import (
     DatasetBatch,
     DocumentSubject,
@@ -110,7 +114,17 @@ def _safe_manifest_file(path: Path, data_root: Path) -> Path:
         relative = resolved.relative_to(data_root.resolve())
     except ValueError as exc:
         raise ApiError(422, "E_PUBLISH_MANIFEST", "manifest 不在受管数据目录内") from exc
-    if len(relative.parts) < 3 or relative.parts[0] != "jobs" or relative.parts[2] != "staging":
+    # Worker 的 staging 目录位于 ``data/jobs/<job_id>/staging``，而
+    # ``staging_manifest.json`` 放在该任务目录的上一层，便于 manifest
+    # 中的产物路径统一保存为 ``staging/...``。旧校验错误地要求
+    # manifest 自身位于 staging 目录，导致外置 data 根目录部署时所有
+    # 下载任务在发布阶段被拒绝。这里同时约束固定目录层级和文件名，
+    # 不放宽到 data 根目录下的任意 JSON 文件。
+    if (
+        len(relative.parts) != 3
+        or relative.parts[0] != "jobs"
+        or relative.parts[2] != "staging_manifest.json"
+    ):
         raise ApiError(422, "E_PUBLISH_MANIFEST", "manifest 不在任务 staging 中")
     return resolved
 
@@ -304,6 +318,14 @@ def publish_job_manifest(
         )
     if job.batch_id is None or job.base_batch_id is None:
         raise ApiError(422, "E_PUBLISH_MANIFEST", "任务缺少批次引用")
+    publication_state = session.get(PublicationState, 1)
+    source_batch_id = (
+        publication_state.current_batch_id
+        if publication_state is not None and publication_state.current_batch_id is not None
+        else job.base_batch_id
+    )
+    if source_batch_id is None:
+        raise ApiError(422, "E_PUBLISH_MANIFEST", "没有可继承的当前发布批次")
     lock = session.scalar(
         select(JobLock).where(
             JobLock.lock_name == "global_write",
@@ -374,9 +396,9 @@ def publish_job_manifest(
         "job.publish",
         {"status": "publishing", "batch_id": str(batch.id)},
     )
-    _clone_batch_results(
+    clone_batch_results(
         session,
-        source_batch_id=job.base_batch_id,
+        source_batch_id=source_batch_id,
         target_batch_id=batch.id,
     )
     scopes = list(
@@ -416,6 +438,17 @@ def publish_job_manifest(
         except Exception:
             shutil.rmtree(final_dir, ignore_errors=True)
             raise
+    try:
+        validate_structured_snapshot_drop(
+            session,
+            source_batch_id=source_batch_id,
+            target_batch_id=batch.id,
+            context="任务发布",
+        )
+    except ValueError as exc:
+        # 目录已经复制到 batches/，拒绝发布时一并清理，数据库事务由上层回滚。
+        shutil.rmtree(final_dir, ignore_errors=True)
+        raise ApiError(422, "E_PUBLISH_STRUCTURED_DROP", str(exc)) from exc
     failed = sum(1 for item in scopes if item.result_status == "failed")
     skipped = sum(1 for item in scopes if item.result_status == "skipped")
     outcome = "completed_with_gaps" if failed or skipped else "complete"
