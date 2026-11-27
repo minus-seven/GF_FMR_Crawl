@@ -85,7 +85,7 @@ flowchart LR
 | 知识问答 | SQL 优先、知识库证据补充、无足够证据时拒答；支持基金/报告期/指标槽位识别 |
 | Agent | 先识别意图并生成计划，写任务必须用户确认；不开放任意 Shell 或任意 URL |
 | Bloomberg | 当前通过 `summary.csv` 等汇总文件导入年化收益率和波动率；日点位不入库 |
-| Windows | 已提供 `GF_FMR_Server.exe`、局域网 Web、顺序启停、逻辑备份恢复和在线发布约定；发布资产以 GitHub Release 为准 |
+| Windows | 已提供 `GF_FMR_Server.exe`、局域网 Web、顺序启停、逻辑备份恢复和在线发布脚本；完整 ZIP 安装包尚未生成，GitHub Release 尚未上传 |
 
 ## 1.5 核心设计原则
 
@@ -286,6 +286,8 @@ curl http://127.0.0.1:11434/api/tags
 本地 Qwen 不替代 MinerU；不自动替代视觉复核、联网 Ticker 或知识库向量模型。低置信字段仍应进入质量复核。
 
 ## 3.2 Windows 局域网版与在线安装包
+
+> **当前发布状态（2026-11-27）**：Windows 源码、启动器、安装脚本和 README 已推送到 `windows` 分支；`GF_FMR_Windows_Runtime.zip` 尚未成功构建，GitHub Release 尚未上传可下载的 ZIP、EXE 或数据库 Asset。下面的在线安装命令是发布完成后的标准流程，在 Release Asset 实际存在前不要在新机器上执行。
 
 ### 3.2.1 目标、边界和版本来源
 
@@ -821,7 +823,7 @@ PDF 先计算 SHA-256 复用缓存；Token 路线优先 Precise/VLM，轻量路�
 
 ## 6.3 Windows 局域网版
 
-Windows 局域网版已经具备便携运行包、`GF_FMR_Server.exe` 顺序启停、逻辑备份恢复、局域网 Web 访问和 GitHub Release 发布约定。后续增强包括 Windows Service/NSSM 托管、DPAPI 凭证保护、登录会话、HTTPS、局域网访问控制、三名投研用户只读并发和全局单写锁。
+Windows 局域网版已经具备 `GF_FMR_Server.exe` 顺序启停、逻辑备份恢复、局域网 Web 访问和 GitHub Release 发布脚本；完整便携 ZIP 和正式在线安装包仍待构建、校验和上传。后续增强包括 Windows Service/NSSM 托管、DPAPI 凭证保护、登录会话、HTTPS、局域网访问控制、三名投研用户只读并发和全局单写锁。
 
 ## 6.4 研究交付能力
 
